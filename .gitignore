@@ -2,8 +2,7 @@
 *.iml
 # Logs and databases # 
 ###################### 
-*.log 
-*.sql 
+*.log
 *.sqlite 
 
 #development-tool
