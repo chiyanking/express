@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/tx
+	   http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- ########  数据库、mybatis信息配置  ######## -->
+    <!-- 引入配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:conf/config.properties</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- 配置数据源信息 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="${db.jdbc.url}"/>
+        <property name="username" value="${db.jdbc.user}"/>
+        <property name="password" value="${db.jdbc.password}"/>
+        <property name="initialSize" value="${db.jdbc.initialPoolSize}"/>
+        <property name="minIdle" value="1"/>
+        <property name="maxActive" value="20"/>
+        <property name="maxWait" value="60000"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20"/>
+        <property name="filters" value="stat"/>
+    </bean>
+
+    <!-- 自定义事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- 事务模板 -->
+    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
+
+    <!--    <borderIdn id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+            <constructor-arg index="0" ref="sqlSessionFactory"/>
+        </bean>-->
+
+    <!-- 开启注解事务配置 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- MyBatis 动态实现:DAO接口所在包名，Spring会自动查找其下的类 -->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!-- 对Dao 接口动态实现，需要知道接口在哪 -->
+        <property name="basePackage" value="com.yangche51.trade.dao"/>
+    </bean>
+
+    <!-- MyBatis SqlSessionFactoryBean 配置 -->
+    <!-- 注意：这里使用的是MP的MybatisSqlSessionFactoryBean，而不是Mybatis的，因为MP需要进行相应代理 -->
+    <bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+        <!-- 配置数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 配置Mybatis配置文件 -->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!-- 配置别名包路径 -->
+        <!--<property name="typeAliasesPackage" value="com.wtk.mapper"/>-->
+        <!-- 配置Mapper扫描路径（IDEA系列编辑器需要特别注意，因为IDEA的设置问题，src中的xml文件是不会被编译的，如果放在src中可能会报错，解决办法详见
+                    常用问题-Invalid bound statement (not found) 错误如何解决?） -->
+        <property name="mapperLocations" value="classpath:com/dagemen/**/mapper/*.xml"/>
+        <!-- 插件配置项 -->
+        <property name="plugins">
+            <array>
+                <!-- 分页插件配置 -->
+                <bean id="paginationInterceptor"
+                      class="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
+                    <property name="dialectType" value="mysql"/>
+                </bean>
+            </array>
+        </property>
+        <!-- 全局配置注入 -->
+        <property name="globalConfig" ref="globalConfig"/>
+    </bean>
+
+    <!-- Mybatis Plus 全局配置 -->
+    <bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+        <!-- AUTO->`0`("数据库ID自增") INPUT->`1`(用户输入ID") ID_WORKER->`2`("全局唯一ID")
+            UUID->`3`("全局唯一ID") -->
+        <property name="idType" value="0"/>
+        <!-- MYSQL->`mysql` ORACLE->`oracle` DB2->`db2` H2->`h2` HSQL->`hsql` SQLITE->`sqlite`
+            POSTGRE->`postgresql` SQLSERVER2005->`sqlserver2005` SQLSERVER->`sqlserver` -->
+        <!-- Oracle需要添加该项 -->
+        <!-- <property name="dbType" value="oracle" /> -->
+        <!-- 全局表为下划线命名设置 true -->
+        <property name="dbColumnUnderline" value="true"/>
+        <property name="logicDeleteValue" value="0"/>
+        <property name="logicNotDeleteValue" value="1"/>
+        <property name="sqlInjector" ref="logicSqlInjector"/>
+    </bean>
+
+    <bean id="logicSqlInjector" class="com.baomidou.mybatisplus.mapper.LogicSqlInjector">
+    </bean>
+
+    <!-- Mybatis Plus 热部署 -->
+    <bean class="com.baomidou.mybatisplus.spring.MybatisMapperRefresh">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <constructor-arg name="mapperLocations" value="classpath:com/dagemen/**/mapper/*.xml"/>
+        <constructor-arg name="delaySeconds" value="10"/>
+        <constructor-arg name="sleepSeconds" value="20"/>
+        <constructor-arg name="enabled" value="true"/>
+    </bean>
+
+</beans>

@@ -1,24 +1,337 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.dagemen</groupId>
-  <artifactId>express-parent</artifactId>
-  <packaging>pom</packaging>
-  <version>1.0-SNAPSHOT</version>
-  <name>express-parent</name>
-  <url>http://maven.apache.org</url>
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <modules>
-    <module>express-dao</module>
-    <module>express-domain</module>
-    <module>express-service</module>
-    <module>express-web</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.dagemen</groupId>
+    <artifactId>express-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <name>express-parent</name>
+    <url>http://maven.apache.org</url>
+    <modules>
+        <module>express-dao</module>
+        <module>express-domain</module>
+        <module>express-service</module>
+        <module>express-web</module>
+    </modules>
+
+
+    <!-- 主要依赖库的版本定义：描述了这个项目构建环境中的前提条件. -->
+    <properties>
+        <!-- main version setting -->
+        <junit.version>4.12</junit.version>
+        <spring.version>4.3.7.RELEASE</spring.version>
+        <mybatis.version>3.4.2</mybatis.version>
+        <mysql.driver.version>5.1.40</mysql.driver.version>
+        <druid.version>1.0.28</druid.version>
+        <shiro.version>1.3.2</shiro.version>
+        <!-- tools version setting -->
+        <mybatis-spring.version>1.3.1</mybatis-spring.version>
+        <mybaitsplus.version>2.0.8</mybaitsplus.version>
+        <ehcache.version>3.1.3</ehcache.version>
+        <sitemesh.version>3.0.1</sitemesh.version>
+        <jackson.version>2.8.4</jackson.version>
+        <fastjson.version>1.2.29</fastjson.version>
+        <log4j2.version>2.7</log4j2.version>
+        <slf4j.version>1.7.21</slf4j.version>
+        <commons-io.version>2.5</commons-io.version>
+        <commons-fileupload.version>1.3.2</commons-fileupload.version>
+        <javax.servlet-api.version>4.0.0-b05</javax.servlet-api.version>
+        <velocity.version>1.7</velocity.version>
+        <zkclient.version>0.2</zkclient.version>
+        <netty.version>4.0.45.Final</netty.version>
+
+        <!-- environment setting -->
+        <jdk.version>1.8</jdk.version>
+        <project.version>1.0.0-SNAPSHOT</project.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <!-- dependencyManagement里只是声明依赖，并不实现引入，因此子项目需要显示的声明需要用的依赖。 -->
+    <dependencies>
+
+        <!-- 1.TEST:单元测试框架 begin -->
+        <dependency>
+            <groupId>junit</groupId>                <!--依赖的group ID -->
+            <artifactId>junit</artifactId>        <!--依赖的artifact ID -->
+            <version>${junit.version}</version>    <!--依赖的版本号。 在Maven 2里, 也可以配置成版本号的范围。 -->
+            <scope>test</scope>                        <!-- 依赖项的适用范围：test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。 -->
+        </dependency>
+        <!-- TEST end -->
+
+        <!-- 2.SPRING相关依赖 begin -->
+        <!-- ①.spring核心依赖 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>    <!--包含Spring框架基本的核心工具类 -->
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>    <!--springIoC（依赖注入）的基础实现 -->
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>    <!--spring 提供在基础 IoC 功能上的扩展服务 -->
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- ②.spring 持久层依赖 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>        <!--封装了spring对于事物的控制 -->
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>    <!--包含对Spring对JDBC数据访问进行封装的所有类 -->
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- ③.spring web相关依赖 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web
+            </artifactId>        <!--包含Web应用开发时，用到Spring框架时所需的核心类，包括自动载入 WebApplicationContext 特性的类、Struts与JSF集成类、文件上传的支持类、Filter类和大量工具辅助类 -->
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>    <!--Spring Web MVC是一种基于Java的实现了Web MVC设计模式的请求驱动类型的轻量级Web框架 -->
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- ④.spring test依赖 -->
+        <dependency>
+            <groupId>org.springframework</groupId>    <!--与Junit单元测试、集成测试 -->
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- ⑤.spring 其它依赖 -->
+        <dependency>
+            <groupId>org.springframework</groupId>    <!--spring面向切面编程，提供AOP（面向切面编程） -->
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-oxm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jms</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- SPRING相关依赖 end -->
+
+        <!-- 3.SERVLET WEB begin -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId><!--j2ee web spec -->
+            <version>${javax.servlet-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>              <!--JSTL标签类 -->
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>          <!-- 格式化对象，方便输出日志 -->
+            <version>${fastjson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId> <!--jackson json:高性能的JSON处理 -->
+            <version>${jackson.version}</version>
+        </dependency>
+        <!-- SERVLET WEB end -->
+
+        <!-- 4.MYBATIS 持久层框架 begin -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis-spring</artifactId>
+            <version>${mybatis-spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>2.0.8</version>
+        </dependency>
+        <!-- MYBATIS 持久层框架 end -->
+
+        <!-- 5.MYSQL 数据库相关依赖 begin -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId><!-- 导入Mysql数据库驱动包 -->
+            <version>${mysql.driver.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId><!-- connection pool:数据库连接池,用来在spingMVC-mybatis.xml中配置数据库 -->
+            <version>${druid.version}</version>
+        </dependency>
+        <!-- MYSQL 数据库相关依赖 end -->
+
+        <!-- 6.LOG 日志相关依赖 begin -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.1</version>
+        </dependency>
+        <!-- LOG 日志相关依赖 end -->
+
+        <!-- 7.安全框架SECURITY:shiro begin -->
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-core</artifactId>
+            <version>${shiro.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-spring</artifactId>
+            <version>${shiro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.shiro</groupId>
+            <artifactId>shiro-ehcache</artifactId>
+            <version>${shiro.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- 安全框架SECURITY:shiro end -->
+
+        <!-- redis:缓存框架 begin -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>1.8.4.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId> <!--  Java 客户端开发包 -->
+            <version>2.9.0</version>
+        </dependency>
+        <!-- redis:缓存框架 end -->
+
+
+        <!-- 上传组件包-->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+            <version>${commons-fileupload.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.3</version>
+        </dependency>
+
+
+        <!-- Commons项目中用来处理Java基本对象方法的工具类包 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.3</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.javassist</groupId>
+            <artifactId>javassist</artifactId>
+            <version>3.21.0-GA</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>${netty.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>${zkclient.version}</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+    <profiles>
+        <profile>
+            <id>development</id>
+            <properties>
+                <jdbc.url>jdbc:mysql://127.0.0.1:3306/express?characterEncoding=utf8&amp;autoReconnect=true&amp;useSSL=false</jdbc.url>
+                <jdbc.user>root</jdbc.user>
+                <jdbc.password>root</jdbc.password>
+                <jdbc.initialPoolSize>2</jdbc.initialPoolSize>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>production</id>
+            <properties>
+                <jdbc.url>jdbc:mysql://127.0.0.1:3306/express?characterEncoding=utf8&amp;autoReconnect=true&amp;useSSL=false</jdbc.url>
+                <jdbc.user>root</jdbc.user>
+                <jdbc.password>root</jdbc.password>
+                <jdbc.initialPoolSize>2</jdbc.initialPoolSize>
+            </properties>
+        </profile>
+    </profiles>
 </project>
