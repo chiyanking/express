@@ -8,5 +8,4 @@ import com.dagemen.domain.UserDO;
  */
 public interface UserMapper extends BaseMapper<UserDO> {
 
-
 }

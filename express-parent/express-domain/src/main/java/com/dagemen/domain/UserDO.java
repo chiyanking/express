@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 /**
  * Created by kingdom on 2017/8/14.
  */
-@TableName
+@TableName("user")
 public class UserDO {
     /**
      * 主键ID

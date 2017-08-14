@@ -59,7 +59,7 @@
     <!-- MyBatis 动态实现:DAO接口所在包名，Spring会自动查找其下的类 -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <!-- 对Dao 接口动态实现，需要知道接口在哪 -->
-        <property name="basePackage" value="com.yangche51.trade.dao"/>
+        <property name="basePackage" value="com.dagemen.dao"/>
     </bean>
 
     <!-- MyBatis SqlSessionFactoryBean 配置 -->
@@ -92,20 +92,15 @@
     <bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
         <!-- AUTO->`0`("数据库ID自增") INPUT->`1`(用户输入ID") ID_WORKER->`2`("全局唯一ID")
             UUID->`3`("全局唯一ID") -->
-        <property name="idType" value="0"/>
+        <property name="idType" value="2"/>
         <!-- MYSQL->`mysql` ORACLE->`oracle` DB2->`db2` H2->`h2` HSQL->`hsql` SQLITE->`sqlite`
             POSTGRE->`postgresql` SQLSERVER2005->`sqlserver2005` SQLSERVER->`sqlserver` -->
         <!-- Oracle需要添加该项 -->
         <!-- <property name="dbType" value="oracle" /> -->
         <!-- 全局表为下划线命名设置 true -->
         <property name="dbColumnUnderline" value="true"/>
-        <property name="logicDeleteValue" value="0"/>
-        <property name="logicNotDeleteValue" value="1"/>
-        <property name="sqlInjector" ref="logicSqlInjector"/>
     </bean>
 
-    <bean id="logicSqlInjector" class="com.baomidou.mybatisplus.mapper.LogicSqlInjector">
-    </bean>
 
     <!-- Mybatis Plus 热部署 -->
     <bean class="com.baomidou.mybatisplus.spring.MybatisMapperRefresh">

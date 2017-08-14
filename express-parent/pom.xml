@@ -317,7 +317,7 @@
             <properties>
                 <jdbc.url>jdbc:mysql://127.0.0.1:3306/express?characterEncoding=utf8&amp;autoReconnect=true&amp;useSSL=false</jdbc.url>
                 <jdbc.user>root</jdbc.user>
-                <jdbc.password>root</jdbc.password>
+                <jdbc.password>123456</jdbc.password>
                 <jdbc.initialPoolSize>2</jdbc.initialPoolSize>
             </properties>
             <activation>
@@ -329,7 +329,7 @@
             <properties>
                 <jdbc.url>jdbc:mysql://127.0.0.1:3306/express?characterEncoding=utf8&amp;autoReconnect=true&amp;useSSL=false</jdbc.url>
                 <jdbc.user>root</jdbc.user>
-                <jdbc.password>root</jdbc.password>
+                <jdbc.password>123456</jdbc.password>
                 <jdbc.initialPoolSize>2</jdbc.initialPoolSize>
             </properties>
         </profile>
