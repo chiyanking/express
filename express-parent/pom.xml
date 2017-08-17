@@ -327,11 +327,13 @@
         <profile>
             <id>production</id>
             <properties>
-                <jdbc.url>jdbc:mysql://127.0.0.1:3306/express?characterEncoding=utf8&amp;autoReconnect=true&amp;useSSL=false</jdbc.url>
-                <jdbc.user>root</jdbc.user>
-                <jdbc.password>123456</jdbc.password>
-                <jdbc.initialPoolSize>2</jdbc.initialPoolSize>
+                <jdbc.url>jdbc:mysql://w.rdc.sae.sina.com.cn:3306/app_dagemen</jdbc.url>
+                <jdbc.user>4km2m0wylo</jdbc.user>
+                <jdbc.password>3h0hxhy13mjz3hiw1hkzlm0yilyw202jymw12h0y</jdbc.password>
+                <jdbc.initialPoolSize>10</jdbc.initialPoolSize>
             </properties>
         </profile>
     </profiles>
+
+
 </project>
