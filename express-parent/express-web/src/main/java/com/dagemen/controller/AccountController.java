@@ -16,7 +16,7 @@ import java.util.Map;
  */
 
 @Controller
-@RequestMapping("/Account")
+@RequestMapping("/account")
 public class AccountController {
 
 
