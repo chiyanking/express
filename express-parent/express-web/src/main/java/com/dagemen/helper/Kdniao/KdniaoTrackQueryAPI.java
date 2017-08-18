@@ -1,4 +1,4 @@
-package com.dagemen.helper;
+package com.dagemen.helper.Kdniao;
 
 import com.dagemen.model.kdniao.KdniaoModel;
 import com.dagemen.model.kdniao.Traces;
@@ -18,33 +18,43 @@ import java.util.Map;
 public class KdniaoTrackQueryAPI {
 
     public static void main(String[] args) {
-        KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
         try {
-            String result = api.getOrderTracesByJson("HTKY", "70364387679099");
-
-            Gson gson = new Gson();
-            KdniaoModel kdniaoModel = gson.fromJson(result, KdniaoModel.class);
+            KdniaoModel kdniaoModel = getRealTimeLogisticsInfor("百世快递", "70364387679099");
             for(Traces obj: kdniaoModel.getTraces()){
                 System.out.println(obj.getAcceptTime() + "      " + obj.getAcceptStation());
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     //电商ID
-    private String EBusinessID="1300851";
+    private static String EBusinessID="1300851";
     //电商加密私钥，快递鸟提供，注意保管，不要泄漏
-    private String AppKey="cd3dd15d-f4b4-49e0-bf68-6a23af553bb9";
+    private static String AppKey="cd3dd15d-f4b4-49e0-bf68-6a23af553bb9";
     //请求url
-    private String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
+    private static String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
+
+
+    /**
+     * 查询快递信息的主入口
+     * @param companyName 快递公司名称
+     * @param expNo 快递单号
+     * @return
+     * @throws Exception
+     */
+    public static KdniaoModel getRealTimeLogisticsInfor(String companyName, String expNo) throws Exception {
+        String result = getOrderTracesByJson(CompanyCode.getCompanyCode("百世快递"), "70364387679099");
+        Gson gson = new Gson();
+        KdniaoModel kdniaoModel = gson.fromJson(result, KdniaoModel.class);
+        return kdniaoModel;
+    }
 
     /**
      * Json方式 查询订单物流轨迹
      * @throws Exception
      */
-    public String getOrderTracesByJson(String expCode, String expNo) throws Exception{
+    public static String getOrderTracesByJson(String expCode, String expNo) throws Exception{
         String requestData= "{'OrderCode':'','ShipperCode':'" + expCode + "','LogisticCode':'" + expNo + "'}";
 
         Map<String, String> params = new HashMap<String, String>();
@@ -69,7 +79,7 @@ public class KdniaoTrackQueryAPI {
      * @throws Exception
      */
     @SuppressWarnings("unused")
-    private String MD5(String str, String charset) throws Exception {
+    private static String MD5(String str, String charset) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(str.getBytes(charset));
         byte[] result = md.digest();
@@ -90,13 +100,13 @@ public class KdniaoTrackQueryAPI {
      * @param charset 编码方式
      * @throws UnsupportedEncodingException
      */
-    private String base64(String str, String charset) throws UnsupportedEncodingException {
+    private static String base64(String str, String charset) throws UnsupportedEncodingException {
         String encoded = base64Encode(str.getBytes(charset));
         return encoded;
     }
 
     @SuppressWarnings("unused")
-    private String urlEncoder(String str, String charset) throws UnsupportedEncodingException{
+    private static String urlEncoder(String str, String charset) throws UnsupportedEncodingException{
         String result = URLEncoder.encode(str, charset);
         return result;
     }
@@ -110,7 +120,7 @@ public class KdniaoTrackQueryAPI {
      * @return DataSign签名
      */
     @SuppressWarnings("unused")
-    private String encrypt (String content, String keyValue, String charset) throws UnsupportedEncodingException, Exception
+    private static String encrypt (String content, String keyValue, String charset) throws UnsupportedEncodingException, Exception
     {
         if (keyValue != null)
         {
@@ -126,7 +136,7 @@ public class KdniaoTrackQueryAPI {
      * @return 远程资源的响应结果
      */
     @SuppressWarnings("unused")
-    private String sendPost(String url, Map<String, String> params) {
+    private static String sendPost(String url, Map<String, String> params) {
         OutputStreamWriter out = null;
         BufferedReader in = null;
         StringBuilder result = new StringBuilder();
