@@ -5,12 +5,16 @@ import com.dagemen.DTO.WechatTicket;
 import com.dagemen.DTO.WechatToken;
 import com.dagemen.Utils.json.Jackson;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,6 +31,8 @@ import java.util.TreeMap;
 
 @Component
 public class TokenHelper {
+
+    Logger logger = LoggerFactory.getLogger(TokenHelper.class);
     private static final String appid = "wx0bbefeae4409621f";
 
     private static final String appsecret = "36544de2cb3b60f913cf3ac610d51c67";
@@ -46,6 +52,11 @@ public class TokenHelper {
             return token;
         }
         WechatToken wechatToken = restTemplate.getForObject(String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appid, appsecret), WechatToken.class);
+        if (StringUtils.isBlank(wechatToken.getAccess_token())) {
+            System.out.println("返回数据: 无法获取到token");
+        }
+
+        System.out.println("返回数据: " + Jackson.base().writeValueAsString(wechatToken));
         refreshToken(wechatToken);
         return token;
     }
@@ -68,6 +79,11 @@ public class TokenHelper {
             return ticket;
         }
         WechatTicket wechatticket = restTemplate.getForObject(String.format("https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi", getToken().getAccess_token()), WechatTicket.class);
+        if (StringUtils.isBlank(wechatticket.getTicket())) {
+            System.out.println("返回数据: 无法获取到Ticket");
+        }
+
+        System.out.println("返回数据: " + Jackson.base().writeValueAsString(wechatticket));
         refreshTicket(wechatticket);
         return ticket;
     }
