@@ -24,5 +24,6 @@
         <property name="queueCapacity" value="20"/>
     </bean>
 
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate"/>
 
 </beans>

@@ -28,7 +28,7 @@ public class AccountController {
      */
     @ResponseBody
     @RequestMapping(value = "getAccountInform", method = RequestMethod.GET)
-    public String getAccount(Long userId) {
+    public Map<String, Object> getAccount(Long userId) {
         UserDO userInform = accountService.getUserInform(userId);
         return ApiResultWrapper.success(userInform);
     }

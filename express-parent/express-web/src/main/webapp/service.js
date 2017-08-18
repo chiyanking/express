@@ -1,11 +1,8 @@
 function Service(url) {
     this.rootUrl = url;
     this._error_handler = function (response) {
-        if (mini) {
-            mini.alert(response.msg);
-        } else {
-            alert(response.msg);
-        }
+        debugger
+        alert(response);
     }
 }
 
@@ -19,11 +16,7 @@ Service.prototype = {
             url: this.rootUrl + '?' + $.param(param),
             dataType: "json",
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });
