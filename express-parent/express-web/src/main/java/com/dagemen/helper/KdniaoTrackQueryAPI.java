@@ -1,5 +1,9 @@
 package com.dagemen.helper;
 
+import com.dagemen.model.kdniao.KdniaoModel;
+import com.dagemen.model.kdniao.Traces;
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -17,7 +21,12 @@ public class KdniaoTrackQueryAPI {
         KdniaoTrackQueryAPI api = new KdniaoTrackQueryAPI();
         try {
             String result = api.getOrderTracesByJson("HTKY", "70364387679099");
-            System.out.print(result);
+
+            Gson gson = new Gson();
+            KdniaoModel kdniaoModel = gson.fromJson(result, KdniaoModel.class);
+            for(Traces obj: kdniaoModel.getTraces()){
+                System.out.println(obj.getAcceptTime() + "      " + obj.getAcceptStation());
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
