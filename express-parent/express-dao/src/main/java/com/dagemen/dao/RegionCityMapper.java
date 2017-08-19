@@ -1,16 +1,16 @@
 package com.dagemen.dao;
 
-import com.dagemen.entity.User;
+import com.dagemen.entity.RegionCity;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
  * <p>
-  *  Mapper 接口
+  * 行政区域：城市 Mapper 接口
  * </p>
  *
  * @author dagemen
  * @since 2017-08-19
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface RegionCityMapper extends BaseMapper<RegionCity> {
 
 }

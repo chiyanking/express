@@ -1,8 +1,8 @@
 package com.dagemen.controller;
 
 import com.dagemen.Utils.ApiResultWrapper;
-import com.dagemen.domain.UserDO;
-import com.dagemen.service.AccountService;
+import com.dagemen.entity.User;
+import com.dagemen.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +21,7 @@ public class AccountController {
 
 
     @Resource
-    AccountService accountService;
+    UserService userService;
 
     /**
      *
@@ -29,7 +29,8 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "getAccountInform", method = RequestMethod.GET)
     public Map<String, Object> getAccount(Long userId) {
-        UserDO userInform = accountService.getUserInform(userId);
-        return ApiResultWrapper.success(userInform);
+
+        User user = userService.selectById(userId);
+        return ApiResultWrapper.success(user);
     }
 }

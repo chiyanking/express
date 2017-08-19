@@ -1,6 +1,6 @@
 package com.dagemen.dao;
 
-import com.dagemen.entity.User;
+import com.dagemen.entity.PointCompanyRelation;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
  * @author dagemen
  * @since 2017-08-19
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface PointCompanyRelationMapper extends BaseMapper<PointCompanyRelation> {
 
 }
