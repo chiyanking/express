@@ -12,7 +12,7 @@
 	http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 对包中的所有类进行扫描类上的注解，以完成Bean创建和自动依赖注入的功能 需要更改 -->
-    <context:component-scan base-package="com.dagemen.controller.**" use-default-filters="false">
+    <context:component-scan base-package="com.dagemen.controller" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation"
                                 expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
@@ -101,5 +101,21 @@
             </list>
         </property>
     </bean>
+
+    <!--用户登陆检查-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.dagemen.authorization.AuthorizeInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!--异常处理-->
+    <bean id="unionAllExceptionHandler" class="com.dagemen.exception.UnionAllExceptionHandler"/>
+    <bean id="exceptionResolver" class="com.dagemen.exception.HandlerMappingExceptionResolver">
+        <!-- 全局异常：在exceptionMappings里面找不到对应的异常时，采用 unionAllExceptionHandler 处理 -->
+        <property name="defaultErrorView" value="handler:unionAllExceptionHandler"/>
+        <property name="defaultStatusCode" value="500"/>
+    </bean>
+
 
 </beans>

@@ -1,6 +1,7 @@
 package com.dagemen.controller;
 
 import com.dagemen.Utils.ApiResultWrapper;
+import com.dagemen.authorization.AuthorizeAnnotation;
 import com.dagemen.entity.User;
 import com.dagemen.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -23,10 +24,8 @@ public class AccountController {
     @Resource
     UserService userService;
 
-    /**
-     *
-     */
     @ResponseBody
+    @AuthorizeAnnotation(isLogin = false)
     @RequestMapping(value = "getAccountInform", method = RequestMethod.GET)
     public Map<String, Object> getAccount(Long userId) {
 
