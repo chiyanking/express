@@ -12,5 +12,7 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2017-08-19
  */
 public interface PointService extends IService<Point> {
+
+    boolean checkLogin(Point point);
 	
 }
