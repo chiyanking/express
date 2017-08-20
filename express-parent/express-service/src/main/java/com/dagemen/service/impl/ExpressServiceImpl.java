@@ -35,6 +35,10 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         BeanUtils.copyProperties(expressSearchDTO, express);
         express.setExpCode(null);
         express.setPointId(pointId);
+        // 0 表示查询所有
+        if(expressSearchDTO.getCompanyId() == 0){
+            express.setCompanyId(null);
+        }
         EntityWrapper param = new EntityWrapper(express);
         if(expressSearchDTO.getStartDate() != null){
             param.ge("date", expressSearchDTO.getStartDate());
@@ -42,6 +46,7 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         if(expressSearchDTO.getEndDate() != null){
             param.le("date", expressSearchDTO.getEndDate());
         }
+        param.orderBy("date", false);
         param.like("exp_code", expressSearchDTO.getExpCode());
         return selectPage(page,param);
     }

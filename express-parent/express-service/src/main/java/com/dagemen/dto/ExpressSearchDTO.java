@@ -7,15 +7,13 @@ import java.util.Date;
  */
 public class ExpressSearchDTO {
 
-    private int page;
-    private int pageSize;
     private String expCode;
     private Long pointId;
     private Date startDate;
     private Date endDate;
     private boolean isPrnt;
     private String senderName;
-    private String companyName;
+    private Long companyId;
 
     public ExpressSearchDTO() {
     }
@@ -68,11 +66,11 @@ public class ExpressSearchDTO {
         this.senderName = senderName;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 }
