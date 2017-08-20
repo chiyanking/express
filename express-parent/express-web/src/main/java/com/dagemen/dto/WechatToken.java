@@ -1,6 +1,4 @@
-package com.dagemen.DTO;
-
-import com.dagemen.helper.DateUtil;
+package com.dagemen.dto;
 
 import java.util.Date;
 

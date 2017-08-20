@@ -3,6 +3,8 @@ package com.dagemen.service;
 import com.dagemen.entity.Point;
 import com.baomidou.mybatisplus.service.IService;
 
+import javax.servlet.http.HttpSession;
+
 /**
  * <p>
  *  服务类
@@ -13,6 +15,8 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface PointService extends IService<Point> {
 
-    boolean checkLogin(Point point);
+    boolean checkLogin(Point point, HttpSession httpSession);
+
+    boolean logOut(HttpSession httpSession);
 	
 }

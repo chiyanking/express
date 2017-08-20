@@ -11,8 +11,10 @@ import com.dagemen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -30,10 +32,24 @@ public class PointController {
      * @param point
      * @return
      */
-    @RequestMapping("/checkLogin")
+    @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
     @ResponseBody
-    public Object checkLogin(Point point) {
-        pointService.checkLogin(point);
+    public Object checkLogin(Point point, HttpSession httpSession) {
+        pointService.checkLogin(point, httpSession);
         return ApiResultWrapper.success("成功");
     }
+
+    /**
+     * 登出系统
+     * @param httpSession
+     * @return
+     */
+    @RequestMapping("/logOut")
+    @ResponseBody
+    public Object logOut(HttpSession httpSession){
+        pointService.logOut(httpSession);
+        return ApiResultWrapper.success("登出成功");
+    }
+
 }
+

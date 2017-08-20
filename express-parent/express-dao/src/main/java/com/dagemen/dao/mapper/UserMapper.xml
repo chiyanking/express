@@ -8,8 +8,8 @@
 		<result column="name" property="name" />
 		<result column="phone" property="phone" />
 		<result column="app_id" property="appId" />
-		<result column="provice_id" property="proviceId" />
-		<result column="provice_name" property="proviceName" />
+		<result column="province_id" property="provinceId" />
+		<result column="province_name" property="provinceName" />
 		<result column="city_id" property="cityId" />
 		<result column="city_name" property="cityName" />
 		<result column="district_id" property="districtId" />
@@ -23,7 +23,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, phone, app_id AS appId, provice_id AS proviceId, provice_name AS proviceName, city_id AS cityId, city_name AS cityName, district_id AS districtId, district_name AS districtName, address, last_send_date AS lastSendDate, send_times AS sendTimes, last_receive_date AS lastReceiveDate, receive_times AS receiveTimes
+        id, name, phone, app_id AS appId, province_id AS provinceId, province_name AS provinceName, city_id AS cityId, city_name AS cityName, district_id AS districtId, district_name AS districtName, address, last_send_date AS lastSendDate, send_times AS sendTimes, last_receive_date AS lastReceiveDate, receive_times AS receiveTimes
     </sql>
 
 </mapper>

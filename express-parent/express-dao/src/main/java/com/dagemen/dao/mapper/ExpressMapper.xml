@@ -2,41 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dagemen.mapper.ExpressMapper">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.dagemen.entity.Express">
-		<id column="id" property="id" />
-		<result column="exp_code" property="expCode" />
-		<result column="point_id" property="pointId" />
-		<result column="date" property="date" />
-		<result column="is_print" property="isPrint" />
-		<result column="price" property="price" />
-		<result column="weight" property="weight" />
-		<result column="sender_id" property="senderId" />
-		<result column="sender_name" property="senderName" />
-		<result column="sender_provice_id" property="senderProviceId" />
-		<result column="sender_provice_name" property="senderProviceName" />
-		<result column="sender_city_id" property="senderCityId" />
-		<result column="sender_city_name" property="senderCityName" />
-		<result column="sender_district_id" property="senderDistrictId" />
-		<result column="sender_district_name" property="senderDistrictName" />
-		<result column="sender_address" property="senderAddress" />
-		<result column="receiver_id" property="receiverId" />
-		<result column="receiver_name" property="receiverName" />
-		<result column="receiver_provice_id" property="receiverProviceId" />
-		<result column="receiver_provice_name" property="receiverProviceName" />
-		<result column="receiver_city_id" property="receiverCityId" />
-		<result column="receiver_city_name" property="receiverCityName" />
-		<result column="receiver_district_id" property="receiverDistrictId" />
-		<result column="receiver_district_name" property="receiverDistrictName" />
-		<result column="receiver_address" property="receiverAddress" />
-		<result column="company_id" property="companyId" />
-		<result column="company_name" property="companyName" />
-		<result column="exp_model_id" property="expModelId" />
-	</resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.baomidou.com.dagemen.entity.Express">
+        <id column="id" property="id"/>
+        <result column="exp_code" property="expCode"/>
+        <result column="point_id" property="pointId"/>
+        <result column="date" property="date"/>
+        <result column="is_print" property="isPrint"/>
+        <result column="price" property="price"/>
+        <result column="weight" property="weight"/>
+        <result column="sender_id" property="senderId"/>
+        <result column="sender_name" property="senderName"/>
+        <result column="seder_phone" property="sederPhone"/>
+        <result column="sender_province_id" property="senderProvinceId"/>
+        <result column="sender_province_name" property="senderProvinceName"/>
+        <result column="sender_city_id" property="senderCityId"/>
+        <result column="sender_city_name" property="senderCityName"/>
+        <result column="sender_district_id" property="senderDistrictId"/>
+        <result column="sender_district_name" property="senderDistrictName"/>
+        <result column="sender_address" property="senderAddress"/>
+        <result column="receiver_id" property="receiverId"/>
+        <result column="receiver_name" property="receiverName"/>
+        <result column="receiver_phone" property="receiverPhone"/>
+        <result column="receiver_province_id" property="receiverProvinceId"/>
+        <result column="receiver_province_name" property="receiverProvinceName"/>
+        <result column="receiver_city_id" property="receiverCityId"/>
+        <result column="receiver_city_name" property="receiverCityName"/>
+        <result column="receiver_district_id" property="receiverDistrictId"/>
+        <result column="receiver_district_name" property="receiverDistrictName"/>
+        <result column="receiver_address" property="receiverAddress"/>
+        <result column="company_id" property="companyId"/>
+        <result column="company_name" property="companyName"/>
+        <result column="exp_model_id" property="expModelId"/>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, exp_code AS expCode, point_id AS pointId, date, is_print AS isPrint, price, weight, sender_id AS senderId, sender_name AS senderName, sender_provice_id AS senderProviceId, sender_provice_name AS senderProviceName, sender_city_id AS senderCityId, sender_city_name AS senderCityName, sender_district_id AS senderDistrictId, sender_district_name AS senderDistrictName, sender_address AS senderAddress, receiver_id AS receiverId, receiver_name AS receiverName, receiver_provice_id AS receiverProviceId, receiver_provice_name AS receiverProviceName, receiver_city_id AS receiverCityId, receiver_city_name AS receiverCityName, receiver_district_id AS receiverDistrictId, receiver_district_name AS receiverDistrictName, receiver_address AS receiverAddress, company_id AS companyId, company_name AS companyName, exp_model_id AS expModelId
+        id, exp_code AS expCode, point_id AS pointId, date, is_print AS isPrint, price, weight, sender_id AS senderId, sender_name AS senderName, seder_phone AS sederPhone, sender_province_id AS senderProvinceId, sender_province_name AS senderProvinceName, sender_city_id AS senderCityId, sender_city_name AS senderCityName, sender_district_id AS senderDistrictId, sender_district_name AS senderDistrictName, sender_address AS senderAddress, receiver_id AS receiverId, receiver_name AS receiverName, receiver_phone AS receiverPhone, receiver_province_id AS receiverProvinceId, receiver_province_name AS receiverProvinceName, receiver_city_id AS receiverCityId, receiver_city_name AS receiverCityName, receiver_district_id AS receiverDistrictId, receiver_district_name AS receiverDistrictName, receiver_address AS receiverAddress, company_id AS companyId, company_name AS companyName, exp_model_id AS expModelId
     </sql>
 
 </mapper>

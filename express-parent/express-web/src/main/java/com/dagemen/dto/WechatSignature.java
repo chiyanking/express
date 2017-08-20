@@ -1,4 +1,4 @@
-package com.dagemen.DTO;
+package com.dagemen.dto;
 
 public class WechatSignature {
     private String appId;

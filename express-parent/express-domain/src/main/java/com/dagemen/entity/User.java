@@ -25,10 +25,10 @@ public class User extends Model<User> {
      */
 	@TableField("app_id")
 	private Long appId;
-	@TableField("provice_id")
-	private Long proviceId;
-	@TableField("provice_name")
-	private String proviceName;
+	@TableField("province_id")
+	private Long provinceId;
+	@TableField("province_name")
+	private String provinceName;
 	@TableField("city_id")
 	private Long cityId;
 	@TableField("city_name")
@@ -92,20 +92,20 @@ public class User extends Model<User> {
 		this.appId = appId;
 	}
 
-	public Long getProviceId() {
-		return proviceId;
+	public Long getProvinceId() {
+		return provinceId;
 	}
 
-	public void setProviceId(Long proviceId) {
-		this.proviceId = proviceId;
+	public void setProvinceId(Long provinceId) {
+		this.provinceId = provinceId;
 	}
 
-	public String getProviceName() {
-		return proviceName;
+	public String getProvinceName() {
+		return provinceName;
 	}
 
-	public void setProviceName(String proviceName) {
-		this.proviceName = proviceName;
+	public void setProvinceName(String provinceName) {
+		this.provinceName = provinceName;
 	}
 
 	public Long getCityId() {

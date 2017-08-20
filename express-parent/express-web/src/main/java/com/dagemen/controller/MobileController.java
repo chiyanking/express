@@ -2,9 +2,12 @@ package com.dagemen.controller;
 
 import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.authorization.AuthorizeAnnotation;
+import com.dagemen.dto.ExpressDTO;
 import com.dagemen.entity.User;
+import com.dagemen.service.MobileService;
 import com.dagemen.service.UserService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,19 +20,17 @@ import java.util.Map;
  */
 
 @Controller
-@RequestMapping("/account")
-public class AccountController {
+@RequestMapping("/mobile")
+public class MobileController {
 
 
     @Resource
-    UserService userService;
+    MobileService mobileService;
 
     @ResponseBody
     @AuthorizeAnnotation(isLogin = false)
-    @RequestMapping(value = "getAccountInform", method = RequestMethod.GET)
-    public Map<String, Object> getAccount(Long userId) {
-
-        User user = userService.selectById(userId);
-        return ApiResultWrapper.success(user);
+    @RequestMapping(value = "insertExpress", method = RequestMethod.POST)
+    public Map<String, Object> getAccount(@RequestBody ExpressDTO express) {
+        return ApiResultWrapper.success(mobileService.insertExpress(express));
     }
 }

@@ -20,7 +20,13 @@ public class ApiResultWrapper {
     public static Map<String, Object> success(Object data) {
         Map<String, Object> map = new LinkedHashMap();
         map.put("errCode", 0);
-        map.put("data",data);
+        if (data instanceof Boolean) {
+            map.put("msg", "成功");
+        } else if (data instanceof String) {
+            map.put("msg", data);
+        } else {
+            map.put("data", data);
+        }
         return map;
     }
 
@@ -33,16 +39,8 @@ public class ApiResultWrapper {
 
     public static Map<String, Object> success() {
         Map<String, Object> map = new LinkedHashMap();
-        map.put("success", true);
-        map.put("message", "成功");
+        map.put("errCode", 0);
+        map.put("msg", "成功");
         return map;
     }
-
-//    public static Map<String, Object> fail(BaseResultCode baseResultCode) {
-//        Map<String, Object> map = new LinkedHashMap();
-//        map.put("success", false);
-//        map.put("code", baseResultCode.getCode());
-//        map.put("message", baseResultCode.getMessage());
-//        return map;
-//    }
 }
