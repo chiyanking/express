@@ -1,27 +1,19 @@
 package com.dagemen.helper;
 
-import com.dagemen.DTO.WechatSignature;
-import com.dagemen.DTO.WechatTicket;
-import com.dagemen.DTO.WechatToken;
+import com.dagemen.dto.WechatSignature;
+import com.dagemen.dto.WechatTicket;
+import com.dagemen.dto.WechatToken;
 import com.dagemen.Utils.json.Jackson;
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
-import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;

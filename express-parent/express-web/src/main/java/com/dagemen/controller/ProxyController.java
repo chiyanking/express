@@ -1,6 +1,6 @@
 package com.dagemen.controller;
 
-import com.dagemen.DTO.WechatSignature;
+import com.dagemen.dto.WechatSignature;
 import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.helper.TokenHelper;
 import org.springframework.stereotype.Controller;

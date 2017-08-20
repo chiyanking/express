@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.baomidou.com.dagemen.mapper.ExpModelMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.baomidou.com.dagemen.entity.ExpModel">
+		<id column="id" property="id" />
+		<result column="company_id" property="companyId" />
+		<result column="exp_model_name" property="expModelName" />
+		<result column="exp_model_url" property="expModelUrl" />
+		<result column="exp_model_status" property="expModelStatus" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, company_id AS companyId, exp_model_name AS expModelName, exp_model_url AS expModelUrl, exp_model_status AS expModelStatus
+    </sql>
+
+</mapper>

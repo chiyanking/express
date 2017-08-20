@@ -1,11 +1,16 @@
 package com.dagemen.dao;
 
+import com.dagemen.entity.User;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.dagemen.domain.UserDO;
 
 /**
- * User 表数据库控制层接口
+ * <p>
+  *  Mapper 接口
+ * </p>
+ *
+ * @author dagemen
+ * @since 2017-08-19
  */
-public interface UserMapper extends BaseMapper<UserDO> {
+public interface UserMapper extends BaseMapper<User> {
 
 }
