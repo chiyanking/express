@@ -4,8 +4,8 @@ var path = require('path')
 module.exports = {
   build: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    index: path.resolve(__dirname, '../../webapp/index.html'),
+    assetsRoot: path.resolve(__dirname, '../../webapp'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     productionSourceMap: true,
@@ -23,15 +23,16 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    port: 8088,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/list': {
-        target: '',
+      '/api': {
+        target: 'http://127.0.0.1:8080',
+        changeOrigin: true,
         pathRewrite: {
-          '^/list': '/list'
+          '^/api': '/api',
         }
       }
     },
