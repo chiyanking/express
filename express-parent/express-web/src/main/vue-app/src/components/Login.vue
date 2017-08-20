@@ -6,13 +6,13 @@
       </Col>
       <Col span="6">
       <Form ref="formInline" :model="formInline" :rules="ruleInline">
-        <Form-item prop="user">
-          <Input type="text" v-model="formInline.user" placeholder="Username">
+        <Form-item prop="phone">
+          <Input type="text" v-model="formInline.phone" placeholder="Username">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
         </Form-item>
         <Form-item prop="password">
-          <Input type="password" v-model="formInline.password" placeholder="Password">
+          <Input type="password" v-model="formInline.phone" placeholder="Password">
           <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
         </Form-item>
@@ -29,12 +29,12 @@
   export default {
     data:()=>({
       formInline: {
-        user: '',
-        password: ''
+        phone: '15757125092',
+        password: '123456'
       },
       ruleInline: {
-        user: [
-          { required: true, message: '请填写用户名', trigger: 'blur' }
+        phone: [
+          { required: true, message: '请填写手机号', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请填写密码', trigger: 'blur' },
@@ -44,9 +44,18 @@
     }),
     methods:{
       handleSubmit(name) {
-        this.$refs[name].validate((valid) => {
+        debugger
+        const _this = this;
+        _this.$refs[name].validate((valid) => {
           if (valid) {
-            this.$Message.success('提交成功!');
+            _this.$http.post("/api/point/checkLogin",_this.formInline).then(function (response) {
+              debugger
+              _this.$Message.success('提交成功!');
+            }).catch(function(error){
+              debugger
+              _this.$Message.error(error.response.data.msg);
+            })
+
           } else {
             this.$Message.error('表单验证失败!');
           }

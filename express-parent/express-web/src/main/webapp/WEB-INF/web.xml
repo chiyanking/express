@@ -104,7 +104,12 @@
         <servlet-name>springMvc</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
+    <servlet>
+        <servlet-name>singlePageServlet</servlet-name>
+        <servlet-class>com.dagemen.controller.SinglePageController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>singlePageServlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
 </web-app>
