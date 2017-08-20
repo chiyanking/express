@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.dagemen.domain.UserDO">
+<mapper namespace="com.dagemen.mapper.UserMapper">
 
-    <!-- 通用查询结果列-->
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.dagemen.entity.User">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="app_id" property="appId" />
+		<result column="province_id" property="provinceId" />
+		<result column="province_name" property="provinceName" />
+		<result column="city_id" property="cityId" />
+		<result column="city_name" property="cityName" />
+		<result column="district_id" property="districtId" />
+		<result column="district_name" property="districtName" />
+		<result column="address" property="address" />
+		<result column="last_send_date" property="lastSendDate" />
+		<result column="send_times" property="sendTimes" />
+		<result column="last_receive_date" property="lastReceiveDate" />
+		<result column="receive_times" property="receiveTimes" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-		 id, `name`,`phone`
-	</sql>
+        id, name, phone, app_id AS appId, province_id AS provinceId, province_name AS provinceName, city_id AS cityId, city_name AS cityName, district_id AS districtId, district_name AS districtName, address, last_send_date AS lastSendDate, send_times AS sendTimes, last_receive_date AS lastReceiveDate, receive_times AS receiveTimes
+    </sql>
 
 </mapper>
