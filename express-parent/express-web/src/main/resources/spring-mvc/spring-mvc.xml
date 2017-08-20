@@ -114,7 +114,7 @@
     <bean id="exceptionResolver" class="com.dagemen.exception.HandlerMappingExceptionResolver">
         <!-- 全局异常：在exceptionMappings里面找不到对应的异常时，采用 unionAllExceptionHandler 处理 -->
         <property name="defaultErrorView" value="handler:unionAllExceptionHandler"/>
-        <property name="defaultStatusCode" value="500"/>
+        <property name="defaultStatusCode" value="200"/>
     </bean>
 
 
