@@ -56,10 +56,10 @@ public class Express extends Model<Express> {
      */
 	@TableField("sender_name")
 	private String senderName;
-	@TableField("sender_provice_id")
-	private Long senderProviceId;
-	@TableField("sender_provice_name")
-	private String senderProviceName;
+	@TableField("sender_province_id")
+	private Long senderProvinceId;
+	@TableField("sender_province_name")
+	private String senderProvinceName;
 	@TableField("sender_city_id")
 	private Long senderCityId;
 	@TableField("sender_city_name")
@@ -77,10 +77,10 @@ public class Express extends Model<Express> {
      */
 	@TableField("receiver_name")
 	private String receiverName;
-	@TableField("receiver_provice_id")
-	private Long receiverProviceId;
-	@TableField("receiver_provice_name")
-	private String receiverProviceName;
+	@TableField("receiver_province_id")
+	private Long receiverProvinceId;
+	@TableField("receiver_province_name")
+	private String receiverProvinceName;
 	@TableField("receiver_city_id")
 	private Long receiverCityId;
 	@TableField("receiver_city_name")
@@ -177,20 +177,20 @@ public class Express extends Model<Express> {
 		this.senderName = senderName;
 	}
 
-	public Long getSenderProviceId() {
-		return senderProviceId;
+	public Long getSenderProvinceId() {
+		return senderProvinceId;
 	}
 
-	public void setSenderProviceId(Long senderProviceId) {
-		this.senderProviceId = senderProviceId;
+	public void setSenderProvinceId(Long senderProvinceId) {
+		this.senderProvinceId = senderProvinceId;
 	}
 
-	public String getSenderProviceName() {
-		return senderProviceName;
+	public String getSenderProvinceName() {
+		return senderProvinceName;
 	}
 
-	public void setSenderProviceName(String senderProviceName) {
-		this.senderProviceName = senderProviceName;
+	public void setSenderProvinceName(String senderProvinceName) {
+		this.senderProvinceName = senderProvinceName;
 	}
 
 	public Long getSenderCityId() {
@@ -249,20 +249,20 @@ public class Express extends Model<Express> {
 		this.receiverName = receiverName;
 	}
 
-	public Long getReceiverProviceId() {
-		return receiverProviceId;
+	public Long getReceiverProvinceId() {
+		return receiverProvinceId;
 	}
 
-	public void setReceiverProviceId(Long receiverProviceId) {
-		this.receiverProviceId = receiverProviceId;
+	public void setReceiverProvinceId(Long receiverProvinceId) {
+		this.receiverProvinceId = receiverProvinceId;
 	}
 
-	public String getReceiverProviceName() {
-		return receiverProviceName;
+	public String getReceiverProvinceName() {
+		return receiverProvinceName;
 	}
 
-	public void setReceiverProviceName(String receiverProviceName) {
-		this.receiverProviceName = receiverProviceName;
+	public void setReceiverProvinceName(String receiverProvinceName) {
+		this.receiverProvinceName = receiverProvinceName;
 	}
 
 	public Long getReceiverCityId() {

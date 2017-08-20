@@ -13,8 +13,8 @@
 		<result column="weight" property="weight" />
 		<result column="sender_id" property="senderId" />
 		<result column="sender_name" property="senderName" />
-		<result column="sender_provice_id" property="senderProviceId" />
-		<result column="sender_provice_name" property="senderProviceName" />
+		<result column="sender_province_id" property="senderProvinceId" />
+		<result column="sender_province_name" property="senderProvinceName" />
 		<result column="sender_city_id" property="senderCityId" />
 		<result column="sender_city_name" property="senderCityName" />
 		<result column="sender_district_id" property="senderDistrictId" />
@@ -22,8 +22,8 @@
 		<result column="sender_address" property="senderAddress" />
 		<result column="receiver_id" property="receiverId" />
 		<result column="receiver_name" property="receiverName" />
-		<result column="receiver_provice_id" property="receiverProviceId" />
-		<result column="receiver_provice_name" property="receiverProviceName" />
+		<result column="receiver_province_id" property="receiverProvinceId" />
+		<result column="receiver_province_name" property="receiverProvinceName" />
 		<result column="receiver_city_id" property="receiverCityId" />
 		<result column="receiver_city_name" property="receiverCityName" />
 		<result column="receiver_district_id" property="receiverDistrictId" />
@@ -36,7 +36,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, exp_code AS expCode, point_id AS pointId, date, is_print AS isPrint, price, weight, sender_id AS senderId, sender_name AS senderName, sender_provice_id AS senderProviceId, sender_provice_name AS senderProviceName, sender_city_id AS senderCityId, sender_city_name AS senderCityName, sender_district_id AS senderDistrictId, sender_district_name AS senderDistrictName, sender_address AS senderAddress, receiver_id AS receiverId, receiver_name AS receiverName, receiver_provice_id AS receiverProviceId, receiver_provice_name AS receiverProviceName, receiver_city_id AS receiverCityId, receiver_city_name AS receiverCityName, receiver_district_id AS receiverDistrictId, receiver_district_name AS receiverDistrictName, receiver_address AS receiverAddress, company_id AS companyId, company_name AS companyName, exp_model_id AS expModelId
+        id, exp_code AS expCode, point_id AS pointId, date, is_print AS isPrint, price, weight, sender_id AS senderId, sender_name AS senderName, sender_province_id AS senderProvinceId, sender_province_name AS senderProvinceName, sender_city_id AS senderCityId, sender_city_name AS senderCityName, sender_district_id AS senderDistrictId, sender_district_name AS senderDistrictName, sender_address AS senderAddress, receiver_id AS receiverId, receiver_name AS receiverName, receiver_province_id AS receiverProvinceId, receiver_province_name AS receiverProvinceName, receiver_city_id AS receiverCityId, receiver_city_name AS receiverCityName, receiver_district_id AS receiverDistrictId, receiver_district_name AS receiverDistrictName, receiver_address AS receiverAddress, company_id AS companyId, company_name AS companyName, exp_model_id AS expModelId
     </sql>
 
 </mapper>
