@@ -2,336 +2,358 @@ package com.dagemen.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ * <p>
  * </p>
  *
  * @author dagemen
- * @since 2017-08-19
+ * @since 2017-08-20
  */
 public class Express extends Model<Express> {
 
     private static final long serialVersionUID = 1L;
 
-	private Long id;
+    private Long id;
     /**
      * 快递单号
      */
-	@TableField("exp_code")
-	private String expCode;
+    @TableField("exp_code")
+    private String expCode;
     /**
      * 门店id
      */
-	@TableField("point_id")
-	private Long pointId;
+    @TableField("point_id")
+    private Long pointId;
     /**
      * 寄件时间
      */
-	private Date date;
+    private Date date;
     /**
      * 是否打印
      */
-	@TableField("is_print")
-	private Integer isPrint;
+    @TableField("is_print")
+    private Integer isPrint;
     /**
      * 快递价格
      */
-	private BigDecimal price;
+    private BigDecimal price;
     /**
      * 包裹重量
      */
-	private Double weight;
+    private Double weight;
     /**
      * 寄件人Id
      */
-	@TableField("sender_id")
-	private Long senderId;
+    @TableField("sender_id")
+    private Long senderId;
     /**
      * 发件人姓名
      */
-	@TableField("sender_name")
-	private String senderName;
-	@TableField("sender_province_id")
-	private Long senderProvinceId;
-	@TableField("sender_province_name")
-	private String senderProvinceName;
-	@TableField("sender_city_id")
-	private Long senderCityId;
-	@TableField("sender_city_name")
-	private String senderCityName;
-	@TableField("sender_district_id")
-	private Long senderDistrictId;
-	@TableField("sender_district_name")
-	private String senderDistrictName;
-	@TableField("sender_address")
-	private String senderAddress;
-	@TableField("receiver_id")
-	private Long receiverId;
+    @TableField("sender_name")
+    private String senderName;
+    @TableField("seder_phone")
+    private String sederPhone;
+    @TableField("sender_province_id")
+    private Long senderProvinceId;
+    @TableField("sender_province_name")
+    private String senderProvinceName;
+    @TableField("sender_city_id")
+    private Long senderCityId;
+    @TableField("sender_city_name")
+    private String senderCityName;
+    @TableField("sender_district_id")
+    private Long senderDistrictId;
+    @TableField("sender_district_name")
+    private String senderDistrictName;
+    @TableField("sender_address")
+    private String senderAddress;
+    @TableField("receiver_id")
+    private Long receiverId;
     /**
      * 发件人姓名
      */
-	@TableField("receiver_name")
-	private String receiverName;
-	@TableField("receiver_province_id")
-	private Long receiverProvinceId;
-	@TableField("receiver_province_name")
-	private String receiverProvinceName;
-	@TableField("receiver_city_id")
-	private Long receiverCityId;
-	@TableField("receiver_city_name")
-	private String receiverCityName;
-	@TableField("receiver_district_id")
-	private Long receiverDistrictId;
-	@TableField("receiver_district_name")
-	private String receiverDistrictName;
-	@TableField("receiver_address")
-	private String receiverAddress;
+    @TableField("receiver_name")
+    private String receiverName;
+    @TableField("receiver_phone")
+    private String receiverPhone;
+    @TableField("receiver_province_id")
+    private Long receiverProvinceId;
+    @TableField("receiver_province_name")
+    private String receiverProvinceName;
+    @TableField("receiver_city_id")
+    private Long receiverCityId;
+    @TableField("receiver_city_name")
+    private String receiverCityName;
+    @TableField("receiver_district_id")
+    private Long receiverDistrictId;
+    @TableField("receiver_district_name")
+    private String receiverDistrictName;
+    @TableField("receiver_address")
+    private String receiverAddress;
     /**
      * 寄件所使用快递Id
      */
-	@TableField("company_id")
-	private Long companyId;
-	@TableField("company_name")
-	private String companyName;
+    @TableField("company_id")
+    private Long companyId;
+    @TableField("company_name")
+    private String companyName;
     /**
      * 快递模板Id
      */
-	@TableField("exp_model_id")
-	private Long expModelId;
+    @TableField("exp_model_id")
+    private Long expModelId;
 
 
-	public Long getId() {
-		return id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getExpCode() {
-		return expCode;
-	}
+    public String getExpCode() {
+        return expCode;
+    }
 
-	public void setExpCode(String expCode) {
-		this.expCode = expCode;
-	}
+    public void setExpCode(String expCode) {
+        this.expCode = expCode;
+    }
 
-	public Long getPointId() {
-		return pointId;
-	}
+    public Long getPointId() {
+        return pointId;
+    }
 
-	public void setPointId(Long pointId) {
-		this.pointId = pointId;
-	}
+    public void setPointId(Long pointId) {
+        this.pointId = pointId;
+    }
 
-	public Date getDate() {
-		return date;
-	}
+    public Date getDate() {
+        return date;
+    }
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
-	public Integer getIsPrint() {
-		return isPrint;
-	}
+    public Integer getIsPrint() {
+        return isPrint;
+    }
 
-	public void setIsPrint(Integer isPrint) {
-		this.isPrint = isPrint;
-	}
+    public void setIsPrint(Integer isPrint) {
+        this.isPrint = isPrint;
+    }
 
-	public BigDecimal getPrice() {
-		return price;
-	}
+    public BigDecimal getPrice() {
+        return price;
+    }
 
-	public void setPrice(BigDecimal price) {
-		this.price = price;
-	}
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
 
-	public Double getWeight() {
-		return weight;
-	}
+    public Double getWeight() {
+        return weight;
+    }
 
-	public void setWeight(Double weight) {
-		this.weight = weight;
-	}
+    public void setWeight(Double weight) {
+        this.weight = weight;
+    }
 
-	public Long getSenderId() {
-		return senderId;
-	}
+    public Long getSenderId() {
+        return senderId;
+    }
 
-	public void setSenderId(Long senderId) {
-		this.senderId = senderId;
-	}
+    public void setSenderId(Long senderId) {
+        this.senderId = senderId;
+    }
 
-	public String getSenderName() {
-		return senderName;
-	}
+    public String getSenderName() {
+        return senderName;
+    }
 
-	public void setSenderName(String senderName) {
-		this.senderName = senderName;
-	}
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
 
-	public Long getSenderProvinceId() {
-		return senderProvinceId;
-	}
+    public String getSederPhone() {
+        return sederPhone;
+    }
 
-	public void setSenderProvinceId(Long senderProvinceId) {
-		this.senderProvinceId = senderProvinceId;
-	}
+    public void setSederPhone(String sederPhone) {
+        this.sederPhone = sederPhone;
+    }
 
-	public String getSenderProvinceName() {
-		return senderProvinceName;
-	}
+    public Long getSenderProvinceId() {
+        return senderProvinceId;
+    }
 
-	public void setSenderProvinceName(String senderProvinceName) {
-		this.senderProvinceName = senderProvinceName;
-	}
+    public void setSenderProvinceId(Long senderProvinceId) {
+        this.senderProvinceId = senderProvinceId;
+    }
 
-	public Long getSenderCityId() {
-		return senderCityId;
-	}
+    public String getSenderProvinceName() {
+        return senderProvinceName;
+    }
 
-	public void setSenderCityId(Long senderCityId) {
-		this.senderCityId = senderCityId;
-	}
+    public void setSenderProvinceName(String senderProvinceName) {
+        this.senderProvinceName = senderProvinceName;
+    }
 
-	public String getSenderCityName() {
-		return senderCityName;
-	}
+    public Long getSenderCityId() {
+        return senderCityId;
+    }
 
-	public void setSenderCityName(String senderCityName) {
-		this.senderCityName = senderCityName;
-	}
+    public void setSenderCityId(Long senderCityId) {
+        this.senderCityId = senderCityId;
+    }
 
-	public Long getSenderDistrictId() {
-		return senderDistrictId;
-	}
+    public String getSenderCityName() {
+        return senderCityName;
+    }
 
-	public void setSenderDistrictId(Long senderDistrictId) {
-		this.senderDistrictId = senderDistrictId;
-	}
+    public void setSenderCityName(String senderCityName) {
+        this.senderCityName = senderCityName;
+    }
 
-	public String getSenderDistrictName() {
-		return senderDistrictName;
-	}
+    public Long getSenderDistrictId() {
+        return senderDistrictId;
+    }
 
-	public void setSenderDistrictName(String senderDistrictName) {
-		this.senderDistrictName = senderDistrictName;
-	}
+    public void setSenderDistrictId(Long senderDistrictId) {
+        this.senderDistrictId = senderDistrictId;
+    }
 
-	public String getSenderAddress() {
-		return senderAddress;
-	}
+    public String getSenderDistrictName() {
+        return senderDistrictName;
+    }
 
-	public void setSenderAddress(String senderAddress) {
-		this.senderAddress = senderAddress;
-	}
+    public void setSenderDistrictName(String senderDistrictName) {
+        this.senderDistrictName = senderDistrictName;
+    }
 
-	public Long getReceiverId() {
-		return receiverId;
-	}
+    public String getSenderAddress() {
+        return senderAddress;
+    }
 
-	public void setReceiverId(Long receiverId) {
-		this.receiverId = receiverId;
-	}
+    public void setSenderAddress(String senderAddress) {
+        this.senderAddress = senderAddress;
+    }
 
-	public String getReceiverName() {
-		return receiverName;
-	}
+    public Long getReceiverId() {
+        return receiverId;
+    }
 
-	public void setReceiverName(String receiverName) {
-		this.receiverName = receiverName;
-	}
+    public void setReceiverId(Long receiverId) {
+        this.receiverId = receiverId;
+    }
 
-	public Long getReceiverProvinceId() {
-		return receiverProvinceId;
-	}
+    public String getReceiverName() {
+        return receiverName;
+    }
 
-	public void setReceiverProvinceId(Long receiverProvinceId) {
-		this.receiverProvinceId = receiverProvinceId;
-	}
+    public void setReceiverName(String receiverName) {
+        this.receiverName = receiverName;
+    }
 
-	public String getReceiverProvinceName() {
-		return receiverProvinceName;
-	}
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
 
-	public void setReceiverProvinceName(String receiverProvinceName) {
-		this.receiverProvinceName = receiverProvinceName;
-	}
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
 
-	public Long getReceiverCityId() {
-		return receiverCityId;
-	}
+    public Long getReceiverProvinceId() {
+        return receiverProvinceId;
+    }
 
-	public void setReceiverCityId(Long receiverCityId) {
-		this.receiverCityId = receiverCityId;
-	}
+    public void setReceiverProvinceId(Long receiverProvinceId) {
+        this.receiverProvinceId = receiverProvinceId;
+    }
 
-	public String getReceiverCityName() {
-		return receiverCityName;
-	}
+    public String getReceiverProvinceName() {
+        return receiverProvinceName;
+    }
 
-	public void setReceiverCityName(String receiverCityName) {
-		this.receiverCityName = receiverCityName;
-	}
+    public void setReceiverProvinceName(String receiverProvinceName) {
+        this.receiverProvinceName = receiverProvinceName;
+    }
 
-	public Long getReceiverDistrictId() {
-		return receiverDistrictId;
-	}
+    public Long getReceiverCityId() {
+        return receiverCityId;
+    }
 
-	public void setReceiverDistrictId(Long receiverDistrictId) {
-		this.receiverDistrictId = receiverDistrictId;
-	}
+    public void setReceiverCityId(Long receiverCityId) {
+        this.receiverCityId = receiverCityId;
+    }
 
-	public String getReceiverDistrictName() {
-		return receiverDistrictName;
-	}
+    public String getReceiverCityName() {
+        return receiverCityName;
+    }
 
-	public void setReceiverDistrictName(String receiverDistrictName) {
-		this.receiverDistrictName = receiverDistrictName;
-	}
+    public void setReceiverCityName(String receiverCityName) {
+        this.receiverCityName = receiverCityName;
+    }
 
-	public String getReceiverAddress() {
-		return receiverAddress;
-	}
+    public Long getReceiverDistrictId() {
+        return receiverDistrictId;
+    }
 
-	public void setReceiverAddress(String receiverAddress) {
-		this.receiverAddress = receiverAddress;
-	}
+    public void setReceiverDistrictId(Long receiverDistrictId) {
+        this.receiverDistrictId = receiverDistrictId;
+    }
 
-	public Long getCompanyId() {
-		return companyId;
-	}
+    public String getReceiverDistrictName() {
+        return receiverDistrictName;
+    }
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
-	}
+    public void setReceiverDistrictName(String receiverDistrictName) {
+        this.receiverDistrictName = receiverDistrictName;
+    }
 
-	public String getCompanyName() {
-		return companyName;
-	}
+    public String getReceiverAddress() {
+        return receiverAddress;
+    }
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
+    public void setReceiverAddress(String receiverAddress) {
+        this.receiverAddress = receiverAddress;
+    }
 
-	public Long getExpModelId() {
-		return expModelId;
-	}
+    public Long getCompanyId() {
+        return companyId;
+    }
 
-	public void setExpModelId(Long expModelId) {
-		this.expModelId = expModelId;
-	}
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
 
-	@Override
-	protected Serializable pkVal() {
-		return this.id;
-	}
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public Long getExpModelId() {
+        return expModelId;
+    }
+
+    public void setExpModelId(Long expModelId) {
+        this.expModelId = expModelId;
+    }
+
+    @Override
+    protected Serializable pkVal() {
+        return this.id;
+    }
 
 }

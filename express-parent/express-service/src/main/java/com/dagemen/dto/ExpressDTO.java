@@ -11,6 +11,7 @@ public class ExpressDTO {
     private Long pointId;
 
     private String senderName;
+    private String senderPhone;
     private Long senderProvinceId;
     private String senderProvinceName;
     private Long senderCityId;
@@ -20,6 +21,7 @@ public class ExpressDTO {
     private String senderAddress;
 
     private String receiverName;
+    private String receiverPhone;
     private Long receiverProvinceId;
     private String receiverProvinceName;
     private Long receiverCityId;
@@ -162,5 +164,21 @@ public class ExpressDTO {
 
     public void setReceiverAddress(String receiverAddress) {
         this.receiverAddress = receiverAddress;
+    }
+
+    public String getSenderPhone() {
+        return senderPhone;
+    }
+
+    public void setSenderPhone(String senderPhone) {
+        this.senderPhone = senderPhone;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 }
