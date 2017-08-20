@@ -5,14 +5,14 @@
       <img src="../assets/login.jpg" style="width: 30%">
       </Col>
       <Col span="6">
-      <Form ref="formInline" :model="formInline" :rules="ruleInline">
+      <Form style="margin-top: 100px;" ref="formInline" :model="formInline" :rules="ruleInline">
         <Form-item prop="phone">
           <Input type="text" v-model="formInline.phone" placeholder="Username">
           <Icon type="ios-person-outline" slot="prepend"></Icon>
           </Input>
         </Form-item>
         <Form-item prop="password">
-          <Input type="password" v-model="formInline.phone" placeholder="Password">
+          <Input type="password" v-model="formInline.password" placeholder="Password">
           <Icon type="ios-locked-outline" slot="prepend"></Icon>
           </Input>
         </Form-item>

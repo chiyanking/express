@@ -1,5 +1,6 @@
 package com.dagemen.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.EncryptAndDecryptUtil;
 import com.dagemen.Utils.LoginSessionHelper;
 import com.dagemen.dao.PointMapper;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author dagemen
@@ -24,16 +25,14 @@ import javax.servlet.http.HttpSession;
 @Service
 public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements PointService {
 
-    @Autowired
-    PointMapper pointMapper;
 
     @Override
     public boolean checkLogin(Point point, HttpSession httpSession) {
         Point parms = new Point();
         parms.setPhone(point.getPhone());
         parms.setPassword(EncryptAndDecryptUtil.encryptByMD5(point.getPassword()));
-        Point point1 = pointMapper.selectOne(point);
-        if(point1 == null){
+        Point point1 = selectOne(new EntityWrapper<>(parms));
+        if (point1 == null) {
             throw new ApiException(ApiExceptionEnum.USER_LOGIN_ERROR);
         }
         LoginSessionHelper.logIn(point1, null, httpSession);
