@@ -7,7 +7,10 @@ public enum ApiExceptionEnum implements BaseExceptionCode {
 
     USERNOTLOGIN("1000", "用户未登录"),
     USERRIGHTERROR("1001", "用户权限不足"),
-    USER_LOGIN_ERROR("1002", "用户名或密码错误");
+    USER_LOGIN_ERROR("1002", "用户名或密码错误"),
+    CREATE_EXP_MODEL_ERROR("2001","打印快递单失败");
+
+
 
     private String errCode;
     private String message;
