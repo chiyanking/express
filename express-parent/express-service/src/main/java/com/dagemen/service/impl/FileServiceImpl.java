@@ -1,6 +1,7 @@
 package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.dagemen.Utils.DateHelper;
 import com.dagemen.Utils.PdfUtil;
 import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Express;
@@ -15,6 +16,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -40,16 +43,27 @@ public class FileServiceImpl implements FileService{
         ExpModel expMode = expModelService.selectOne(new EntityWrapper<>(expMode1));
         JSONObject jsonObject = JSONObject.fromObject(exp);
         String filePath = null;
+        byte[] buffer = new byte[256];
+        InputStream is = null;
         try {
             filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
-            byte[] bytes = PdfUtil.creatPdf(jsonObject, filePath);
-            response.getOutputStream().write(bytes);
+//            filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
+            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + DateHelper.getDateString(exp.getDate()) + ".pdf";
+            if(!new File(outFilePath).exists()){
+                PdfUtil.creatPdf(jsonObject, filePath, outFilePath);
+            }
+            is = new FileInputStream(outFilePath);
+            int nRead = 0;
+            while((nRead = is.read(buffer)) > 0){
+                response.getOutputStream().write(buffer, 0, nRead);
+            }
             response.getOutputStream().flush();
         } catch (IOException e) {
             e.printStackTrace();
             throw new ApiException(ApiExceptionEnum.CREATE_EXP_MODEL_ERROR);
         } finally {
             try{
+                is.close();
                 response.getOutputStream().close();
             }catch (Exception e){
                 e.printStackTrace();
