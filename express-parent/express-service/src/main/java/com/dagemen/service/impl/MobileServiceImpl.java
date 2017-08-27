@@ -139,7 +139,7 @@ public class MobileServiceImpl implements MobileService {
         }
         List<Long> companyIds = new ArrayList<>();
         for(PointCompanyRelation obj : pointCompanyRelationList){
-            companyIds.add(obj.getExpressId());
+            companyIds.add(obj.getCompanyId());
         }
         List<Company> companyList = companyService.selectList(new EntityWrapper<>(new Company()).in("id",companyIds));
         PointAddressDto pointAddressDto = new PointAddressDto();
