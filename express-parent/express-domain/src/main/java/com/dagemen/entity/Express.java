@@ -119,6 +119,21 @@ public class Express extends Model<Express> {
      */
 	@TableField("exp_model_id")
 	private Long expModelId;
+    /**
+     * 支付方式： 0：寄付现结  1：到付
+     */
+	@TableField("pay_style")
+	private Integer payStyle;
+    /**
+     * 物品类型,保存格式如下   类型1，类型2，类型3
+     */
+	@TableField("goods_style")
+	private String goodsStyle;
+    /**
+     * 物品数量
+     */
+	@TableField("goods_count")
+	private Integer goodsCount;
 
 
 	public Long getId() {
@@ -407,6 +422,30 @@ public class Express extends Model<Express> {
 
 	public void setExpModelId(Long expModelId) {
 		this.expModelId = expModelId;
+	}
+
+	public Integer getPayStyle() {
+		return payStyle;
+	}
+
+	public void setPayStyle(Integer payStyle) {
+		this.payStyle = payStyle;
+	}
+
+	public String getGoodsStyle() {
+		return goodsStyle;
+	}
+
+	public void setGoodsStyle(String goodsStyle) {
+		this.goodsStyle = goodsStyle;
+	}
+
+	public Integer getGoodsCount() {
+		return goodsCount;
+	}
+
+	public void setGoodsCount(Integer goodsCount) {
+		this.goodsCount = goodsCount;
 	}
 
 	@Override
