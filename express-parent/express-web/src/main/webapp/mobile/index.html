@@ -20,43 +20,74 @@
 <body>
 <div class="page grid js_show">
     <div class="page__hd">
-        <h1 class="page__title">快速填写</h1>
-        <p class="page__desc">请填写快递信息</p>
+        <h1 class="page__title"></h1>
+        <p class="page__desc"></p>
     </div>
-    <div class="page__bd page__bd_spacing">
-        <div class="weui-cells weui-cells_form">
+    <div class="weui-panel weui-panel_access">
+        <div class="weui-panel__hd">寄件人信息</div>
+        <div class="weui-panel__bd">
             <div class="weui-cell">
                 <div class="weui-cell__hd">
-                    <input class="weui-input" placeholder="寄件人姓名">
+                    <input class="weui-input" id="senderName" name="senderName" placeholder="寄件人姓名">
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" type="number" pattern="[0-9]*" placeholder="手机号">
+                    <input class="weui-input" id="senderPhone" name="senderPhone" type="number" pattern="[0-9]*" placeholder="寄件人手机号">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd">
-                    <input class="weui-input close-picker" placeholder="寄件人地址" id="city-picker">
-                    <script>
-                        $("#city-picker").cityPicker({
-                            title: "请选择收货地址",
-                            rotateEffect:true,
-                            onChange:onCityChange
-                        });
-
-                        function onCityChange(value,value1,value2){
-                        }
-                    </script>
+                    <input class="weui-input" id="senderPCD" name="senderPCD" placeholder="寄件人地址">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd">
-                    <input class="weui-input" placeholder="寄件人详细地址">
+                    <input class="weui-input" id="senderAddress" name="senderAddress" placeholder="寄件人详细地址">
                 </div>
             </div>
         </div>
+    </div>
+    <div class="weui-panel weui-panel_access">
+        <div class="weui-panel__hd">收件人信息</div>
+        <div class="weui-panel__bd">
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <input class="weui-input" id="receiverName" name="receiverName" placeholder="收件人姓名">
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="receiverPhone" name="receiverPhone" type="number" pattern="[0-9]*" placeholder="收件人手机号">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <input class="weui-input" id="receiverPCD" name="receiverPCD" placeholder="收件人地址">
+                </div>
+            </div>
+            <div class="weui-cell">
+                <div class="weui-cell__hd">
+                    <input class="weui-input" id="receiverAddress" name="receiverAddress" placeholder="收件人详细地址">
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
     $(function () {
+        $("#senderPCD").cityPicker({
+            title: "请选择寄件人地址",
+            rotateEffect:true,
+            onChange:onCityChange
+        });
+
+        function onCityChange(value,value1,value2){
+        }
+
+        $("#receiverPCD").cityPicker({
+            title: "请选择寄件人地址",
+            rotateEffect:true,
+            onChange:onCityChange
+        });
+
+
         new Service("/api/proxy/signature").get({url: location.href.split('#')[0]}, function (reponse) {
             var data = reponse.data;
             var config = {
