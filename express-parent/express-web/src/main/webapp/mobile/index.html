@@ -27,21 +27,22 @@
         <div class="weui-panel__hd">寄件人信息</div>
         <div class="weui-panel__bd">
             <div class="weui-cell">
-                <div class="weui-cell__hd">
-                    <input class="weui-input" id="senderName" name="senderName" placeholder="寄件人姓名">
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="senderName" name="senderName" placeholder="姓名">
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" id="senderPhone" name="senderPhone" type="number" pattern="[0-9]*" placeholder="寄件人手机号">
+                    <input class="weui-input" id="senderPhone" name="senderPhone" type="number" pattern="[0-9]*"
+                           placeholder="手机号">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd">
-                    <input class="weui-input" id="senderPCD" name="senderPCD" placeholder="寄件人地址">
+                    <input class="weui-input" id="senderPCD" name="senderPCD" placeholder="地址">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd">
-                    <input class="weui-input" id="senderAddress" name="senderAddress" placeholder="寄件人详细地址">
+                    <input class="weui-input" id="senderAddress" name="senderAddress" placeholder="详细地址">
                 </div>
             </div>
         </div>
@@ -51,40 +52,76 @@
         <div class="weui-panel__bd">
             <div class="weui-cell">
                 <div class="weui-cell__hd">
-                    <input class="weui-input" id="receiverName" name="receiverName" placeholder="收件人姓名">
+                    <input class="weui-input" id="receiverName" name="receiverName" placeholder="姓名">
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" id="receiverPhone" name="receiverPhone" type="number" pattern="[0-9]*" placeholder="收件人手机号">
+                    <input class="weui-input" id="receiverPhone" name="receiverPhone" type="number" pattern="[0-9]*"
+                           placeholder="手机号">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd">
-                    <input class="weui-input" id="receiverPCD" name="receiverPCD" placeholder="收件人地址">
+                    <input class="weui-input" id="receiverPCD" name="receiverPCD" placeholder="地址">
                 </div>
             </div>
             <div class="weui-cell">
                 <div class="weui-cell__hd">
-                    <input class="weui-input" id="receiverAddress" name="receiverAddress" placeholder="收件人详细地址">
+                    <input class="weui-input" id="receiverAddress" name="receiverAddress" placeholder="详细地址">
                 </div>
             </div>
         </div>
     </div>
+    <div class="weui-form-preview__ft">
+        <a href="javascript:;" id="submitExpress" class="weui-btn weui-btn_default" style="width:85%;margin-top:55px;">确定</a>
+    </div>
 </div>
 <script>
     $(function () {
-        $("#senderPCD").cityPicker({
+        var urlParam = new Service().getUrlParams();
+        var $senderPCD = $("#senderPCD");
+        var $receiverPCD = $("#receiverPCD");
+        var senderPCD = [], receiverPCD = [];
+        $senderPCD.cityPicker({
             title: "请选择寄件人地址",
-            rotateEffect:true,
-            onChange:onCityChange
+            rotateEffect: true,
+            onChange: function (value, value1, value2) {
+                senderPCD = value1;
+            }
         });
 
-        function onCityChange(value,value1,value2){
-        }
-
-        $("#receiverPCD").cityPicker({
+        $receiverPCD.cityPicker({
             title: "请选择寄件人地址",
-            rotateEffect:true,
-            onChange:onCityChange
+            rotateEffect: true,
+            onChange: function (value, value1, value2) {
+                receiverPCD = value1;
+            }
+        });
+
+        new Service("/api/mobile/getPointAddress").get({pointId: urlParam.pointId}, function (response) {
+            if (!response.errCode) {
+                var data = response.data;
+                var pcd = [data.provinceCode, data.cityCode, data.districtCode];
+                $senderPCD.picker("open");
+                $senderPCD.picker("setValue", pcd);
+                $senderPCD.picker("close");
+                $("#senderAddress").val(data.address);
+            }
+        });
+
+        var param = {
+            pointId: urlParam.pointId,
+            senderName: $("#senderName").val(),
+            senderPhone: $("#senderPhone").val(),
+            senderPCD: senderPCD,
+            senderAddress: $("#senderAddress").val(),
+
+            receiverName: $("#receiverName").val(),
+            receiverPhone: $("#receiverPhone").val(),
+            receiverPCD: receiverPCD,
+            receiverAddress: $("#receiverAddress").val()
+        };
+        $("#submitExpress").post(param, function (response) {
+            debugger;
         });
 
 
