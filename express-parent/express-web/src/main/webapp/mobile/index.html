@@ -80,12 +80,13 @@
         var urlParam = new Service().getUrlParams();
         var $senderPCD = $("#senderPCD");
         var $receiverPCD = $("#receiverPCD");
-        var senderPCD = [], receiverPCD = [];
+        var senderPCDCode = [], senderPCDName = [], receiverPCDCode = [], receiverPCDName = [];
         $senderPCD.cityPicker({
             title: "请选择寄件人地址",
             rotateEffect: true,
             onChange: function (value, value1, value2) {
-                senderPCD = value1;
+                senderPCDCode = value1;
+                senderPCDName = value2;
             }
         });
 
@@ -93,7 +94,8 @@
             title: "请选择寄件人地址",
             rotateEffect: true,
             onChange: function (value, value1, value2) {
-                receiverPCD = value1;
+                receiverPCDCode = value1;
+                receiverPCDName = value2;
             }
         });
 
@@ -108,20 +110,27 @@
             }
         });
 
-        var param = {
-            pointId: urlParam.pointId,
-            senderName: $("#senderName").val(),
-            senderPhone: $("#senderPhone").val(),
-            senderPCD: senderPCD,
-            senderAddress: $("#senderAddress").val(),
 
-            receiverName: $("#receiverName").val(),
-            receiverPhone: $("#receiverPhone").val(),
-            receiverPCD: receiverPCD,
-            receiverAddress: $("#receiverAddress").val()
-        };
-        $("#submitExpress").post(param, function (response) {
-            debugger;
+        $("#submitExpress").click(function () {
+            var param = {
+                pointId: urlParam.pointId,
+                senderName: $("#senderName").val(),
+                senderPhone: $("#senderPhone").val(),
+                senderPCDCode: senderPCDCode,
+                senderPCDName: senderPCDName,
+                senderAddress: $("#senderAddress").val(),
+
+                receiverName: $("#receiverName").val(),
+                receiverPhone: $("#receiverPhone").val(),
+                receiverPCDCode: receiverPCDCode,
+                receiverPCDName: receiverPCDName,
+                receiverAddress: $("#receiverAddress").val()
+            };
+            var $this=$(this);
+            $this.prop("disabled",true);
+            new Service("/api/mobile/insertExpress").post(param, function (response) {
+                $this.removeAttr("disabled");
+            });
         });
 
 

@@ -14,12 +14,14 @@ public class ExpressDTO {
 
     private String senderName;
     private String senderPhone;
-    private List<Long> senderPCD;
+    private List<Long> senderPCDCode;
+    private List<String> senderPCDName;
     private String senderAddress;
 
     private String receiverName;
     private String receiverPhone;
-    private List<Long> receiverPCD;
+    private List<Long> receiverPCDCode;
+    private List<String> receiverPCDName;
     private String receiverAddress;
 
     public Long getPointId() {
@@ -46,12 +48,20 @@ public class ExpressDTO {
         this.senderPhone = senderPhone;
     }
 
-    public List<Long> getSenderPCD() {
-        return senderPCD;
+    public List<Long> getSenderPCDCode() {
+        return senderPCDCode;
     }
 
-    public void setSenderPCD(List<Long> senderPCD) {
-        this.senderPCD = senderPCD;
+    public void setSenderPCDCode(List<Long> senderPCDCode) {
+        this.senderPCDCode = senderPCDCode;
+    }
+
+    public List<String> getSenderPCDName() {
+        return senderPCDName;
+    }
+
+    public void setSenderPCDName(List<String> senderPCDName) {
+        this.senderPCDName = senderPCDName;
     }
 
     public String getSenderAddress() {
@@ -78,12 +88,20 @@ public class ExpressDTO {
         this.receiverPhone = receiverPhone;
     }
 
-    public List<Long> getReceiverPCD() {
-        return receiverPCD;
+    public List<Long> getReceiverPCDCode() {
+        return receiverPCDCode;
     }
 
-    public void setReceiverPCD(List<Long> receiverPCD) {
-        this.receiverPCD = receiverPCD;
+    public void setReceiverPCDCode(List<Long> receiverPCDCode) {
+        this.receiverPCDCode = receiverPCDCode;
+    }
+
+    public List<String> getReceiverPCDName() {
+        return receiverPCDName;
+    }
+
+    public void setReceiverPCDName(List<String> receiverPCDName) {
+        this.receiverPCDName = receiverPCDName;
     }
 
     public String getReceiverAddress() {

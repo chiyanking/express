@@ -1,8 +1,7 @@
 function Service(url) {
     this.rootUrl = url;
     this._error_handler = function (response) {
-        debugger
-        alert(response);
+        alert(response.msg);
     }
 }
 
@@ -30,11 +29,7 @@ Service.prototype = {
             dataType: "json",
             async: false,
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });
@@ -52,11 +47,7 @@ Service.prototype = {
             dataType: "json",
             data: JSON.stringify(param),
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    alert(response.msg);
-                }
+                callback(response);
             },
             error: function (jqXHR) {
                 error(jqXHR, param, errorCallBack);
@@ -74,11 +65,7 @@ Service.prototype = {
             dataType: "json",
             data: JSON.stringify(param),
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });
@@ -93,11 +80,7 @@ Service.prototype = {
             dataType: "json",
             data: JSON.stringify(param),
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });
@@ -110,11 +93,7 @@ Service.prototype = {
             type: 'DELETE',
             url: this.rootUrl + urlParam,
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });

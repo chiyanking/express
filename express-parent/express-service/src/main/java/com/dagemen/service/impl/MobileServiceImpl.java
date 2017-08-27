@@ -45,62 +45,89 @@ public class MobileServiceImpl implements MobileService {
     @Override
     public boolean insertExpress(ExpressDTO expressDTO) {
 
+
         Express express = new Express();
         BeanUtils.copyProperties(expressDTO, express);
         //处理省市区
-        List<Long> senderPCD = expressDTO.getSenderPCD();
-        if(!CollectionUtils.isEmpty(senderPCD)){
-            RegionProvince province = regionProvinceService.selectByCode(senderPCD.get(0));
-            if(province!=null){
-                express.setSenderProvinceCode(province.getCode());
-                express.setSenderProvinceId(province.getId());
-                express.setSenderProvinceName(province.getName());
-            }
-            RegionCity regionCity = regionCityService.selectByCode(senderPCD.get(1));
-            if(regionCity!=null){
-                express.setSenderCityCode(regionCity.getCode());
-                express.setSenderCityId(regionCity.getId());
-                express.setSenderCityName(regionCity.getName());
-            }
-            RegionDistrict regionDistrict=regionDistrictService.selectByCode(senderPCD.get(2));
-            if(regionDistrict!=null){
-                express.setSenderDistrictCode(regionDistrict.getCode());
-                express.setSenderDistrictId(regionDistrict.getId());
-                express.setSenderDistrictName(regionDistrict.getName());
-            }
+        List<Long> senderPCDCode = expressDTO.getSenderPCDCode();
+        List<String> senderPCDName = expressDTO.getSenderPCDName();
+        if(!CollectionUtils.isEmpty(senderPCDCode)){
+            express.setSenderProvinceName(senderPCDName.get(0));
+            express.setSenderProvinceCode(senderPCDCode.get(0));
+            express.setSenderCityName(senderPCDName.get(1));
+            express.setSenderCityCode(senderPCDCode.get(1));
+            express.setSenderDistrictName(senderPCDName.get(2));
+            express.setSenderDistrictCode(senderPCDCode.get(2));
         }
-        List<Long> receiverPCD = expressDTO.getReceiverPCD();
-        if(!CollectionUtils.isEmpty(receiverPCD)){
-            RegionProvince province = regionProvinceService.selectByCode(receiverPCD.get(0));
-            if(province!=null){
-                express.setReceiverProvinceCode(province.getCode());
-                express.setReceiverProvinceId(province.getId());
-                express.setReceiverProvinceName(province.getName());
-            }
-            RegionCity regionCity = regionCityService.selectByCode(receiverPCD.get(1));
-            if(regionCity!=null){
-                express.setReceiverCityCode(regionCity.getCode());
-                express.setReceiverCityId(regionCity.getId());
-                express.setReceiverCityName(regionCity.getName());
-            }
-            RegionDistrict regionDistrict=regionDistrictService.selectByCode(receiverPCD.get(2));
-            if(regionDistrict!=null){
-                express.setReceiverDistrictCode(regionDistrict.getCode());
-                express.setReceiverDistrictId(regionDistrict.getId());
-                express.setReceiverDistrictName(regionDistrict.getName());
-            }
+        List<Long> receiverPCDCode = expressDTO.getReceiverPCDCode();
+        List<String> receiverPCDName = expressDTO.getReceiverPCDName();
+        if(!CollectionUtils.isEmpty(receiverPCDCode)){
+            express.setReceiverProvinceName(receiverPCDName.get(0));
+            express.setReceiverProvinceCode(receiverPCDCode.get(0));
+            express.setReceiverCityName(receiverPCDName.get(1));
+            express.setReceiverCityCode(receiverPCDCode.get(1));
+            express.setReceiverDistrictName(receiverPCDName.get(2));
+            express.setReceiverDistrictCode(receiverPCDCode.get(2));
         }
+
+//        List<Long> senderPCD = expressDTO.getSenderPCD();
+//        if(!CollectionUtils.isEmpty(senderPCD)){
+//            RegionProvince province = regionProvinceService.selectByCode(senderPCD.get(0));
+//            if(province!=null){
+//                express.setSenderProvinceCode(province.getCode());
+//                express.setSenderProvinceId(province.getId());
+//                express.setSenderProvinceName(province.getName());
+//            }
+//            RegionCity regionCity = regionCityService.selectByCode(senderPCD.get(1));
+//            if(regionCity!=null){
+//                express.setSenderCityCode(regionCity.getCode());
+//                express.setSenderCityId(regionCity.getId());
+//                express.setSenderCityName(regionCity.getName());
+//            }
+//            RegionDistrict regionDistrict=regionDistrictService.selectByCode(senderPCD.get(2));
+//            if(regionDistrict!=null){
+//                express.setSenderDistrictCode(regionDistrict.getCode());
+//                express.setSenderDistrictId(regionDistrict.getId());
+//                express.setSenderDistrictName(regionDistrict.getName());
+//            }
+//        }
+//        List<Long> receiverPCD = expressDTO.getReceiverPCD();
+//        if(!CollectionUtils.isEmpty(receiverPCD)){
+//            RegionProvince province = regionProvinceService.selectByCode(receiverPCD.get(0));
+//            if(province!=null){
+//                express.setReceiverProvinceCode(province.getCode());
+//                express.setReceiverProvinceId(province.getId());
+//                express.setReceiverProvinceName(province.getName());
+//            }
+//            RegionCity regionCity = regionCityService.selectByCode(receiverPCD.get(1));
+//            if(regionCity!=null){
+//                express.setReceiverCityCode(regionCity.getCode());
+//                express.setReceiverCityId(regionCity.getId());
+//                express.setReceiverCityName(regionCity.getName());
+//            }
+//            RegionDistrict regionDistrict=regionDistrictService.selectByCode(receiverPCD.get(2));
+//            if(regionDistrict!=null){
+//                express.setReceiverDistrictCode(regionDistrict.getCode());
+//                express.setReceiverDistrictId(regionDistrict.getId());
+//                express.setReceiverDistrictName(regionDistrict.getName());
+//            }
+//        }
+
+
 
         User sender = new User();
         sender.setName(express.getSenderName());
         sender.setPhone(express.getSenderPhone());
 
         sender.setProvinceId(express.getSenderProvinceId());
+        sender.setProvinceCode(express.getReceiverProvinceCode());
         sender.setCityId(express.getSenderCityId());
+        sender.setCityCode(express.getReceiverCityCode());
         sender.setDistrictId(express.getReceiverDistrictId());
+        sender.setDistrictCode(express.getReceiverDistrictCode());
         sender.setAddress(express.getSenderAddress());
         User oldSender = getUser(sender.getPhone());
-        if (oldSender == null) {
+        if (oldSender != null) {
             sender.setPhone(oldSender.getPhone());
         }
         userService.insertOrUpdate(sender);
@@ -112,11 +139,14 @@ public class MobileServiceImpl implements MobileService {
         receiver.setPhone(express.getReceiverPhone());
 
         receiver.setProvinceId(express.getReceiverProvinceId());
+        receiver.setProvinceCode(express.getReceiverProvinceCode());
         receiver.setCityId(express.getReceiverCityId());
+        receiver.setCityCode(express.getReceiverCityCode());
         receiver.setDistrictId(express.getReceiverDistrictId());
+        receiver.setDistrictCode(express.getReceiverDistrictCode());
         receiver.setAddress(express.getReceiverAddress());
         User oldReceiver = getUser(receiver.getPhone());
-        if (oldReceiver == null) {
+        if (oldReceiver != null) {
             receiver.setId(oldReceiver.getId());
         }
         userService.insertOrUpdate(receiver);
