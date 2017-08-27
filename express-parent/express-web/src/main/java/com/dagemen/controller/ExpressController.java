@@ -27,8 +27,8 @@ public class ExpressController {
      * 获取快递的列表信息，分页
      * @return
      */
-    @RequestMapping(value = "/getExpressList", method = RequestMethod.GET)
     @ResponseBody
+    @RequestMapping(value = "/getExpressList", method = RequestMethod.GET)
     public Map<String, Object> getExpressList(Page page, ExpressSearchDTO serch){
         return ApiResultWrapper.success(expressService.getExpressList(page, serch));
     }

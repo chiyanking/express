@@ -28,10 +28,10 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
 
     @Override
     public boolean checkLogin(Point point, HttpSession httpSession) {
-        Point parms = new Point();
-        parms.setPhone(point.getPhone());
-        parms.setPassword(EncryptAndDecryptUtil.encryptByMD5(point.getPassword()));
-        Point point1 = selectOne(new EntityWrapper<>(parms));
+        Point param = new Point();
+        param.setPhone(point.getPhone());
+        param.setPassword(EncryptAndDecryptUtil.encryptByMD5(point.getPassword()));
+        Point point1 = selectOne(new EntityWrapper<>(param));
         if (point1 == null) {
             throw new ApiException(ApiExceptionEnum.USER_LOGIN_ERROR);
         }
