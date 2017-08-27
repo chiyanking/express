@@ -1,4 +1,4 @@
-package com.baomidou.com.dagemen.entity;
+package com.dagemen.entity;
 
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
