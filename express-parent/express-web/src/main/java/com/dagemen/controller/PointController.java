@@ -2,6 +2,7 @@ package com.dagemen.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.ApiResultWrapper;
+import com.dagemen.dto.PointUpdateCompanyDTO;
 import com.dagemen.entity.Company;
 import com.dagemen.entity.Point;
 import com.dagemen.entity.User;
@@ -56,12 +57,12 @@ public class PointController {
 
     /**
      * 快递点选择自己支持的快递，及对应的模板
-     * @param companies
+     * @param pointUpdateCompanyDTOList
      * @return
      */
     @RequestMapping(value = "/addPointRelationCompanys", method = RequestMethod.POST)
     @ResponseBody
-    public Object addPointRelationCompanys(@RequestBody List<Company> companies) {
+    public Object addPointRelationCompanys(@RequestBody List<PointUpdateCompanyDTO> pointUpdateCompanyDTOList) {
 
         return ApiResultWrapper.success("保存成功");
     }
