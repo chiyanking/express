@@ -99,7 +99,7 @@
             }
         });
 
-        new Service("/api/mobile/getPointAddress").get({pointId: urlParam.pointId}, function (response) {
+        new Service("../api/mobile/getPointAddress").get({pointId: urlParam.pointId}, function (response) {
             if (!response.errCode) {
                 var data = response.data;
                 var pcd = [data.provinceCode, data.cityCode, data.districtCode];
@@ -128,13 +128,13 @@
             };
             var $this=$(this);
             $this.prop("disabled",true);
-            new Service("/api/mobile/insertExpress").post(param, function (response) {
+            new Service("../api/mobile/insertExpress").post(param, function (response) {
                 $this.removeAttr("disabled");
             });
         });
 
 
-        new Service("/api/proxy/signature").get({url: location.href.split('#')[0]}, function (reponse) {
+        new Service("../api/proxy/signature").get({url: location.href.split('#')[0]}, function (reponse) {
             var data = reponse.data;
             var config = {
                 appId: data.appId, // 必填，公众号的唯一标识
