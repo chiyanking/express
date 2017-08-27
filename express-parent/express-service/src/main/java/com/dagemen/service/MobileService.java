@@ -2,6 +2,7 @@ package com.dagemen.service;
 
 import com.dagemen.dto.ExpressDTO;
 import com.dagemen.dto.PointAddressDto;
+import com.dagemen.entity.Express;
 
 import java.util.Map;
 
@@ -12,7 +13,7 @@ import java.util.Map;
  * @since 2017-08-19
  */
 public interface MobileService {
-    boolean insertExpress(ExpressDTO expressDTO);
+    Express insertExpress(ExpressDTO expressDTO);
 
     PointAddressDto getPointAddress(long pointId);
 }

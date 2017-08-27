@@ -43,7 +43,7 @@ public class MobileServiceImpl implements MobileService {
     PointCompanyRelationService pointCompanyRelationService;
 
     @Override
-    public boolean insertExpress(ExpressDTO expressDTO) {
+    public Express insertExpress(ExpressDTO expressDTO) {
 
 
         Express express = new Express();
@@ -151,8 +151,8 @@ public class MobileServiceImpl implements MobileService {
         }
         userService.insertOrUpdate(receiver);
         express.setReceiverId(receiver.getId());
-
-        return expressService.insertOrUpdate(express);
+        expressService.insertOrUpdate(express);
+        return express;
     }
 
     @Override
