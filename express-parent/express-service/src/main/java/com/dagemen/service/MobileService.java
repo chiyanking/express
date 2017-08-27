@@ -1,9 +1,7 @@
 package com.dagemen.service;
 
 import com.dagemen.dto.ExpressDTO;
-import com.dagemen.dto.PointAddressDto;
-
-import java.util.Map;
+import com.dagemen.dto.PointAddressDTO;
 
 /**
  * 手机类 service 层
@@ -14,5 +12,5 @@ import java.util.Map;
 public interface MobileService {
     boolean insertExpress(ExpressDTO expressDTO);
 
-    PointAddressDto getPointAddress(long pointId);
+    PointAddressDTO getPointAddress(long pointId);
 }

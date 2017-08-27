@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by 丁芙蓉 on 2017/8/27.
  */
-public class PointAddressDto {
+public class PointAddressDTO {
 
     private Long provinceCode;
     private Long districtCode;
@@ -16,7 +16,7 @@ public class PointAddressDto {
     private String name;
     private List<Company> companies;
 
-    public PointAddressDto() {
+    public PointAddressDTO() {
     }
 
     public List<Company> getCompanies() {
