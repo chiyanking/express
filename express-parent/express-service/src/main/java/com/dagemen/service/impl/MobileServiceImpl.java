@@ -39,7 +39,7 @@ public class MobileServiceImpl implements MobileService {
 
         User sender = new User();
         sender.setName(express.getSenderName());
-        sender.setPhone(express.getSederPhone());
+        sender.setPhone(express.getSenderPhone());
 
         sender.setProvinceId(express.getSenderProvinceId());
         sender.setCityId(express.getSenderCityId());
