@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -120,15 +121,20 @@ public class MobileServiceImpl implements MobileService {
         sender.setPhone(express.getSenderPhone());
 
         sender.setProvinceId(express.getSenderProvinceId());
-        sender.setProvinceCode(express.getReceiverProvinceCode());
+        sender.setProvinceCode(express.getSenderProvinceCode());
+        sender.setProvinceName(express.getSenderProvinceName());
         sender.setCityId(express.getSenderCityId());
-        sender.setCityCode(express.getReceiverCityCode());
-        sender.setDistrictId(express.getReceiverDistrictId());
-        sender.setDistrictCode(express.getReceiverDistrictCode());
+        sender.setCityCode(express.getSenderCityCode());
+        sender.setCityName(express.getSenderCityName());
+        sender.setDistrictId(express.getSenderDistrictId());
+        sender.setDistrictCode(express.getSenderDistrictCode());
+        sender.setDistrictName(express.getSenderDistrictName());
         sender.setAddress(express.getSenderAddress());
         User oldSender = getUser(sender.getPhone());
         if (oldSender != null) {
-            sender.setPhone(oldSender.getPhone());
+            sender.setId(oldSender.getId());
+            sender.setSendTimes(oldSender.getSendTimes()+1);
+            sender.setLastSendDate(new Date());
         }
         userService.insertOrUpdate(sender);
         express.setSenderId(sender.getId());
@@ -140,14 +146,19 @@ public class MobileServiceImpl implements MobileService {
 
         receiver.setProvinceId(express.getReceiverProvinceId());
         receiver.setProvinceCode(express.getReceiverProvinceCode());
+        receiver.setProvinceName(express.getReceiverProvinceName());
         receiver.setCityId(express.getReceiverCityId());
         receiver.setCityCode(express.getReceiverCityCode());
+        receiver.setCityName(express.getReceiverCityName());
         receiver.setDistrictId(express.getReceiverDistrictId());
         receiver.setDistrictCode(express.getReceiverDistrictCode());
+        receiver.setDistrictName(express.getReceiverDistrictName());
         receiver.setAddress(express.getReceiverAddress());
         User oldReceiver = getUser(receiver.getPhone());
         if (oldReceiver != null) {
             receiver.setId(oldReceiver.getId());
+            receiver.setReceiveTimes(oldReceiver.getReceiveTimes()+1);
+            receiver.setLastReceiveDate(new Date());
         }
         userService.insertOrUpdate(receiver);
         express.setReceiverId(receiver.getId());
