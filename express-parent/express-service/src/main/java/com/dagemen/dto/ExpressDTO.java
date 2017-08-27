@@ -1,5 +1,7 @@
 package com.dagemen.dto;
 
+import java.util.List;
+
 /**
  * 手机端用户传输过来的快递信息
  */
@@ -12,22 +14,12 @@ public class ExpressDTO {
 
     private String senderName;
     private String senderPhone;
-    private Long senderProvinceId;
-    private String senderProvinceName;
-    private Long senderCityId;
-    private String senderCityName;
-    private Long senderDistrictId;
-    private String senderDistrictName;
+    private List<Long> senderPCD;
     private String senderAddress;
 
     private String receiverName;
     private String receiverPhone;
-    private Long receiverProvinceId;
-    private String receiverProvinceName;
-    private Long receiverCityId;
-    private String receiverCityName;
-    private Long receiverDistrictId;
-    private String receiverDistrictName;
+    private List<Long> receiverPCD;
     private String receiverAddress;
 
     public Long getPointId() {
@@ -46,52 +38,20 @@ public class ExpressDTO {
         this.senderName = senderName;
     }
 
-    public Long getSenderProvinceId() {
-        return senderProvinceId;
+    public String getSenderPhone() {
+        return senderPhone;
     }
 
-    public void setSenderProvinceId(Long senderProvinceId) {
-        this.senderProvinceId = senderProvinceId;
+    public void setSenderPhone(String senderPhone) {
+        this.senderPhone = senderPhone;
     }
 
-    public String getSenderProvinceName() {
-        return senderProvinceName;
+    public List<Long> getSenderPCD() {
+        return senderPCD;
     }
 
-    public void setSenderProvinceName(String senderProvinceName) {
-        this.senderProvinceName = senderProvinceName;
-    }
-
-    public Long getSenderCityId() {
-        return senderCityId;
-    }
-
-    public void setSenderCityId(Long senderCityId) {
-        this.senderCityId = senderCityId;
-    }
-
-    public String getSenderCityName() {
-        return senderCityName;
-    }
-
-    public void setSenderCityName(String senderCityName) {
-        this.senderCityName = senderCityName;
-    }
-
-    public Long getSenderDistrictId() {
-        return senderDistrictId;
-    }
-
-    public void setSenderDistrictId(Long senderDistrictId) {
-        this.senderDistrictId = senderDistrictId;
-    }
-
-    public String getSenderDistrictName() {
-        return senderDistrictName;
-    }
-
-    public void setSenderDistrictName(String senderDistrictName) {
-        this.senderDistrictName = senderDistrictName;
+    public void setSenderPCD(List<Long> senderPCD) {
+        this.senderPCD = senderPCD;
     }
 
     public String getSenderAddress() {
@@ -110,52 +70,20 @@ public class ExpressDTO {
         this.receiverName = receiverName;
     }
 
-    public Long getReceiverProvinceId() {
-        return receiverProvinceId;
+    public String getReceiverPhone() {
+        return receiverPhone;
     }
 
-    public void setReceiverProvinceId(Long receiverProvinceId) {
-        this.receiverProvinceId = receiverProvinceId;
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 
-    public String getReceiverProvinceName() {
-        return receiverProvinceName;
+    public List<Long> getReceiverPCD() {
+        return receiverPCD;
     }
 
-    public void setReceiverProvinceName(String receiverProvinceName) {
-        this.receiverProvinceName = receiverProvinceName;
-    }
-
-    public Long getReceiverCityId() {
-        return receiverCityId;
-    }
-
-    public void setReceiverCityId(Long receiverCityId) {
-        this.receiverCityId = receiverCityId;
-    }
-
-    public String getReceiverCityName() {
-        return receiverCityName;
-    }
-
-    public void setReceiverCityName(String receiverCityName) {
-        this.receiverCityName = receiverCityName;
-    }
-
-    public Long getReceiverDistrictId() {
-        return receiverDistrictId;
-    }
-
-    public void setReceiverDistrictId(Long receiverDistrictId) {
-        this.receiverDistrictId = receiverDistrictId;
-    }
-
-    public String getReceiverDistrictName() {
-        return receiverDistrictName;
-    }
-
-    public void setReceiverDistrictName(String receiverDistrictName) {
-        this.receiverDistrictName = receiverDistrictName;
+    public void setReceiverPCD(List<Long> receiverPCD) {
+        this.receiverPCD = receiverPCD;
     }
 
     public String getReceiverAddress() {
@@ -164,21 +92,5 @@ public class ExpressDTO {
 
     public void setReceiverAddress(String receiverAddress) {
         this.receiverAddress = receiverAddress;
-    }
-
-    public String getSenderPhone() {
-        return senderPhone;
-    }
-
-    public void setSenderPhone(String senderPhone) {
-        this.senderPhone = senderPhone;
-    }
-
-    public String getReceiverPhone() {
-        return receiverPhone;
-    }
-
-    public void setReceiverPhone(String receiverPhone) {
-        this.receiverPhone = receiverPhone;
     }
 }

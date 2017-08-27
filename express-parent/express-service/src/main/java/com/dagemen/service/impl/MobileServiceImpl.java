@@ -8,6 +8,7 @@ import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.*;
 import org.apache.http.util.EntityUtils;
+import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,16 @@ public class MobileServiceImpl implements MobileService {
     ExpressService expressService;
     @Resource
     PointService pointService;
+
+
+    @Resource
+    RegionProvinceService regionProvinceService;
+    @Resource
+    RegionCityService regionCityService;
+    @Resource
+    RegionDistrictService regionDistrictService;
+
+
     @Resource
     CompanyService companyService;
     @Resource
@@ -36,6 +47,49 @@ public class MobileServiceImpl implements MobileService {
 
         Express express = new Express();
         BeanUtils.copyProperties(expressDTO, express);
+        //处理省市区
+        List<Long> senderPCD = expressDTO.getSenderPCD();
+        if(!CollectionUtils.isEmpty(senderPCD)){
+            RegionProvince province = regionProvinceService.selectByCode(senderPCD.get(0));
+            if(province!=null){
+                express.setSenderProvinceCode(province.getCode());
+                express.setSenderProvinceId(province.getId());
+                express.setSenderProvinceName(province.getName());
+            }
+            RegionCity regionCity = regionCityService.selectByCode(senderPCD.get(1));
+            if(regionCity!=null){
+                express.setSenderCityCode(regionCity.getCode());
+                express.setSenderCityId(regionCity.getId());
+                express.setSenderCityName(regionCity.getName());
+            }
+            RegionDistrict regionDistrict=regionDistrictService.selectByCode(senderPCD.get(2));
+            if(regionDistrict!=null){
+                express.setSenderDistrictCode(regionDistrict.getCode());
+                express.setSenderDistrictId(regionDistrict.getId());
+                express.setSenderDistrictName(regionDistrict.getName());
+            }
+        }
+        List<Long> receiverPCD = expressDTO.getReceiverPCD();
+        if(!CollectionUtils.isEmpty(receiverPCD)){
+            RegionProvince province = regionProvinceService.selectByCode(receiverPCD.get(0));
+            if(province!=null){
+                express.setReceiverProvinceCode(province.getCode());
+                express.setReceiverProvinceId(province.getId());
+                express.setReceiverProvinceName(province.getName());
+            }
+            RegionCity regionCity = regionCityService.selectByCode(receiverPCD.get(1));
+            if(regionCity!=null){
+                express.setReceiverCityCode(regionCity.getCode());
+                express.setReceiverCityId(regionCity.getId());
+                express.setReceiverCityName(regionCity.getName());
+            }
+            RegionDistrict regionDistrict=regionDistrictService.selectByCode(receiverPCD.get(2));
+            if(regionDistrict!=null){
+                express.setReceiverDistrictCode(regionDistrict.getCode());
+                express.setReceiverDistrictId(regionDistrict.getId());
+                express.setReceiverDistrictName(regionDistrict.getName());
+            }
+        }
 
         User sender = new User();
         sender.setName(express.getSenderName());
@@ -53,13 +107,14 @@ public class MobileServiceImpl implements MobileService {
         express.setSenderId(sender.getId());
 
         User receiver = new User();
-        receiver.setAddress(expressDTO.getReceiverAddress());
-        receiver.setName(expressDTO.getReceiverName());
-        receiver.setPhone(expressDTO.getReceiverPhone());
-        receiver.setProvinceId(expressDTO.getReceiverProvinceId());
-        receiver.setCityId(expressDTO.getReceiverCityId());
-        receiver.setDistrictId(expressDTO.getReceiverDistrictId());
-        receiver.setAddress(expressDTO.getReceiverAddress());
+        receiver.setAddress(express.getReceiverAddress());
+        receiver.setName(express.getReceiverName());
+        receiver.setPhone(express.getReceiverPhone());
+
+        receiver.setProvinceId(express.getReceiverProvinceId());
+        receiver.setCityId(express.getReceiverCityId());
+        receiver.setDistrictId(express.getReceiverDistrictId());
+        receiver.setAddress(express.getReceiverAddress());
         User oldReceiver = getUser(receiver.getPhone());
         if (oldReceiver == null) {
             receiver.setId(oldReceiver.getId());
@@ -79,7 +134,7 @@ public class MobileServiceImpl implements MobileService {
         PointCompanyRelation pointCompanyRelationParams = new PointCompanyRelation();
         pointCompanyRelationParams.setPointId(pointId);
         List<PointCompanyRelation> pointCompanyRelationList = pointCompanyRelationService.selectList(new EntityWrapper<>(pointCompanyRelationParams));
-        if(pointCompanyRelationList == null || pointCompanyRelationList.size()<=0){
+        if(CollectionUtils.isEmpty(pointCompanyRelationList)){
             throw new ApiException(ApiExceptionEnum.NO_SELECTE_COMPANY);
         }
         List<Long> companyIds = new ArrayList<>();
