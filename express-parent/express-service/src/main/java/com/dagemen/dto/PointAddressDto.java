@@ -13,6 +13,7 @@ public class PointAddressDto {
     private Long districtCode;
     private Long cityCode;
     private String address;
+    private String name;
     private List<Company> companies;
 
     public PointAddressDto() {
@@ -56,5 +57,13 @@ public class PointAddressDto {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
