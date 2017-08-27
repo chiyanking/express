@@ -2,12 +2,11 @@ package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.dto.ExpressDTO;
-import com.dagemen.dto.PointAddressDto;
+import com.dagemen.dto.PointAddressDTO;
 import com.dagemen.entity.*;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.*;
-import org.apache.http.util.EntityUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -167,7 +166,7 @@ public class MobileServiceImpl implements MobileService {
     }
 
     @Override
-    public PointAddressDto getPointAddress(long pointId) {
+    public PointAddressDTO getPointAddress(long pointId) {
 
         Point params = new Point();
         params.setId(pointId);
@@ -183,7 +182,7 @@ public class MobileServiceImpl implements MobileService {
             companyIds.add(obj.getCompanyId());
         }
         List<Company> companyList = companyService.selectList(new EntityWrapper<>(new Company()).in("id",companyIds));
-        PointAddressDto pointAddressDto = new PointAddressDto();
+        PointAddressDTO pointAddressDto = new PointAddressDTO();
         BeanUtils.copyProperties(point, pointAddressDto);
         pointAddressDto.setCompanies(companyList);
         return pointAddressDto;
