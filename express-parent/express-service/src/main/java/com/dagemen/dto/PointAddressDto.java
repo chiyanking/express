@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class PointAddressDto {
 
-    private long provinceCode;
-    private long cityCode;
-    private long districtCode;
+    private Long provinceCode;
+    private Long districtCode;
+    private Long cityCode;
     private String address;
     private List<Company> companies;
 
@@ -26,28 +26,28 @@ public class PointAddressDto {
         this.companies = companies;
     }
 
-    public long getProvinceCode() {
+    public Long getProvinceCode() {
         return provinceCode;
     }
 
-    public void setProvinceCode(long provinceCode) {
+    public void setProvinceCode(Long provinceCode) {
         this.provinceCode = provinceCode;
     }
 
-    public long getCityCode() {
-        return cityCode;
-    }
-
-    public void setCityCode(long cityCode) {
-        this.cityCode = cityCode;
-    }
-
-    public long getDistrictCode() {
+    public Long getDistrictCode() {
         return districtCode;
     }
 
-    public void setDistrictCode(long districtCode) {
+    public void setDistrictCode(Long districtCode) {
         this.districtCode = districtCode;
+    }
+
+    public Long getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(Long cityCode) {
+        this.cityCode = cityCode;
     }
 
     public String getAddress() {
