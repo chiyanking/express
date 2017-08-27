@@ -12,5 +12,5 @@ import com.baomidou.mybatisplus.service.IService;
  * @since 2017-08-19
  */
 public interface RegionProvinceService extends IService<RegionProvince> {
-	
+    RegionProvince selectByCode(Long code);
 }

@@ -1,8 +1,7 @@
 function Service(url) {
     this.rootUrl = url;
     this._error_handler = function (response) {
-        debugger
-        alert(response);
+        alert(response.msg);
     }
 }
 
@@ -30,18 +29,14 @@ Service.prototype = {
             dataType: "json",
             async: false,
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });
     },
 
     //post
-    postAll: function (param, callback, errorCallBack) {
+    post: function (param, callback, errorCallBack) {
         var error = this._error_handler;
         $.ajax({
             cache: false,
@@ -52,12 +47,7 @@ Service.prototype = {
             dataType: "json",
             data: JSON.stringify(param),
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                    btnOkEnabled(true);
-                }
+                callback(response);
             },
             error: function (jqXHR) {
                 error(jqXHR, param, errorCallBack);
@@ -75,11 +65,7 @@ Service.prototype = {
             dataType: "json",
             data: JSON.stringify(param),
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });
@@ -94,11 +80,7 @@ Service.prototype = {
             dataType: "json",
             data: JSON.stringify(param),
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });
@@ -111,14 +93,23 @@ Service.prototype = {
             type: 'DELETE',
             url: this.rootUrl + urlParam,
             success: function (response) {
-                if (response.success) {
-                    callback(response);
-                } else {
-                    mini.alert(response.msg);
-                }
+                callback(response);
             },
             error: this._error_handler
         });
+    },
+    getUrlParams:function(){
+        var args=new Object();
+        var query=location.search.substring(1);//获取查询串
+        var pairs=query.split("&");//在逗号处断开
+        for(var   i=0;i<pairs.length;i++) {
+            var pos=pairs[i].indexOf('=');//查找name=value
+            if(pos==-1)   continue;//如果没有找到就跳过
+            var argname=pairs[i].substring(0,pos);//提取name
+            var value=pairs[i].substring(pos+1);//提取value
+            args[argname]=unescape(value);//存为属性
+        }
+        return args;
     }
 };
 
