@@ -33,4 +33,10 @@ public class MobileController {
     public Map<String, Object> getAccount(@RequestBody ExpressDTO express) {
         return ApiResultWrapper.success(mobileService.insertExpress(express));
     }
+
+    @ResponseBody
+    @RequestMapping(value = "getPointAddress", method = RequestMethod.GET)
+    public Map<String, Object> getPointAddress(Long pointId) {
+        return ApiResultWrapper.success(mobileService.getPointAddress(pointId));
+    }
 }
