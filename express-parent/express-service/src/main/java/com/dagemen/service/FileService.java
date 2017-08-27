@@ -7,5 +7,5 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface FileService {
 
-    void viewFile(Long expCode, HttpServletResponse response);
+    void viewFile(Long expCode1, HttpServletResponse response);
 }
