@@ -9,15 +9,18 @@
 		<result column="phone" property="phone" />
 		<result column="password" property="password" />
 		<result column="province_id" property="provinceId" />
+		<result column="province_code" property="provinceCode" />
 		<result column="city_id" property="cityId" />
+		<result column="city_code" property="cityCode" />
 		<result column="status" property="status" />
 		<result column="district_id" property="districtId" />
-		<result column="adress" property="adress" />
+		<result column="district_code" property="districtCode" />
+		<result column="address" property="address" />
 	</resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, name, phone, password, province_id AS provinceId, city_id AS cityId, status, district_id AS districtId, adress
+        id, name, phone, password, province_id AS provinceId, province_code AS provinceCode, city_id AS cityId, city_code AS cityCode, status, district_id AS districtId, district_code AS districtCode, address
     </sql>
 
 </mapper>
