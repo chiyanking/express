@@ -36,7 +36,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         //获取当前登录用户
-        Object userInform = request.getAttribute("userInform");
+        Object userInform = request.getAttribute("pointInfor");
 
         if (userInform == null) {
             //当前没有登录

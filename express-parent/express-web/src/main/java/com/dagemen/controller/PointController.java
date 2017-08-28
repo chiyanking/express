@@ -2,6 +2,7 @@ package com.dagemen.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.ApiResultWrapper;
+import com.dagemen.authorization.AuthorizeAnnotation;
 import com.dagemen.dto.PointUpdateCompanyDTO;
 import com.dagemen.entity.Company;
 import com.dagemen.entity.Point;
@@ -37,6 +38,7 @@ public class PointController {
      * @return
      */
     @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
+    @AuthorizeAnnotation(isLogin = false)
     @ResponseBody
     public Object checkLogin(@RequestBody Point point, HttpSession httpSession) {
         pointService.checkLogin(point, httpSession);
