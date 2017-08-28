@@ -31,24 +31,23 @@ public class PdfUtil {
      * @param inPdfPath
      * @return
      */
-    public static byte[] creatPdf(Object jsonObject, String inPdfPath) {
+    public static void creatPdf(Object jsonObject, String inPdfPath, String outPdfPath) {
 
         Map map = (Map)jsonObject;
         // 需要生成后的PDF
         byte[] bytes=null;
         PdfStamper stamp = null;
         PdfReader reader = null;
-        ByteOutputStream byteOutputStream = null;
+        FileOutputStream fos = null;
         try {
-            byteOutputStream = new ByteOutputStream();
+            fos = new FileOutputStream(outPdfPath);
             reader = new PdfReader(inPdfPath);
-            stamp = new PdfStamper(reader, byteOutputStream);
+            stamp = new PdfStamper(reader, fos);
             AcroFields form = stamp.getAcroFields();
             insertText(form, map);
 //            insertImage(form,map,stamp);
             // 如果为false那么生成的PDF文件还能编辑，一定要设为true
             stamp.setFormFlattening(true);
-            bytes = byteOutputStream.getBytes();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -62,9 +61,7 @@ public class PdfUtil {
             if (null != reader) {
                 reader.close();
             }
-            byteOutputStream.close();
         }
-        return bytes;
     }
 
     /**
