@@ -40,7 +40,7 @@ public class FileServiceImpl implements FileService{
         Express exp = expressService.selectOne(new EntityWrapper<>(express));
         ExpModel expMode1 = new ExpModel();
         expMode1.setId(exp.getExpModelId());
-        ExpModel expMode = expModelService.selectOne(new EntityWrapper<>(expMode1));
+//        ExpModel expMode = expModelService.selectOne(new EntityWrapper<>(expMode1));
         JSONObject jsonObject = JSONObject.fromObject(exp);
         String filePath = null;
         byte[] buffer = new byte[256];
@@ -48,7 +48,7 @@ public class FileServiceImpl implements FileService{
         try {
 //            filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
             filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
-            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + exp.getDate().getTime() + ".pdf";
+            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + DateHelper.getDateString(exp.getDate()) + ".pdf";
             if(!new File(outFilePath).exists()){
                 PdfUtil.creatPdf(jsonObject, filePath, outFilePath);
             }

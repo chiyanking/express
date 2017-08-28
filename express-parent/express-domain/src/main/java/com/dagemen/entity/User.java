@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author dagemen
- * @since 2017-08-19
+ * @since 2017-08-27
  */
 public class User extends Model<User> {
 
@@ -27,14 +27,20 @@ public class User extends Model<User> {
 	private Long appId;
 	@TableField("province_id")
 	private Long provinceId;
+	@TableField("province_code")
+	private Long provinceCode;
 	@TableField("province_name")
 	private String provinceName;
 	@TableField("city_id")
 	private Long cityId;
+	@TableField("city_code")
+	private Long cityCode;
 	@TableField("city_name")
 	private String cityName;
 	@TableField("district_id")
 	private Long districtId;
+	@TableField("district_code")
+	private Long districtCode;
 	@TableField("district_name")
 	private String districtName;
 	private String address;
@@ -100,6 +106,14 @@ public class User extends Model<User> {
 		this.provinceId = provinceId;
 	}
 
+	public Long getProvinceCode() {
+		return provinceCode;
+	}
+
+	public void setProvinceCode(Long provinceCode) {
+		this.provinceCode = provinceCode;
+	}
+
 	public String getProvinceName() {
 		return provinceName;
 	}
@@ -116,6 +130,14 @@ public class User extends Model<User> {
 		this.cityId = cityId;
 	}
 
+	public Long getCityCode() {
+		return cityCode;
+	}
+
+	public void setCityCode(Long cityCode) {
+		this.cityCode = cityCode;
+	}
+
 	public String getCityName() {
 		return cityName;
 	}
@@ -130,6 +152,14 @@ public class User extends Model<User> {
 
 	public void setDistrictId(Long districtId) {
 		this.districtId = districtId;
+	}
+
+	public Long getDistrictCode() {
+		return districtCode;
+	}
+
+	public void setDistrictCode(Long districtCode) {
+		this.districtCode = districtCode;
 	}
 
 	public String getDistrictName() {

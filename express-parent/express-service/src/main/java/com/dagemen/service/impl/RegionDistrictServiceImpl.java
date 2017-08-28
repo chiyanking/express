@@ -1,5 +1,6 @@
 package com.dagemen.service.impl;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.dao.RegionDistrictMapper;
 import com.dagemen.entity.RegionDistrict;
 import com.dagemen.service.RegionDistrictService;
@@ -16,5 +17,14 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RegionDistrictServiceImpl extends ServiceImpl<RegionDistrictMapper, RegionDistrict> implements RegionDistrictService {
-	
+
+    @Override
+    public RegionDistrict selectByCode(Long code) {
+        if(code==null){
+            return  null;
+        }
+        RegionDistrict regionDistrict = new RegionDistrict();
+        regionDistrict.setCode(code);
+        return selectOne(new EntityWrapper<>(regionDistrict));
+    }
 }

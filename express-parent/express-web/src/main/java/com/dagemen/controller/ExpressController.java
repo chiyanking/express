@@ -3,6 +3,7 @@ package com.dagemen.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.dto.ExpressSearchDTO;
+import com.dagemen.entity.Point;
 import com.dagemen.service.ExpressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,8 +28,8 @@ public class ExpressController {
      * 获取快递的列表信息，分页
      * @return
      */
-    @RequestMapping(value = "/getExpressList", method = RequestMethod.GET)
     @ResponseBody
+    @RequestMapping(value = "/getExpressList", method = RequestMethod.GET)
     public Map<String, Object> getExpressList(Page page, ExpressSearchDTO serch){
         return ApiResultWrapper.success(expressService.getExpressList(page, serch));
     }
