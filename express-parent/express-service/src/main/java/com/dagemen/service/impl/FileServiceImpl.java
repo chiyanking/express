@@ -46,9 +46,9 @@ public class FileServiceImpl implements FileService{
         byte[] buffer = new byte[256];
         InputStream is = null;
         try {
-            filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
-//            filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
-            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + DateHelper.getDateString(exp.getDate()) + ".pdf";
+//            filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
+            filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
+            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + exp.getDate().getTime() + ".pdf";
             if(!new File(outFilePath).exists()){
                 PdfUtil.creatPdf(jsonObject, filePath, outFilePath);
             }
