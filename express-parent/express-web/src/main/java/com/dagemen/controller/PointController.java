@@ -2,6 +2,9 @@ package com.dagemen.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.ApiResultWrapper;
+import com.dagemen.authorization.AuthorizeAnnotation;
+import com.dagemen.dto.PointUpdateCompanyDTO;
+import com.dagemen.entity.Company;
 import com.dagemen.entity.Point;
 import com.dagemen.entity.User;
 import com.dagemen.exception.ApiException;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,11 +34,11 @@ public class PointController {
 
     /**
      * 登录验证
-     *
      * @param point
      * @return
      */
     @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
+    @AuthorizeAnnotation(isLogin = false)
     @ResponseBody
     public Object checkLogin(@RequestBody Point point, HttpSession httpSession) {
         pointService.checkLogin(point, httpSession);
@@ -43,7 +47,6 @@ public class PointController {
 
     /**
      * 登出系统
-     *
      * @param httpSession
      * @return
      */
@@ -52,6 +55,18 @@ public class PointController {
     public Object logOut(HttpSession httpSession) {
         pointService.logOut(httpSession);
         return ApiResultWrapper.success("登出成功");
+    }
+
+    /**
+     * 快递点选择自己支持的快递，及对应的模板
+     * @param pointUpdateCompanyDTOList
+     * @return
+     */
+    @RequestMapping(value = "/addPointRelationCompanys", method = RequestMethod.POST)
+    @ResponseBody
+    public Object addPointRelationCompanys(@RequestBody List<PointUpdateCompanyDTO> pointUpdateCompanyDTOList) {
+
+        return ApiResultWrapper.success("保存成功");
     }
 
 }

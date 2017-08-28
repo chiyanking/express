@@ -33,6 +33,8 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         long pointId = ((Point)SessionHelper.getHttpSession().getAttribute("pointInfor")).getId();
         Express express = new Express();
         BeanUtils.copyProperties(expressSearchDTO, express);
+
+
         express.setExpCode(null);
         express.setPointId(pointId);
         // 0 表示查询所有

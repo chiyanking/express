@@ -1,6 +1,7 @@
 package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.dagemen.Utils.DateHelper;
 import com.dagemen.Utils.PdfUtil;
 import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Express;
@@ -34,38 +35,29 @@ public class FileServiceImpl implements FileService{
     @Override
     public void viewFile(Long id, HttpServletResponse response) {
 
-//        Express express = new Express();
-//        express.setId(id);
-//        Express exp = expressService.selectOne(new EntityWrapper<>(express));
-//        ExpModel expMode1 = new ExpModel();
-//        expMode1.setId(exp.getExpModelId());
+        Express express = new Express();
+        express.setId(id);
+        Express exp = expressService.selectOne(new EntityWrapper<>(express));
+        ExpModel expMode1 = new ExpModel();
+        expMode1.setId(exp.getExpModelId());
 //        ExpModel expMode = expModelService.selectOne(new EntityWrapper<>(expMode1));
-        Express exp = new Express();
-        exp.setReceiverAddress("浙江省杭州市");
-        exp.setSenderAddress("河北省衡水市");
-        exp.setSenderName("张三");
-        exp.setReceiverName("李四");
-        exp.setReceiverPhone("15757125082");
-        exp.setSederPhone("15757125092");
         JSONObject jsonObject = JSONObject.fromObject(exp);
         String filePath = null;
+        byte[] buffer = new byte[256];
         InputStream is = null;
         try {
-            filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
 //            filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
-
-            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + "123.pdf";
-            PdfUtil.creatPdf(jsonObject, filePath, outFilePath);
-
-            byte[] buffer = new byte[256];
-
+            filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
+            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + DateHelper.getDateString(exp.getDate()) + ".pdf";
+            if(!new File(outFilePath).exists()){
+                PdfUtil.creatPdf(jsonObject, filePath, outFilePath);
+            }
             is = new FileInputStream(outFilePath);
             int nRead = 0;
             while((nRead = is.read(buffer)) > 0){
                 response.getOutputStream().write(buffer, 0, nRead);
             }
             response.getOutputStream().flush();
-
         } catch (IOException e) {
             e.printStackTrace();
             throw new ApiException(ApiExceptionEnum.CREATE_EXP_MODEL_ERROR);

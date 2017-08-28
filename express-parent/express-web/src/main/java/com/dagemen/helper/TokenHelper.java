@@ -46,10 +46,10 @@ public class TokenHelper {
         String url = String.format("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s", appid, appsecret);
         WechatToken wechatToken = restTemplate.getForObject(url, WechatToken.class);
         if (StringUtils.isBlank(wechatToken.getAccess_token())) {
-            System.out.println("返回数据: 无法获取到token  原因: " + restTemplate.getForObject(url, Map.class));
+            logger.error("返回数据: 无法获取到token  原因: " + restTemplate.getForObject(url, Map.class));
         }
 
-        System.out.println("返回数据: " + Jackson.base().writeValueAsString(wechatToken));
+        logger.info("返回数据: " + Jackson.base().writeValueAsString(wechatToken));
         refreshToken(wechatToken);
         return token;
     }
@@ -76,10 +76,10 @@ public class TokenHelper {
         WechatTicket wechatticket = restTemplate.getForObject(url, WechatTicket.class);
         if (StringUtils.isBlank(wechatticket.getTicket())) {
 
-            System.out.println("返回数据: 无法获取到Ticket  原因：" + Jackson.base().writeValueAsString(restTemplate.getForObject(url, Map.class)));
+            logger.error("返回数据: 无法获取到Ticket  原因：" + Jackson.base().writeValueAsString(restTemplate.getForObject(url, Map.class)));
         }
 
-        System.out.println("返回数据: " + Jackson.base().writeValueAsString(wechatticket));
+        logger.info("返回数据: " + Jackson.base().writeValueAsString(wechatticket));
         refreshTicket(wechatticket);
         return ticket;
     }

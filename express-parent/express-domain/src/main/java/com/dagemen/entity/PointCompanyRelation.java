@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author dagemen
- * @since 2017-08-19
+ * @since 2017-08-27
  */
 @TableName("point_company_relation")
 public class PointCompanyRelation extends Model<PointCompanyRelation> {
@@ -25,10 +25,10 @@ public class PointCompanyRelation extends Model<PointCompanyRelation> {
 	@TableField("point_id")
 	private Long pointId;
     /**
-     * 快递Id
+     * 快递公司Id
      */
-	@TableField("express_id")
-	private Long expressId;
+	@TableField("company_id")
+	private Long companyId;
     /**
      * 默认模板的id
      */
@@ -52,12 +52,12 @@ public class PointCompanyRelation extends Model<PointCompanyRelation> {
 		this.pointId = pointId;
 	}
 
-	public Long getExpressId() {
-		return expressId;
+	public Long getCompanyId() {
+		return companyId;
 	}
 
-	public void setExpressId(Long expressId) {
-		this.expressId = expressId;
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 	public Long getExpModelId() {
