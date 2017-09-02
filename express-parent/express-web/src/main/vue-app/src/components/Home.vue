@@ -5,24 +5,18 @@
     position: relative;
     border-radius: 4px;
     overflow: hidden;
-    line-height: 45px;
   }
 
-  .layout-logo {
-    width: 100px;
-    height: 30px;
-    background: #5b6270;
-    border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 15px;
-    left: 20px;
-  }
-
-  .layout-header {
-    height: 60px;
+  .layout-content {
+    min-height: 200px;
+    margin: 15px;
+    overflow: hidden;
     background: #fff;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
+    border-radius: 4px;
+  }
+
+  .layout-content-main {
+    padding: 10px;
   }
 
   .layout-copy {
@@ -31,59 +25,95 @@
     color: #9ea7b4;
   }
 
-  .layout-ceiling {
+  .layout-menu-left {
     background: #464c5b;
-    padding: 10px 0;
-    overflow: hidden;
   }
 
-  .layout-ceiling-main {
-    float: right;
-    margin-right: 15px;
+  .layout-header {
+    height: 60px;
+    background: #fff;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
   }
 
   .layout-ceiling-main a {
     color: #9ba7b5;
   }
+
+  .layout-show-text .layout-text {
+    transition: width .9s ease-in-out;
+  }
+  .layout-hide-text .layout-text {
+    transition: width .3s ease-in-out;
+    display: none;
+  }
 </style>
 <template>
-  <div class="layout">
-    <div class="layout-ceiling">
-      <div class="layout-ceiling-main">
-        <a href="#">注册登录</a> |
-        <a href="#">帮助中心</a> |
-        <a href="#">安全中心</a> |
-        <a href="#">服务大厅</a>
-      </div>
-    </div>
-    <!--<div class="layout-header">-->
-    <!--<div class="layout-logo"></div>-->
-    <!--</div>-->
-    <div>
-      <Row style="padding: 20px;">
-        <Col span="24">
-        快递公司<Select v-model="search.companyId" style="width:150px">
-        <Option v-for="item in companies" :value="item.id" :key="item.id">{{ item.name }}</Option>
-      </Select>
-        寄件人<Input v-model="search.senderName" placeholder="" style="width: 150px;"></Input>
-        快递单号<Input v-model="search.expCode" placeholder="" style="width: 150px;"></Input>
-        开始日期
-        <Date-picker type="date" :options="search.startDate" placeholder="选择日期" style="width: 150px"></Date-picker>
-        截止日期
-        <Date-picker type="date" :options="search.endDate" placeholder="选择日期" style="width: 150px"></Date-picker>
-        <Button type="info" @click="query">查询</Button>
+  <div class="layout" :class="textShow">
+    <Row type="flex">
+      <Col :span="spanLeft" class="layout-menu-left">
+      <Menu active-name="1" theme="dark" width="auto">
+        <MenuItem name="1">
+          <Icon type="ios-navigate" :size="iconSize"></Icon>
+          <span class="layout-text">首页</span>
+        </MenuItem>
+        <MenuItem name="2">
+          <Icon type="ios-keypad" :size="iconSize"></Icon>
+          <span class="layout-text">统计</span>
+        </MenuItem>
+        <MenuItem name="3">
+          <Icon type="ios-analytics" :size="iconSize"></Icon>
+          <span class="layout-text">打印记录</span>
+        </MenuItem>
+      </Menu>
+      </Col>
+      <Col :span="spanRight">
+      <Row type="flex" class="layout-header">
+        <Col span="2">
+        <Button type="text" @click="toggleClick">
+          <Icon type="navicon" size="32"></Icon>
+        </Button>
+        </Col>
+        <Col span="22">
+        <div style="float:right;padding:10px 10px;">
+          <Avatar icon="person" size="large"/>
+        </div>
         </Col>
       </Row>
-      <Table border :columns="columns7" :data="data6"></Table>
-      <Page :total="100" show-sizer></Page>
-    </div>
+      <div class="layout-content">
+        <div class="layout-content-main">
+          <Row style="padding: 20px;">
+            <Col span="24">
+            快递公司
+            <Select v-model="search.companyId" style="width:150px">
+              <Option v-for="item in companies" :value="item.id" :key="item.id">{{ item.name }}</Option>
+            </Select>
+            寄件人
+            <Input v-model="search.senderName" placeholder="" style="width: 150px;"></Input>
+            快递单号
+            <Input v-model="search.expCode" placeholder="" style="width: 150px;"></Input>
+            快递日期：
+            <DatePicker type="datetimerange" placeholder="选择日期和时间"></DatePicker>
+            <Button type="info" @click="query">查询</Button>
+            </Col>
+          </Row>
+          <Table border :columns="columns" :data="tableData"></Table>
+          <Page :total="100" show-sizer></Page>
+        </div>
+      </div>
+      <div class="layout-copy">
+        2011-2016 &copy; TalkingData
+      </div>
+      </Col>
+    </Row>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        columns7: [
+        spanLeft: 1,
+        spanRight: 23,
+        columns: [
           {
             title: '姓名',
             key: 'name',
@@ -142,7 +172,7 @@
             }
           }
         ],
-        data6: [
+        tableData: [
           {
             name: '王小明',
             age: 18,
@@ -176,17 +206,34 @@
         }
       }
     },
+    computed: {
+      iconSize() {
+        return this.spanLeft > 2 ? 14 : 24;
+      },
+      textShow() {
+        return this.spanLeft > 2 ? 'layout-show-text': 'layout-hide-text';
+      }
+    },
     methods: {
+      toggleClick() {
+        if (this.spanLeft > 2) {
+          this.spanLeft = 1;
+          this.spanRight = 23;
+        } else {
+          this.spanLeft = 3;
+          this.spanRight = 21;
+        }
+      },
       show(index) {
         this.$Modal.info({
           title: '用户信息',
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
+          content: `姓名：${this.tableData[index].name}<br>年龄：${this.tableData[index].age}<br>地址：${this.tableData[index].address}`
         })
       },
       remove(index) {
-        this.data6.splice(index, 1);
+        this.tableData.splice(index, 1);
       },
-      query(){
+      query() {
         debugger
       }
     }

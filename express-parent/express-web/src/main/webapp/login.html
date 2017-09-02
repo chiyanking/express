@@ -43,7 +43,7 @@
     </div>
 </div><!-- /container -->
 <script src="js/jquery.min.js"></script>
-<script src="../service.js"></script>
+<script src="service.js"></script>
 <script src="js/TweenLite.min.js"></script>
 <script src="js/EasePack.min.js"></script>
 <script src="js/rAF.js"></script>
@@ -61,9 +61,11 @@
             phone: $("#logname").val(),
             password: $("#logpass").val()
         };
-        new Service("../api/point/checkLogin").post(param, function (response) {
+        new Service("api/point/checkLogin").post(param, function (response) {
             if (response.errCode != 0) {
                 alert(response.msg);
+            }else{
+                window.location.href="index.html";
             }
             $(that).removeAttr("disabled");
         })
