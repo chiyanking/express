@@ -13,7 +13,7 @@
             <!--<Icon type="ios-keypad" :size="iconSize"></Icon>-->
             <span class="layout-text">统计</span>
           </MenuItem>
-          <MenuItem name="home">
+          <MenuItem name="waite">
             <Icon type="ios-analytics" :size="iconSize"></Icon>
             <span class="layout-text">打印记录</span>
           </MenuItem>
@@ -73,7 +73,9 @@
         }
       },
       menuSelect(value){
-        this.$router.push("/"+value);
+        if(value!="waite"){
+          this.$router.push("/"+value);
+        }
       }
     },
     mounted() {

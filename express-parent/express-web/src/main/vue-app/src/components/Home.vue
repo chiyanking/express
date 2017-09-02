@@ -72,13 +72,15 @@
             title: '状态',
             key: 'status',
             render: (h, {row}) => {
-              let statusName = "";
-              this.expressStatus.forEach((item) => {
+              let statusName = "", expressStatus = this.expressStatus;
+              for (let i = 0; i < expressStatus.length; i++) {
+                let item = expressStatus[i];
                 if (item.value == row.status) {
                   statusName = item.label;
+                  break;
                 }
-              });
-              h("div", [statusName]);
+              }
+              return h("div", [statusName]);
             }
           },
           {
@@ -91,7 +93,7 @@
                     type: 'person'
                   }
                 }),
-                h('strong', row.senderName)
+                h('strong',row.senderName)
               ]);
             }
           },
@@ -102,7 +104,7 @@
           },
           {
             title: '发件人地址',
-            width: 150,
+            width: 160,
             key: 'senderAddress',
             render(h, {row}) {
               return h("div", [h("p", [
@@ -134,7 +136,7 @@
             key: 'receiverPhone'
           }, {
             title: '收件人地址',
-            width: 150,
+            width: 160,
             key: 'address',
             render(h, {row}) {
               return h("div", [h("p", [
