@@ -3,17 +3,17 @@
     <div class="layout" :class="textShow">
       <Row type="flex">
         <Col :span="spanLeft" class="layout-menu-left">
-        <Menu active-name="1" theme="dark" width="auto">
-          <MenuItem name="1">
+        <Menu active-name="home" theme="dark" width="auto" @on-select="menuSelect">
+          <MenuItem name="home">
             <Icon type="ios-navigate" :size="iconSize"></Icon>
             <span class="layout-text">首页</span>
           </MenuItem>
-          <MenuItem name="2">
+          <MenuItem name="chart">
             <Icon type="stats-bars" :size="iconSize"></Icon>
             <!--<Icon type="ios-keypad" :size="iconSize"></Icon>-->
             <span class="layout-text">统计</span>
           </MenuItem>
-          <MenuItem name="3">
+          <MenuItem name="home">
             <Icon type="ios-analytics" :size="iconSize"></Icon>
             <span class="layout-text">打印记录</span>
           </MenuItem>
@@ -72,6 +72,9 @@
           this.spanRight = 21;
         }
       },
+      menuSelect(value){
+        this.$router.push("/"+value);
+      }
     },
     mounted() {
       this.$http.post("api/point/checkLogin", {
