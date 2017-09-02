@@ -9,9 +9,9 @@ public enum ApiExceptionEnum implements BaseExceptionCode {
     USERRIGHTERROR("1001", "用户权限不足"),
     USER_LOGIN_ERROR("1002", "用户名或密码错误"),
     CREATE_EXP_MODEL_ERROR("2001","打印快递单失败"),
-    NO_SELECTE_COMPANY("2002", "该快递点未选择快递公司");
+    NO_SELECTE_COMPANY("2002", "该快递点未选择快递公司"),
 
-
+    ExpressStatusError("3001","快递单状态不对");
 
     private String errCode;
     private String message;

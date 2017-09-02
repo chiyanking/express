@@ -90,8 +90,8 @@
         <div class="layout-content-main">
           <Form :label-width="80" inline>
             <FormItem label="快递公司">
-              <Select v-model="param.companyId">
-                <Option v-for="item in companies" :value="item.id" :key="item.id">{{ item.name }}</Option>
+              <Select v-model="param.companyId" style="width:110px">
+                <Option v-for="item in companies" :value="item.value" :key="item.value">{{ item.label }}</Option>
               </Select>
             </FormItem>
             <FormItem label="快递单号">
@@ -104,7 +104,8 @@
               <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
             </FormItem>
             <FormItem label="快递日期">
-              <DatePicker type="datetimerange" placeholder="选择日期和时间"></DatePicker>
+              <DatePicker v-model="param.date" type="datetimerange" format="yyyy-MM-dd" placeholder="选择时间"
+                          confirm></DatePicker>
             </FormItem>
             <FormItem>
               <Button type="info" @click="query">查询</Button>
@@ -131,6 +132,7 @@
         spanRight: 23,
         total: 0,
         tableData: [],
+        expressStatus: [],
         param: {
           current: 1,
           size: 20,
@@ -138,11 +140,12 @@
           phone: null,
           expCode: null,
           pointId: null,
+          date: null,
           startDate: null,
           endDate: null,
           isPrint: true,
         },
-        companies: [{id: 0, name: '全部'}, {id: 1, name: '中通快递'}],
+        companies: [{value: 0, label: '全部'}],
 
         columns: [
           {
@@ -158,8 +161,17 @@
             key: 'weight'
           },
           {
-            title: '是否打印',
-            key: 'isPrint'
+            title: '状态',
+            key: 'status',
+            render: (h, {row}) => {
+              let statusName = "";
+              this.expressStatus.forEach((item) => {
+                if (item.value == row.status) {
+                  statusName = item.label;
+                }
+              });
+              h("div", [statusName]);
+            }
           },
           {
             title: '发件人姓名',
@@ -177,12 +189,12 @@
           },
           {
             title: '发件人手机号',
-            width:115,
+            width: 115,
             key: 'senderPhone'
           },
           {
             title: '发件人地址',
-            width:150,
+            width: 150,
             key: 'senderAddress',
             render(h, {row}) {
               return h("div", [h("p", [
@@ -210,11 +222,11 @@
             }
           }, {
             title: '收件人手机号',
-            width:115,
+            width: 115,
             key: 'receiverPhone'
           }, {
             title: '收件人地址',
-            width:150,
+            width: 150,
             key: 'address',
             render(h, {row}) {
               return h("div", [h("p", [
@@ -297,18 +309,27 @@
         this.tableData.splice(index, 1);
       },
       query() {
-        debugger
+        this.getPageList();
       },
       getPageList() {
         let param = Object.assign({}, this.param);
+        param.startDate = param.date[0] || null;
+        param.endDate = param.date[1] || null;
+        delete param.date;
         this.$http.get("api/point/getExpressList", {params: param}).then(({data: result}) => {
           this.tableData = result.data.records;
           this.total = result.data.total;
           this.param.current = result.data.current;
-        })
+        });
       }
     },
     mounted() {
+      this.$http.get("api/point/getHasCompanies").then(({data: result}) => {
+        this.companies = this.companies.concat(result.data);
+      });
+      this.$http.get("api/point/getExpressStatus").then(({data: result}) => {
+        this.expressStatus = result.data;
+      });
       this.$http.post("api/point/checkLogin", {
         phone: 15757125092,
         password: 123

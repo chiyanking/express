@@ -36,8 +36,7 @@ public class Express extends Model<Express> {
     /**
      * 是否打印
      */
-	@TableField("is_print")
-	private Integer isPrint;
+	private Integer status;
     /**
      * 快递价格
      */
@@ -168,12 +167,12 @@ public class Express extends Model<Express> {
 		this.date = date;
 	}
 
-	public Integer getIsPrint() {
-		return isPrint;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setIsPrint(Integer isPrint) {
-		this.isPrint = isPrint;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public BigDecimal getPrice() {
