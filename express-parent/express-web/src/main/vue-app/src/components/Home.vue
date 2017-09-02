@@ -1,135 +1,43 @@
 <style scoped>
-  .layout {
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .layout-content {
-    min-height: 200px;
-    margin: 15px;
-    overflow: hidden;
-    background: #fff;
-    border-radius: 4px;
-  }
-
-  .layout-content-main {
-    padding: 10px;
-  }
-
-  .layout-copy {
-    text-align: center;
-    padding: 10px 0 20px;
-    color: #9ea7b4;
-  }
-
-  .layout-menu-left {
-    background: #464c5b;
-  }
-
-  .layout-header {
-    height: 60px;
-    background: #fff;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-  }
-
-  .layout-ceiling-main a {
-    color: #9ba7b5;
-  }
-
-  .layout-show-text .layout-text {
-    transition: width .9s ease-in-out;
-  }
-
-  .layout-hide-text .layout-text {
-    transition: width .3s ease-in-out;
-    display: none;
-  }
-
   .table-pagination {
     margin: 15px 0 15px 0;
     float: right;
   }
 </style>
 <template>
-  <div class="layout" :class="textShow">
-    <Row type="flex">
-      <Col :span="spanLeft" class="layout-menu-left">
-      <Menu active-name="1" theme="dark" width="auto">
-        <MenuItem name="1">
-          <Icon type="ios-navigate" :size="iconSize"></Icon>
-          <span class="layout-text">首页</span>
-        </MenuItem>
-        <MenuItem name="2">
-          <Icon type="stats-bars" :size="iconSize"></Icon>
-          <!--<Icon type="ios-keypad" :size="iconSize"></Icon>-->
-          <span class="layout-text">统计</span>
-        </MenuItem>
-        <MenuItem name="3">
-          <Icon type="ios-analytics" :size="iconSize"></Icon>
-          <span class="layout-text">打印记录</span>
-        </MenuItem>
-      </Menu>
-      </Col>
-      <Col :span="spanRight">
-      <Row type="flex" class="layout-header">
-        <Col span="2">
-        <Button type="text" @click="toggleClick">
-          <Icon type="navicon" size="32"></Icon>
-        </Button>
-        </Col>
-        <Col span="22">
-        <div style="float:right;padding:10px 10px;">
-          <Avatar icon="person" size="large"/>
-        </div>
-        </Col>
-      </Row>
-      <div class="layout-content">
-        <div class="layout-content-main">
-          <Form :label-width="80" inline>
-            <FormItem label="快递公司">
-              <Select v-model="param.companyId" style="width:110px">
-                <Option v-for="item in companies" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
-            </FormItem>
-            <FormItem label="快递单号">
-              <Input v-model="param.expCode" placeholder=""/>
-            </FormItem>
-            <FormItem label="名字">
-              <Input v-model="param.name" placeholder="寄件人或者收件人"/>
-            </FormItem>
-            <FormItem label="手机号">
-              <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
-            </FormItem>
-            <FormItem label="快递日期">
-              <DatePicker v-model="param.date" type="datetimerange" format="yyyy-MM-dd" placeholder="选择时间"
-                          confirm></DatePicker>
-            </FormItem>
-            <FormItem>
-              <Button type="info" @click="query">查询</Button>
-            </FormItem>
-          </Form>
-          <Table border :columns="columns" :data="tableData"></Table>
-          <Page :total="total" size="small" :page-size="param.size" :current="param.current"
-                @on-change="pageChange"
-                class="table-pagination"></Page>
-        </div>
-      </div>
-      <div class="layout-copy">
-        2011-2016 &copy; TalkingData
-      </div>
-      </Col>
-    </Row>
+  <div class="layout-content-main">
+    <Form :label-width="80" inline>
+      <FormItem label="快递公司">
+        <Select v-model="param.companyId" style="width:110px">
+          <Option v-for="item in companies" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </FormItem>
+      <FormItem label="快递单号">
+        <Input v-model="param.expCode" placeholder=""/>
+      </FormItem>
+      <FormItem label="名字">
+        <Input v-model="param.name" placeholder="寄件人或者收件人"/>
+      </FormItem>
+      <FormItem label="手机号">
+        <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
+      </FormItem>
+      <FormItem label="快递日期">
+        <DatePicker v-model="param.date" type="datetimerange" format="yyyy-MM-dd" placeholder="选择时间"></DatePicker>
+      </FormItem>
+      <FormItem>
+        <Button type="info" @click="query">查询</Button>
+      </FormItem>
+    </Form>
+    <Table border :columns="columns" :data="tableData"></Table>
+    <Page :total="total" size="small" :page-size="param.size" :current="param.current"
+          @on-change="pageChange"
+          class="table-pagination"></Page>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        spanLeft: 1,
-        spanRight: 23,
         total: 0,
         tableData: [],
         expressStatus: [],
@@ -277,24 +185,7 @@
         ]
       }
     },
-    computed: {
-      iconSize() {
-        return this.spanLeft > 2 ? 14 : 24;
-      },
-      textShow() {
-        return this.spanLeft > 2 ? 'layout-show-text' : 'layout-hide-text';
-      }
-    },
     methods: {
-      toggleClick() {
-        if (this.spanLeft > 2) {
-          this.spanLeft = 1;
-          this.spanRight = 23;
-        } else {
-          this.spanLeft = 3;
-          this.spanRight = 21;
-        }
-      },
       pageChange(page) {
         this.param.current = page;
         this.getPageList();
@@ -313,8 +204,10 @@
       },
       getPageList() {
         let param = Object.assign({}, this.param);
-        param.startDate = param.date[0] || null;
-        param.endDate = param.date[1] || null;
+        if (param.date && param.date.length > 0) {
+          param.startDate = param.date[0] || null;
+          param.endDate = param.date[1] || null;
+        }
         delete param.date;
         this.$http.get("api/point/getExpressList", {params: param}).then(({data: result}) => {
           this.tableData = result.data.records;
@@ -330,12 +223,7 @@
       this.$http.get("api/point/getExpressStatus").then(({data: result}) => {
         this.expressStatus = result.data;
       });
-      this.$http.post("api/point/checkLogin", {
-        phone: 15757125092,
-        password: 123
-      }).then(() => {
-        this.getPageList();
-      });
+      this.getPageList();
     }
 
   }
