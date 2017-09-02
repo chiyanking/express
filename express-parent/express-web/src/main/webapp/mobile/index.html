@@ -131,7 +131,7 @@
         });
 
 
-        new Service("../api/proxy/signature").get({url: location.href.split('#')[0]}, function (reponse) {
+        new Service("../api/mobile/signature").get({url: location.href.split('#')[0]}, function (reponse) {
             var data = reponse.data;
             var config = {
                 appId: data.appId, // 必填，公众号的唯一标识

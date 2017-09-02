@@ -50,7 +50,7 @@
 
   .table-pagination {
     margin: 15px 0 15px 0;
-    float:right;
+    float: right;
   }
 </style>
 <template>
@@ -63,7 +63,8 @@
           <span class="layout-text">首页</span>
         </MenuItem>
         <MenuItem name="2">
-          <Icon type="ios-keypad" :size="iconSize"></Icon>
+          <Icon type="stats-bars" :size="iconSize"></Icon>
+          <!--<Icon type="ios-keypad" :size="iconSize"></Icon>-->
           <span class="layout-text">统计</span>
         </MenuItem>
         <MenuItem name="3">
@@ -87,21 +88,28 @@
       </Row>
       <div class="layout-content">
         <div class="layout-content-main">
-          <Row style="padding: 20px;">
-            <Col span="24">
-            快递公司
-            <Select v-model="param.companyId" style="width:150px">
-              <Option v-for="item in companies" :value="item.id" :key="item.id">{{ item.name }}</Option>
-            </Select>
-            寄件人
-            <Input v-model="param.senderName" placeholder="" style="width: 150px;"></Input>
-            快递单号
-            <Input v-model="param.expCode" placeholder="" style="width: 150px;"></Input>
-            快递日期：
-            <DatePicker type="datetimerange" placeholder="选择日期和时间"></DatePicker>
-            <Button type="info" @click="query">查询</Button>
-            </Col>
-          </Row>
+          <Form :label-width="80" inline>
+            <FormItem label="快递公司">
+              <Select v-model="param.companyId">
+                <Option v-for="item in companies" :value="item.id" :key="item.id">{{ item.name }}</Option>
+              </Select>
+            </FormItem>
+            <FormItem label="快递单号">
+              <Input v-model="param.expCode" placeholder=""/>
+            </FormItem>
+            <FormItem label="名字">
+              <Input v-model="param.name" placeholder="寄件人或者收件人"/>
+            </FormItem>
+            <FormItem label="手机号">
+              <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
+            </FormItem>
+            <FormItem label="快递日期">
+              <DatePicker type="datetimerange" placeholder="选择日期和时间"></DatePicker>
+            </FormItem>
+            <FormItem>
+              <Button type="info" @click="query">查询</Button>
+            </FormItem>
+          </Form>
           <Table border :columns="columns" :data="tableData"></Table>
           <Page :total="total" size="small" :page-size="param.size" :current="param.current"
                 @on-change="pageChange"
@@ -121,12 +129,13 @@
       return {
         spanLeft: 1,
         spanRight: 23,
-        total:0,
+        total: 0,
         tableData: [],
         param: {
           current: 1,
           size: 20,
-          senderName: null,
+          name: null,
+          phone: null,
           expCode: null,
           pointId: null,
           startDate: null,
@@ -139,6 +148,18 @@
           {
             title: '快递单号',
             key: 'expCode'
+          },
+          {
+            title: '金额',
+            key: 'price'
+          },
+          {
+            title: '重量',
+            key: 'weight'
+          },
+          {
+            title: '是否打印',
+            key: 'isPrint'
           },
           {
             title: '发件人姓名',
@@ -156,10 +177,12 @@
           },
           {
             title: '发件人手机号',
+            width:115,
             key: 'senderPhone'
           },
           {
             title: '发件人地址',
+            width:150,
             key: 'senderAddress',
             render(h, {row}) {
               return h("div", [h("p", [
@@ -187,9 +210,11 @@
             }
           }, {
             title: '收件人手机号',
+            width:115,
             key: 'receiverPhone'
           }, {
             title: '收件人地址',
+            width:150,
             key: 'address',
             render(h, {row}) {
               return h("div", [h("p", [
@@ -258,8 +283,8 @@
           this.spanRight = 21;
         }
       },
-      pageChange(page){
-        this.param.current=page;
+      pageChange(page) {
+        this.param.current = page;
         this.getPageList();
       },
       show(index) {
@@ -275,11 +300,11 @@
         debugger
       },
       getPageList() {
-        let param=Object.assign({},this.param);
-        this.$http.get("api/express/getExpressList", {params:param}).then(({data: result}) => {
+        let param = Object.assign({}, this.param);
+        this.$http.get("api/point/getExpressList", {params: param}).then(({data: result}) => {
           this.tableData = result.data.records;
-          this.total=result.data.total;
-          this.param.current=result.data.current;
+          this.total = result.data.total;
+          this.param.current = result.data.current;
         })
       }
     },
