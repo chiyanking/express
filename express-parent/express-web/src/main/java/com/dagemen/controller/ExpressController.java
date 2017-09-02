@@ -3,7 +3,6 @@ package com.dagemen.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.dto.ExpressSearchDTO;
-import com.dagemen.entity.Point;
 import com.dagemen.service.ExpressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -30,8 +28,8 @@ public class ExpressController {
      */
     @ResponseBody
     @RequestMapping(value = "/getExpressList", method = RequestMethod.GET)
-    public Map<String, Object> getExpressList(Page page, ExpressSearchDTO serch){
-        return ApiResultWrapper.success(expressService.getExpressList(page, serch));
+    public Map<String, Object> getExpressList(Page page, ExpressSearchDTO search){
+        return ApiResultWrapper.success(expressService.getExpressList(page, search));
     }
 
 }

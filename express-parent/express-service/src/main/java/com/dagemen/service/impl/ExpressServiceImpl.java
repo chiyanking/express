@@ -4,6 +4,7 @@ import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.dagemen.Utils.LoginSessionHelper;
 import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dao.ExpressMapper;
 import com.dagemen.dto.ExpressSearchDTO;
@@ -30,7 +31,7 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
 
     @Override
     public Page getExpressList(Page page ,ExpressSearchDTO expressSearchDTO) {
-        long pointId = ((Point)SessionHelper.getHttpSession().getAttribute("pointInfor")).getId();
+        long pointId = ((Point)SessionHelper.getHttpSession().getAttribute(LoginSessionHelper.loginform)).getId();
         Express express = new Express();
         BeanUtils.copyProperties(expressSearchDTO, express);
 
@@ -38,9 +39,6 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         express.setExpCode(null);
         express.setPointId(pointId);
         // 0 表示查询所有
-        if(expressSearchDTO.getCompanyId() == 0){
-            express.setCompanyId(null);
-        }
         EntityWrapper param = new EntityWrapper(express);
         if(expressSearchDTO.getStartDate() != null){
             param.ge("date", expressSearchDTO.getStartDate());
@@ -49,7 +47,9 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
             param.le("date", expressSearchDTO.getEndDate());
         }
         param.orderBy("date", false);
-        param.like("exp_code", expressSearchDTO.getExpCode());
+        if(expressSearchDTO.getExpCode()!=null){
+            param.like("exp_code", expressSearchDTO.getExpCode());
+        }
         return selectPage(page,param);
     }
 }

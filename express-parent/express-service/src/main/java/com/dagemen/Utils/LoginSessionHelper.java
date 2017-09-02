@@ -10,26 +10,30 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginSessionHelper {
 
+    public static final String loginform = "pointInform";
+
     /**
-     *  登录，保存登录信息
+     * 登录，保存登录信息
+     *
      * @param point
      * @param httpSession
      */
     public static void logIn(Point point, User user, HttpSession httpSession) {
         point.setPassword(null);
-        if(point != null){
-            httpSession.setAttribute("pointInfor", point);
+        if (point != null) {
+            httpSession.setAttribute(loginform, point);
         }
-        if(user != null){
+        if (user != null) {
             httpSession.setAttribute("userInfor", user);
         }
     }
 
     /**
      * 登出系统，去除session
+     *
      * @param httpSession
      */
-    public static void logOut(HttpSession httpSession){
+    public static void logOut(HttpSession httpSession) {
         httpSession.removeAttribute("pointInfor");
         httpSession.removeAttribute("userInfor");
     }

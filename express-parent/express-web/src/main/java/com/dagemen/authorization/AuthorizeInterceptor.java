@@ -1,5 +1,6 @@
 package com.dagemen.authorization;
 
+import com.dagemen.Utils.LoginSessionHelper;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import org.slf4j.Logger;
@@ -36,11 +37,15 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         //获取当前登录用户
-        Object userInform = request.getAttribute("pointInfor");
+        Object userInform = request.getSession().getAttribute(LoginSessionHelper.loginform);
 
         if (userInform == null) {
             //当前没有登录
             throw new ApiException(ApiExceptionEnum.USERNOTLOGIN);
+        }
+
+        if (authorizeAnnotation == null) {
+            return true;
         }
         //不需要验证权限
         if (authorizeAnnotation != null && !authorizeAnnotation.isPermission()) {
