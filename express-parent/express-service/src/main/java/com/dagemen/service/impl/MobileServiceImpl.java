@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.dto.ExpressDTO;
 import com.dagemen.dto.PointAddressDTO;
 import com.dagemen.entity.*;
+import com.dagemen.enums.ExpressStatusEnums;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.*;
@@ -51,7 +52,7 @@ public class MobileServiceImpl implements MobileService {
         //处理省市区
         List<Long> senderPCDCode = expressDTO.getSenderPCDCode();
         List<String> senderPCDName = expressDTO.getSenderPCDName();
-        if(!CollectionUtils.isEmpty(senderPCDCode)){
+        if (!CollectionUtils.isEmpty(senderPCDCode)) {
             express.setSenderProvinceName(senderPCDName.get(0));
             express.setSenderProvinceCode(senderPCDCode.get(0));
             express.setSenderCityName(senderPCDName.get(1));
@@ -61,7 +62,7 @@ public class MobileServiceImpl implements MobileService {
         }
         List<Long> receiverPCDCode = expressDTO.getReceiverPCDCode();
         List<String> receiverPCDName = expressDTO.getReceiverPCDName();
-        if(!CollectionUtils.isEmpty(receiverPCDCode)){
+        if (!CollectionUtils.isEmpty(receiverPCDCode)) {
             express.setReceiverProvinceName(receiverPCDName.get(0));
             express.setReceiverProvinceCode(receiverPCDCode.get(0));
             express.setReceiverCityName(receiverPCDName.get(1));
@@ -114,7 +115,6 @@ public class MobileServiceImpl implements MobileService {
 //        }
 
 
-
         User sender = new User();
         sender.setName(express.getSenderName());
         sender.setPhone(express.getSenderPhone());
@@ -132,7 +132,7 @@ public class MobileServiceImpl implements MobileService {
         User oldSender = getUser(sender.getPhone());
         if (oldSender != null) {
             sender.setId(oldSender.getId());
-            sender.setSendTimes(oldSender.getSendTimes()+1);
+            sender.setSendTimes(oldSender.getSendTimes() + 1);
             sender.setLastSendDate(new Date());
         }
         userService.insertOrUpdate(sender);
@@ -156,11 +156,13 @@ public class MobileServiceImpl implements MobileService {
         User oldReceiver = getUser(receiver.getPhone());
         if (oldReceiver != null) {
             receiver.setId(oldReceiver.getId());
-            receiver.setReceiveTimes(oldReceiver.getReceiveTimes()+1);
+            receiver.setReceiveTimes(oldReceiver.getReceiveTimes() + 1);
             receiver.setLastReceiveDate(new Date());
         }
         userService.insertOrUpdate(receiver);
         express.setReceiverId(receiver.getId());
+        express.setStatus(ExpressStatusEnums.WAITTING_PRINT.getValue());
+        express.setDate(new Date());
         expressService.insertOrUpdate(express);
         return express;
     }
@@ -174,14 +176,14 @@ public class MobileServiceImpl implements MobileService {
         PointCompanyRelation pointCompanyRelationParams = new PointCompanyRelation();
         pointCompanyRelationParams.setPointId(pointId);
         List<PointCompanyRelation> pointCompanyRelationList = pointCompanyRelationService.selectList(new EntityWrapper<>(pointCompanyRelationParams));
-        if(CollectionUtils.isEmpty(pointCompanyRelationList)){
+        if (CollectionUtils.isEmpty(pointCompanyRelationList)) {
             throw new ApiException(ApiExceptionEnum.NO_SELECTE_COMPANY);
         }
         List<Long> companyIds = new ArrayList<>();
-        for(PointCompanyRelation obj : pointCompanyRelationList){
+        for (PointCompanyRelation obj : pointCompanyRelationList) {
             companyIds.add(obj.getCompanyId());
         }
-        List<Company> companyList = companyService.selectList(new EntityWrapper<>(new Company()).in("id",companyIds));
+        List<Company> companyList = companyService.selectList(new EntityWrapper<>(new Company()).in("id", companyIds));
         PointAddressDTO pointAddressDto = new PointAddressDTO();
         BeanUtils.copyProperties(point, pointAddressDto);
         pointAddressDto.setCompanies(companyList);

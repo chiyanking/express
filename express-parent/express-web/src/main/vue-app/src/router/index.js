@@ -1,27 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from '@/components/Login'
 import Home from '@/components/Home'
+import Chart from '@/components/Chart'
 
 Vue.use(Router)
 
 export default new Router({
-  base:'/',
-  mode:'history',
+  base: '/',
+  // mode: 'history',
   routes: [
     {
-      path: '/login',
-      name: 'Login',
-      component: Login
+      path: '/chart',
+      name: 'chart',
+      component: Chart
     },
     {
-      path:'/home',
-      name:'Home',
-      component:Home
+      path: '/home',
+      name: 'Home',
+      component: Home
     },
     {
-      path:"/",
-      redirect:'/login'
+      path: "/",
+      redirect: '/home'
     }
   ]
 })

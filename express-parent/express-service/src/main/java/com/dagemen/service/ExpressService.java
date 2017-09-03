@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.dagemen.dto.ExpressSearchDTO;
 import com.dagemen.entity.Express;
 import com.baomidou.mybatisplus.service.IService;
+import com.dagemen.enums.LabelValue;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,5 +21,8 @@ import java.util.Map;
 public interface ExpressService extends IService<Express> {
 
     Page getExpressList(Page page,ExpressSearchDTO expressSearchDTO);
-	
+
+    boolean deleteById(Long expressId);
+
+    List<LabelValue> expressStatus();
 }

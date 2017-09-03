@@ -1,23 +1,20 @@
 package com.dagemen.controller;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.authorization.AuthorizeAnnotation;
+import com.dagemen.dto.ExpressSearchDTO;
 import com.dagemen.dto.PointUpdateCompanyDTO;
-import com.dagemen.entity.Company;
+import com.dagemen.entity.Express;
 import com.dagemen.entity.Point;
-import com.dagemen.entity.User;
-import com.dagemen.exception.ApiException;
-import com.dagemen.exception.ApiExceptionEnum;
+import com.dagemen.service.ExpressService;
+import com.dagemen.service.FileService;
 import com.dagemen.service.PointService;
-import com.dagemen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +29,15 @@ public class PointController {
     @Autowired
     private PointService pointService;
 
+    @Autowired
+    private ExpressService expressService;
+
+    @Autowired
+    private FileService fileService;
+
     /**
      * 登录验证
+     *
      * @param point
      * @return
      */
@@ -47,6 +51,7 @@ public class PointController {
 
     /**
      * 登出系统
+     *
      * @param httpSession
      * @return
      */
@@ -59,6 +64,7 @@ public class PointController {
 
     /**
      * 快递点选择自己支持的快递，及对应的模板
+     *
      * @param pointUpdateCompanyDTOList
      * @return
      */
@@ -69,5 +75,66 @@ public class PointController {
         return ApiResultWrapper.success("保存成功");
     }
 
+    /**
+     * 打印快递单子预览
+     *
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.GET, value = "viewFile")
+    @ResponseBody
+    public void viewTemplate(Long id, HttpServletResponse response) {
+        fileService.viewFile(id, response);
+    }
+
+    /**
+     * 获取快递的列表信息，分页
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getExpressList", method = RequestMethod.GET)
+    public Map<String, Object> getExpressList(Page page, ExpressSearchDTO search) {
+        return ApiResultWrapper.success(expressService.getExpressList(page, search));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getExpressStatus", method = RequestMethod.GET)
+    public Map<String, Object> getExpressStatus() {
+        return ApiResultWrapper.success(expressService.expressStatus());
+    }
+
+    /**
+     * 根据Id获取快递单详细信息
+     * @param expressId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getExpressById", method = RequestMethod.GET)
+    public Map<String, Object> getExpressList(@RequestParam Long expressId) {
+        return ApiResultWrapper.success(expressService.selectById(expressId));
+    }
+
+    /**
+     * 根据快递单号删除快递单
+     * @param express
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/deleteExpressById", method = RequestMethod.POST)
+    public Map<String, Object> deleteExpressList(@RequestBody Express express) {
+        return ApiResultWrapper.success(expressService.deleteById(express.getId()));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getAllCompanies", method = RequestMethod.GET)
+    public Map<String, Object> getExpressList() {
+        return ApiResultWrapper.success(pointService.getAllCompanies());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/getHasCompanies", method = RequestMethod.GET)
+    public Map<String, Object> getHasCompanies() {
+        return ApiResultWrapper.success(pointService.getHasCompany());
+    }
 }
 

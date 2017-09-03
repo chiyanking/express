@@ -1,10 +1,9 @@
 package com.dagemen.service;
 
-import com.dagemen.dto.PointUpdateCompanyDTO;
-import com.dagemen.entity.Company;
-import com.dagemen.entity.Point;
 import com.baomidou.mybatisplus.service.IService;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.dagemen.dto.PointUpdateCompanyDTO;
+import com.dagemen.entity.Point;
+import com.dagemen.enums.LabelValue;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -24,5 +23,17 @@ public interface PointService extends IService<Point> {
     boolean logOut(HttpSession httpSession);
 
     boolean addPointRelationCompanys(List<PointUpdateCompanyDTO> PointUpdateCompanyDTOList);
-	
+
+    /**
+     * 获取所有的快递公司
+     * @return
+     */
+    List<LabelValue> getAllCompanies();
+
+
+    /**
+     * 获取当前门店有那些快递公司
+     * @return
+     */
+    List<LabelValue> getHasCompany();
 }

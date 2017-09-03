@@ -1,110 +1,153 @@
 <style scoped>
-  .layout {
-    border: 1px solid #d7dde4;
-    background: #f5f7f9;
-    position: relative;
-    border-radius: 4px;
-    overflow: hidden;
-    line-height: 45px;
-  }
-
-  .layout-logo {
-    width: 100px;
-    height: 30px;
-    background: #5b6270;
-    border-radius: 3px;
-    float: left;
-    position: relative;
-    top: 15px;
-    left: 20px;
-  }
-
-  .layout-header {
-    height: 60px;
-    background: #fff;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, .1);
-  }
-
-  .layout-copy {
-    text-align: center;
-    padding: 10px 0 20px;
-    color: #9ea7b4;
-  }
-
-  .layout-ceiling {
-    background: #464c5b;
-    padding: 10px 0;
-    overflow: hidden;
-  }
-
-  .layout-ceiling-main {
+  .table-pagination {
+    margin: 15px 0 15px 0;
     float: right;
-    margin-right: 15px;
-  }
-
-  .layout-ceiling-main a {
-    color: #9ba7b5;
   }
 </style>
 <template>
-  <div class="layout">
-    <div class="layout-ceiling">
-      <div class="layout-ceiling-main">
-        <a href="#">注册登录</a> |
-        <a href="#">帮助中心</a> |
-        <a href="#">安全中心</a> |
-        <a href="#">服务大厅</a>
-      </div>
-    </div>
-    <!--<div class="layout-header">-->
-    <!--<div class="layout-logo"></div>-->
-    <!--</div>-->
-    <div>
-      <Row style="padding: 20px;">
-        <Col span="24">
-        快递公司<Select v-model="search.companyId" style="width:150px">
-        <Option v-for="item in companies" :value="item.id" :key="item.id">{{ item.name }}</Option>
-      </Select>
-        寄件人<Input v-model="search.senderName" placeholder="" style="width: 150px;"></Input>
-        快递单号<Input v-model="search.expCode" placeholder="" style="width: 150px;"></Input>
-        开始日期
-        <Date-picker type="date" :options="search.startDate" placeholder="选择日期" style="width: 150px"></Date-picker>
-        截止日期
-        <Date-picker type="date" :options="search.endDate" placeholder="选择日期" style="width: 150px"></Date-picker>
+  <div class="layout-content-main">
+    <Form :label-width="80" inline>
+      <FormItem label="快递公司">
+        <Select v-model="param.companyId" style="width:110px">
+          <Option v-for="item in companies" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select>
+      </FormItem>
+      <FormItem label="快递单号">
+        <Input v-model="param.expCode" placeholder=""/>
+      </FormItem>
+      <FormItem label="名字">
+        <Input v-model="param.name" placeholder="寄件人或者收件人"/>
+      </FormItem>
+      <FormItem label="手机号">
+        <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
+      </FormItem>
+      <FormItem label="快递日期">
+        <DatePicker v-model="param.date" type="datetimerange" format="yyyy-MM-dd" placeholder="选择时间"></DatePicker>
+      </FormItem>
+      <FormItem>
         <Button type="info" @click="query">查询</Button>
-        </Col>
-      </Row>
-      <Table border :columns="columns7" :data="data6"></Table>
-      <Page :total="100" show-sizer></Page>
-    </div>
+      </FormItem>
+    </Form>
+    <Table border :columns="columns" :data="tableData"></Table>
+    <Page :total="total" size="small" :page-size="param.size" :current="param.current"
+          @on-change="pageChange"
+          class="table-pagination"></Page>
   </div>
 </template>
 <script>
   export default {
     data() {
       return {
-        columns7: [
+        total: 0,
+        tableData: [],
+        expressStatus: [],
+        param: {
+          current: 1,
+          size: 20,
+          name: null,
+          phone: null,
+          expCode: null,
+          pointId: null,
+          date: null,
+          startDate: null,
+          endDate: null,
+          isPrint: true,
+        },
+        companies: [{value: 0, label: '全部'}],
+
+        columns: [
           {
-            title: '姓名',
-            key: 'name',
-            render: (h, params) => {
+            title: '快递单号',
+            key: 'expCode'
+          },
+          {
+            title: '金额',
+            key: 'price'
+          },
+          {
+            title: '重量',
+            key: 'weight'
+          },
+          {
+            title: '状态',
+            key: 'status',
+            render: (h, {row}) => {
+              let statusName = "", expressStatus = this.expressStatus;
+              for (let i = 0; i < expressStatus.length; i++) {
+                let item = expressStatus[i];
+                if (item.value == row.status) {
+                  statusName = item.label;
+                  break;
+                }
+              }
+              return h("div", [statusName]);
+            }
+          },
+          {
+            title: '发件人姓名',
+            key: 'senderName',
+            render: (h, {row}) => {
               return h('div', [
                 h('Icon', {
                   props: {
                     type: 'person'
                   }
                 }),
-                h('strong', params.row.name)
+                h('strong',row.senderName)
               ]);
             }
           },
           {
-            title: '年龄',
-            key: 'age'
+            title: '发件人手机号',
+            width: 115,
+            key: 'senderPhone'
           },
           {
-            title: '地址',
-            key: 'address'
+            title: '发件人地址',
+            width: 160,
+            key: 'senderAddress',
+            render(h, {row}) {
+              return h("div", [h("p", [
+                  row.senderProvinceName
+                  + row.senderCityName
+                  + row.senderDistrictName
+                ]
+              ), h("p", [
+                row.senderAddress
+              ])]);
+            }
+          },
+          {
+            title: '收件人姓名',
+            key: 'receiverName',
+            render: (h, {row}) => {
+              return h('div', [
+                h('Icon', {
+                  props: {
+                    type: 'person'
+                  }
+                }),
+                h('strong', row.receiverName)
+              ]);
+            }
+          }, {
+            title: '收件人手机号',
+            width: 115,
+            key: 'receiverPhone'
+          }, {
+            title: '收件人地址',
+            width: 160,
+            key: 'address',
+            render(h, {row}) {
+              return h("div", [h("p", [
+                  row.receiverProvinceName
+                  + row.receiverCityName
+                  + row.receiverDistrictName
+                ]
+              ), h("p", [
+                row.receiverAddress
+              ])]);
+            }
           },
           {
             title: '操作',
@@ -115,7 +158,7 @@
               return h('div', [
                 h('Button', {
                   props: {
-                    type: 'primary',
+                    type: 'text',
                     size: 'small'
                   },
                   style: {
@@ -129,7 +172,7 @@
                 }, '查看'),
                 h('Button', {
                   props: {
-                    type: 'error',
+                    type: 'text',
                     size: 'small'
                   },
                   on: {
@@ -141,54 +184,49 @@
               ]);
             }
           }
-        ],
-        data6: [
-          {
-            name: '王小明',
-            age: 18,
-            address: '北京市朝阳区芍药居'
-          },
-          {
-            name: '张小刚',
-            age: 25,
-            address: '北京市海淀区西二旗'
-          },
-          {
-            name: '李小红',
-            age: 30,
-            address: '上海市浦东新区世纪大道'
-          },
-          {
-            name: '周小伟',
-            age: 26,
-            address: '深圳市南山区深南大道'
-          }
-        ],
-        companies: [{id: 0, name: '全部'}, {id: 1, name: '中通快递'}],
-        search: {
-          companyId: 0,
-          senderName: "",
-          expCode: "",
-          pointId: "",
-          startDate: "",
-          endDate: "",
-          isPrnt: false,
-        }
+        ]
       }
     },
     methods: {
+      pageChange(page) {
+        this.param.current = page;
+        this.getPageList();
+      },
       show(index) {
         this.$Modal.info({
           title: '用户信息',
-          content: `姓名：${this.data6[index].name}<br>年龄：${this.data6[index].age}<br>地址：${this.data6[index].address}`
+          content: `姓名：${this.tableData[index].name}<br>年龄：${this.tableData[index].age}<br>地址：${this.tableData[index].address}`
         })
       },
       remove(index) {
-        this.data6.splice(index, 1);
+        this.tableData.splice(index, 1);
       },
-      query(){
-        debugger
+      query() {
+        this.getPageList();
+      },
+      getPageList() {
+        let param = Object.assign({}, this.param);
+        if (param.date && param.date.length > 0) {
+          param.startDate = param.date[0] || null;
+          param.endDate = param.date[1] || null;
+        }
+        delete param.date;
+        this.$http.get("api/point/getExpressList", {params: param}).then(({data: result}) => {
+          this.tableData = result.data.records;
+          this.total = result.data.total;
+          this.param.current = result.data.current;
+        });
       }
+    },
+    mounted() {
+      this.$http.get("api/point/getHasCompanies").then(({data: result}) => {
+        this.companies = this.companies.concat(result.data);
+      });
+      this.$http.get("api/point/getExpressStatus").then(({data: result}) => {
+        this.expressStatus = result.data;
+      });
+      this.getPageList();
     }
+
   }
 </script>

@@ -3,7 +3,9 @@ package com.dagemen.controller;
 import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.authorization.AuthorizeAnnotation;
 import com.dagemen.dto.ExpressDTO;
+import com.dagemen.dto.WechatSignature;
 import com.dagemen.entity.User;
+import com.dagemen.helper.TokenHelper;
 import com.dagemen.service.MobileService;
 import com.dagemen.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -26,6 +29,18 @@ public class MobileController {
 
     @Resource
     MobileService mobileService;
+
+
+    @Resource
+    TokenHelper tokenHelper;
+
+    @ResponseBody
+    @AuthorizeAnnotation(isLogin = false)
+    @RequestMapping(value = "signature", method = RequestMethod.GET)
+    public Map<String, Object> getSignature(String url) throws IOException {
+        WechatSignature signature = tokenHelper.getSignature(url);
+        return ApiResultWrapper.success(signature);
+    }
 
     @ResponseBody
     @AuthorizeAnnotation(isLogin = false)

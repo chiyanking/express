@@ -8,15 +8,13 @@ import java.util.Date;
 public class ExpressSearchDTO {
 
     private String expCode;
-    private Long pointId;
     private Date startDate;
     private Date endDate;
-    private boolean isPrnt;
-    private String senderName;
-    private Long companyId;
+    private Integer status;
+    private String name;
+    private String phone;
 
-    public ExpressSearchDTO() {
-    }
+    private Long companyId;
 
     public String getExpCode() {
         return expCode;
@@ -24,14 +22,6 @@ public class ExpressSearchDTO {
 
     public void setExpCode(String expCode) {
         this.expCode = expCode;
-    }
-
-    public Long getPointId() {
-        return pointId;
-    }
-
-    public void setPointId(Long pointId) {
-        this.pointId = pointId;
     }
 
     public Date getStartDate() {
@@ -50,20 +40,28 @@ public class ExpressSearchDTO {
         this.endDate = endDate;
     }
 
-    public boolean isPrnt() {
-        return isPrnt;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setPrnt(boolean prnt) {
-        isPrnt = prnt;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public String getSenderName() {
-        return senderName;
+    public String getName() {
+        return name;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Long getCompanyId() {
