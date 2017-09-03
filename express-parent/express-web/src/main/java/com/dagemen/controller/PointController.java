@@ -120,7 +120,7 @@ public class PointController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/deleteExpressById", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteExpress", method = RequestMethod.POST)
     public Map<String, Object> deleteExpressList(@RequestBody Express express) {
         return ApiResultWrapper.success(expressService.deleteById(express.getId()));
     }

@@ -51,7 +51,7 @@
           date: null,
           startDate: null,
           endDate: null,
-          isPrint: true,
+          status: null,
         },
         companies: [{value: 0, label: '全部'}],
 
@@ -93,7 +93,7 @@
                     type: 'person'
                   }
                 }),
-                h('strong',row.senderName)
+                h('strong', row.senderName)
               ]);
             }
           },
@@ -177,7 +177,7 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      this.remove(params.index, params.row)
                     }
                   }
                 }, '删除')
@@ -198,8 +198,17 @@
           content: `姓名：${this.tableData[index].name}<br>年龄：${this.tableData[index].age}<br>地址：${this.tableData[index].address}`
         })
       },
-      remove(index) {
-        this.tableData.splice(index, 1);
+      remove(index, row) {
+        this.$http.post("api/point/deleteExpress", {id: row.id}).then(({data: result}) => {
+          if (result.errCode == 0) {
+            this.tableData.splice(index, 1);
+          } else {
+            this.$Notice.error({
+              title: '错误',
+              desc: result.msg,
+            });
+          }
+        });
       },
       query() {
         this.getPageList();

@@ -71,8 +71,11 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
     @Override
     public boolean deleteById(Long expressId) {
         Express express = selectById(expressId);
+        if(express==null){
+            throw new ApiException(ApiExceptionEnum.ExpressnotExistError);
+        }
         if (ExpressStatusEnums.PRINTED.equals(express.getStatus())) {
-            new ApiException(ApiExceptionEnum.ExpressStatusError);
+            throw new ApiException(ApiExceptionEnum.ExpressStatusError);
         }
         express.setStatus(ExpressStatusEnums.Delete.getValue());
         return updateById(express);

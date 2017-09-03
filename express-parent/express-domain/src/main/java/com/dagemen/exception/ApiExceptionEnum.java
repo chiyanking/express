@@ -11,7 +11,8 @@ public enum ApiExceptionEnum implements BaseExceptionCode {
     CREATE_EXP_MODEL_ERROR("2001","打印快递单失败"),
     NO_SELECTE_COMPANY("2002", "该快递点未选择快递公司"),
 
-    ExpressStatusError("3001","快递单状态不对");
+    ExpressnotExistError("3001","快递单不存在"),
+    ExpressStatusError("3002","快递单状态不对");
 
     private String errCode;
     private String message;
