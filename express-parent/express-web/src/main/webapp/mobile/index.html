@@ -116,20 +116,60 @@
                 senderPCDCode: senderPCDCode,
                 senderPCDName: senderPCDName,
                 senderAddress: $("#senderAddress").val(),
-
                 receiverName: $("#receiverName").val(),
                 receiverPhone: $("#receiverPhone").val(),
                 receiverPCDCode: receiverPCDCode,
                 receiverPCDName: receiverPCDName,
                 receiverAddress: $("#receiverAddress").val()
             };
-            var $this=$(this);
-            $this.prop("disabled",true);
+            //验证
+            if (!param.pointId) {
+                message("请重新扫描二维码");
+                return ;
+            }
+            if (!param.senderName) {
+                message("请填写发件人姓名");
+                return ;
+            }
+            if (!param.senderPhone) {
+                message("请填写发件人手机号");
+                return ;
+            }
+            if (!param.senderPCDName) {
+                message("请填写发件人省市区");
+                return ;
+            }
+            if(!param.senderAddress){
+                message("请填写发件人详细地址");
+                return ;
+            }
+            if(!param.receiverName){
+                message("请输入收件人姓名");
+                return ;
+            }
+            if(!param.receiverPhone){
+                message("请输入收件人手机号码 ");
+                return ;
+            }
+            if(!param.receiverPCDName){
+                message("请选择收件人省市区 ");
+                return ;
+            }
+            if(!param.receiverAddress){
+                message("请填写收件人详细信息 ");
+                return ;
+            }
+
+            var $this = $(this);
+            $this.prop("disabled", true);
             new Service("../api/mobile/insertExpress").post(param, function (response) {
                 $this.removeAttr("disabled");
             });
         });
 
+        function message(msg){
+            $.toptip(msg, 'warning');
+        }
 
         new Service("../api/mobile/signature").get({url: location.href.split('#')[0]}, function (reponse) {
             var data = reponse.data;
