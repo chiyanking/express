@@ -32,9 +32,12 @@
     <Page :total="total" size="small" :page-size="param.size" :current="param.current"
           @on-change="pageChange"
           class="table-pagination"></Page>
+
+    <edit-modal ref="editModalRef"/>
   </div>
 </template>
 <script>
+  import editModal from "./editModal";
   export default {
     data() {
       return {
@@ -166,7 +169,7 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params.index)
+                      this.show(params.index,params.row)
                     }
                   }
                 }, '查看'),
@@ -192,11 +195,8 @@
         this.param.current = page;
         this.getPageList();
       },
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.tableData[index].name}<br>年龄：${this.tableData[index].age}<br>地址：${this.tableData[index].address}`
-        })
+      show(index,row) {
+        this.$refs.editModalRef.open(row);
       },
       remove(index, row) {
         this.$http.post("api/point/deleteExpress", {id: row.id}).then(({data: result}) => {
@@ -235,7 +235,9 @@
         this.expressStatus = result.data;
       });
       this.getPageList();
+    },
+    components:{
+      "edit-modal":editModal
     }
-
   }
 </script>

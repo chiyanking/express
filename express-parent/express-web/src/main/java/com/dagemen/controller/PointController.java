@@ -133,6 +133,7 @@ public class PointController {
 
     @ResponseBody
     @RequestMapping(value = "/getHasCompanies", method = RequestMethod.GET)
+    @AuthorizeAnnotation(isLogin = false)
     public Map<String, Object> getHasCompanies() {
         return ApiResultWrapper.success(pointService.getHasCompany());
     }
