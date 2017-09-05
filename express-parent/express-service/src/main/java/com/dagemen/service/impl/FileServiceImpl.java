@@ -70,4 +70,10 @@ public class FileServiceImpl implements FileService{
             }
         }
     }
+
+    @Override
+    public void getElectronicSheet(Long id) {
+
+
+    }
 }

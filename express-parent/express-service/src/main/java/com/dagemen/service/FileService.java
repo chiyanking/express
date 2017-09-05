@@ -8,4 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 public interface FileService {
 
     void viewFile(Long expCode, HttpServletResponse response);
+
+    void getElectronicSheet(Long id);
 }
