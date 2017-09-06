@@ -113,6 +113,12 @@ public class PointController {
     public Map<String, Object> getExpressList(@RequestParam Long expressId) {
         return ApiResultWrapper.success(expressService.selectById(expressId));
     }
+    @ResponseBody
+    @RequestMapping(value = "/updateExpress", method = RequestMethod.GET)
+    public Map<String, Object> insertExpress(@RequestBody Express express) {
+        return ApiResultWrapper.success(expressService.updateExpress(express));
+    }
+
 
     /**
      * 根据快递单号删除快递单

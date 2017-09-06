@@ -38,6 +38,7 @@
 </template>
 <script>
   import editModal from "./editModal";
+
   export default {
     data() {
       return {
@@ -155,7 +156,7 @@
           {
             title: '操作',
             key: 'action',
-            width: 150,
+            width: 170,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -169,10 +170,21 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params.index,params.row)
+                      this.show(params.index, params.row)
                     }
                   }
                 }, '查看'),
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.print(params.row)
+                    }
+                  }
+                }, "打印"),
                 h('Button', {
                   props: {
                     type: 'text',
@@ -195,7 +207,7 @@
         this.param.current = page;
         this.getPageList();
       },
-      show(index,row) {
+      show(index, row) {
         this.$refs.editModalRef.open(row);
       },
       remove(index, row) {
@@ -208,6 +220,11 @@
               desc: result.msg,
             });
           }
+        });
+      },
+      print(row) {
+        this.$http.post("api/point/printExpress", row).then((result) => {
+          debugger;
         });
       },
       query() {
@@ -236,8 +253,8 @@
       });
       this.getPageList();
     },
-    components:{
-      "edit-modal":editModal
+    components: {
+      "edit-modal": editModal
     }
   }
 </script>

@@ -33,6 +33,18 @@
         </Col>
       </Row>
 
+      <Row>
+        <Col span="11">
+        <FormItem label="收件人省">
+          <Input v-model="express.receiverProvinceName"/>
+        </FormItem>
+        </Col>
+        <Col span="12">
+        <FormItem label="收件人省">
+          <Input v-model="express.receiverProvinceName"/>
+        </FormItem>
+        </Col>
+      </Row>
 
     </Form>
   </Modal>
