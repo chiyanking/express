@@ -39,7 +39,7 @@ public class PdfUtil {
         PdfReader reader = null;
         FileOutputStream fos = null;
         try {
-            fos = new FileOutputStream(outPdfPath);
+            fos = new FileOutputStream(new File(outPdfPath));
             reader = new PdfReader(inPdfPath);
             stamp = new PdfStamper(reader, fos);
             AcroFields form = stamp.getAcroFields();

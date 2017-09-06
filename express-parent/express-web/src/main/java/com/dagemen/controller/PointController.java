@@ -87,6 +87,17 @@ public class PointController {
     }
 
     /**
+     * 生成电子面单
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getElectronicSheet", method = RequestMethod.GET)
+    public Map<String, Object> getElectronicSheet(Long id) {
+        fileService.getElectronicSheet(id);
+        return ApiResultWrapper.success(pointService.getHasCompany());
+    }
+
+    /**
      * 获取快递的列表信息，分页
      *
      * @return
@@ -143,5 +154,6 @@ public class PointController {
     public Map<String, Object> getHasCompanies() {
         return ApiResultWrapper.success(pointService.getHasCompany());
     }
+
 }
 
