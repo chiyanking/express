@@ -223,9 +223,7 @@
         });
       },
       print(row) {
-        this.$http.post("api/point/printExpress", row).then((result) => {
-          debugger;
-        });
+        window.open("api/point/viewFile?id="+row.id);
       },
       query() {
         this.getPageList();

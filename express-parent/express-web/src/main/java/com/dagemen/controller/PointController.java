@@ -70,7 +70,7 @@ public class PointController {
      */
     @RequestMapping(value = "/addPointRelationCompanys", method = RequestMethod.POST)
     @ResponseBody
-    public Object addPointRelationCompanys(@RequestBody List<PointUpdateCompanyDTO> pointUpdateCompanyDTOList) {
+    public Object addPointRelationCompanies(@RequestBody List<PointUpdateCompanyDTO> pointUpdateCompanyDTOList) {
 
         return ApiResultWrapper.success("保存成功");
     }

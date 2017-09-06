@@ -5,6 +5,7 @@ import com.dagemen.Utils.DateHelper;
 import com.dagemen.Utils.PdfUtil;
 import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Express;
+import com.dagemen.enums.ExpressStatusEnums;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.ExpModelService;
@@ -73,6 +74,8 @@ public class FileServiceImpl implements FileService{
                 e.printStackTrace();
             }
         }
+        exp.setStatus(ExpressStatusEnums.PRINTED.getValue());
+        expressService.insertOrUpdate(exp);
     }
 
     @Override
