@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import java.io.Serializable;
 
 /**
@@ -18,6 +21,7 @@ public class Express extends Model<Express> {
 
     private static final long serialVersionUID = 1L;
 
+	@JsonSerialize(using=ToStringSerializer.class)
 	private Long id;
     /**
      * 快递单号

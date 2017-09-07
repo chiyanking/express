@@ -32,9 +32,13 @@
     <Page :total="total" size="small" :page-size="param.size" :current="param.current"
           @on-change="pageChange"
           class="table-pagination"></Page>
+
+    <edit-modal ref="editModalRef"/>
   </div>
 </template>
 <script>
+  import editModal from "./editModal";
+
   export default {
     data() {
       return {
@@ -51,7 +55,7 @@
           date: null,
           startDate: null,
           endDate: null,
-          isPrint: true,
+          status: null,
         },
         companies: [{value: 0, label: '全部'}],
 
@@ -93,7 +97,7 @@
                     type: 'person'
                   }
                 }),
-                h('strong',row.senderName)
+                h('strong', row.senderName)
               ]);
             }
           },
@@ -152,7 +156,7 @@
           {
             title: '操作',
             key: 'action',
-            width: 150,
+            width: 170,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -166,7 +170,7 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params.index)
+                      this.show(params.index, params.row)
                     }
                   }
                 }, '查看'),
@@ -177,7 +181,18 @@
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      this.print(params.row)
+                    }
+                  }
+                }, "打印"),
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.remove(params.index, params.row)
                     }
                   }
                 }, '删除')
@@ -192,14 +207,23 @@
         this.param.current = page;
         this.getPageList();
       },
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.tableData[index].name}<br>年龄：${this.tableData[index].age}<br>地址：${this.tableData[index].address}`
-        })
+      show(index, row) {
+        this.$refs.editModalRef.open(row);
       },
-      remove(index) {
-        this.tableData.splice(index, 1);
+      remove(index, row) {
+        this.$http.post("api/point/deleteExpress", {id: row.id}).then(({data: result}) => {
+          if (result.errCode == 0) {
+            this.tableData.splice(index, 1);
+          } else {
+            this.$Notice.error({
+              title: '错误',
+              desc: result.msg,
+            });
+          }
+        });
+      },
+      print(row) {
+        window.open("api/point/viewFile?id="+row.id);
       },
       query() {
         this.getPageList();
@@ -226,7 +250,9 @@
         this.expressStatus = result.data;
       });
       this.getPageList();
+    },
+    components: {
+      "edit-modal": editModal
     }
-
   }
 </script>

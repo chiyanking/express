@@ -37,6 +37,16 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
 
 
     @Override
+    public boolean updateExpress(Express express) {
+        if (express == null || express.getId() == null) {
+            return false;
+        }
+        //门店修改信息不能修改状态
+        express.setStatus(null);
+        return insertOrUpdate(express);
+    }
+
+    @Override
     public Page getExpressList(Page page, ExpressSearchDTO expressSearchDTO) {
         long pointId = ((Point) SessionHelper.getHttpSession().getAttribute(LoginSessionHelper.loginform)).getId();
         Express express = new Express();
@@ -61,8 +71,8 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
             param.like("sender_phone", phone).or("").like("receiver_phone", phone);
         }
         String name = expressSearchDTO.getName();
-        if(StringUtils.isNotBlank(name)){
-            param.like("sender_name",name).or("").like("receiver_name",name);
+        if (StringUtils.isNotBlank(name)) {
+            param.like("sender_name", name).or("").like("receiver_name", name);
         }
         param.orderBy("date", false);
         return selectPage(page, param);
@@ -71,8 +81,11 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
     @Override
     public boolean deleteById(Long expressId) {
         Express express = selectById(expressId);
+        if (express == null) {
+            throw new ApiException(ApiExceptionEnum.ExpressnotExistError);
+        }
         if (ExpressStatusEnums.PRINTED.equals(express.getStatus())) {
-            new ApiException(ApiExceptionEnum.ExpressStatusError);
+            throw new ApiException(ApiExceptionEnum.ExpressStatusError);
         }
         express.setStatus(ExpressStatusEnums.Delete.getValue());
         return updateById(express);

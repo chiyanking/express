@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public interface ExpressService extends IService<Express> {
 
+    boolean updateExpress(Express express);
+
     Page getExpressList(Page page,ExpressSearchDTO expressSearchDTO);
 
     boolean deleteById(Long expressId);

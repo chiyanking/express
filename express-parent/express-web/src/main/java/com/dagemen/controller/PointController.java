@@ -70,7 +70,7 @@ public class PointController {
      */
     @RequestMapping(value = "/addPointRelationCompanys", method = RequestMethod.POST)
     @ResponseBody
-    public Object addPointRelationCompanys(@RequestBody List<PointUpdateCompanyDTO> pointUpdateCompanyDTOList) {
+    public Object addPointRelationCompanies(@RequestBody List<PointUpdateCompanyDTO> pointUpdateCompanyDTOList) {
 
         return ApiResultWrapper.success("保存成功");
     }
@@ -84,6 +84,17 @@ public class PointController {
     @ResponseBody
     public void viewTemplate(Long id, HttpServletResponse response) {
         fileService.viewFile(id, response);
+    }
+
+    /**
+     * 生成电子面单
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getElectronicSheet", method = RequestMethod.GET)
+    public Map<String, Object> getElectronicSheet(Long id) {
+        fileService.getElectronicSheet(id);
+        return ApiResultWrapper.success(pointService.getHasCompany());
     }
 
     /**
@@ -113,6 +124,12 @@ public class PointController {
     public Map<String, Object> getExpressList(@RequestParam Long expressId) {
         return ApiResultWrapper.success(expressService.selectById(expressId));
     }
+    @ResponseBody
+    @RequestMapping(value = "/updateExpress", method = RequestMethod.GET)
+    public Map<String, Object> insertExpress(@RequestBody Express express) {
+        return ApiResultWrapper.success(expressService.updateExpress(express));
+    }
+
 
     /**
      * 根据快递单号删除快递单
@@ -120,7 +137,7 @@ public class PointController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/deleteExpressById", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteExpress", method = RequestMethod.POST)
     public Map<String, Object> deleteExpressList(@RequestBody Express express) {
         return ApiResultWrapper.success(expressService.deleteById(express.getId()));
     }
@@ -133,8 +150,10 @@ public class PointController {
 
     @ResponseBody
     @RequestMapping(value = "/getHasCompanies", method = RequestMethod.GET)
+    @AuthorizeAnnotation(isLogin = false)
     public Map<String, Object> getHasCompanies() {
         return ApiResultWrapper.success(pointService.getHasCompany());
     }
+
 }
 
