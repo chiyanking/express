@@ -114,8 +114,15 @@
         express.receiverDistrictName = district.label;
       },
       ok() {
-        this.$Message.info('点击了确定');
-        this.visual = false;
+        this.$http.post("api/point/updateExpress", this.express).then((result) => {
+          if (!result.data.errCode) {
+            this.visual = false;
+            this.$emit("close", true);
+          } else {
+            this.$Message.error(result.data.msg);
+          }
+        });
+
       },
       cancel() {
         this.$Message.info('点击了取消');

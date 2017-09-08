@@ -130,7 +130,7 @@ public class PointController {
         return ApiResultWrapper.success(expressService.selectById(expressId));
     }
     @ResponseBody
-    @RequestMapping(value = "/updateExpress", method = RequestMethod.GET)
+    @RequestMapping(value = "/updateExpress", method = RequestMethod.POST)
     public Map<String, Object> insertExpress(@RequestBody Express express) {
         return ApiResultWrapper.success(expressService.updateExpress(express));
     }

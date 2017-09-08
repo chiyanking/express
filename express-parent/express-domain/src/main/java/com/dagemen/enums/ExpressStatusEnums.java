@@ -3,7 +3,7 @@ package com.dagemen.enums;
 public enum ExpressStatusEnums {
 
 
-    WAITTING_PRINT(3, "等待打印"),
+    WAITE(3, "等待打印"),
     PRINTED(5,"已经打印"),
     Delete(9,"已经删除");
     private String name;

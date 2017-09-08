@@ -161,7 +161,7 @@ public class MobileServiceImpl implements MobileService {
         }
         userService.insertOrUpdate(receiver);
         express.setReceiverId(receiver.getId());
-        express.setStatus(ExpressStatusEnums.WAITTING_PRINT.getValue());
+        express.setStatus(ExpressStatusEnums.WAITE.getValue());
         express.setDate(new Date());
         expressService.insertOrUpdate(express);
         return express;

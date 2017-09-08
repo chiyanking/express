@@ -33,7 +33,7 @@
           @on-change="pageChange"
           class="table-pagination"></Page>
 
-    <edit-modal ref="editModalRef"/>
+    <edit-modal ref="editModalRef" @close="getPageList"/>
   </div>
 </template>
 <script>
@@ -93,6 +93,7 @@
             render: (h, {row}) => {
               return h('div', [
                 h('Icon', {
+                  style:"margin-right:.5em",
                   props: {
                     type: 'person'
                   }
@@ -127,6 +128,7 @@
             render: (h, {row}) => {
               return h('div', [
                 h('Icon', {
+                  style:"margin-right:.5em",
                   props: {
                     type: 'person'
                   }
@@ -173,7 +175,7 @@
                       this.show(params.index, params.row)
                     }
                   }
-                }, '查看'),
+                }, '编辑'),
                 h('Button', {
                   props: {
                     type: 'text',
@@ -215,10 +217,7 @@
           if (result.errCode == 0) {
             this.tableData.splice(index, 1);
           } else {
-            this.$Notice.error({
-              title: '错误',
-              desc: result.msg,
-            });
+            this.$Notice.error(result.msg);
           }
         });
       },
