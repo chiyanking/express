@@ -1,7 +1,10 @@
 package com.dagemen.service;
 
+import com.dagemen.dto.PCD;
 import com.dagemen.entity.RegionProvince;
 import com.baomidou.mybatisplus.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,8 @@ import com.baomidou.mybatisplus.service.IService;
  */
 public interface RegionProvinceService extends IService<RegionProvince> {
     RegionProvince selectByCode(Long code);
+
+
+    List<PCD> getPCDTree();
+
 }

@@ -7,13 +7,16 @@ import com.dagemen.dto.ExpressSearchDTO;
 import com.dagemen.dto.PointUpdateCompanyDTO;
 import com.dagemen.entity.Express;
 import com.dagemen.entity.Point;
+import com.dagemen.entity.RegionProvince;
 import com.dagemen.service.ExpressService;
 import com.dagemen.service.FileService;
 import com.dagemen.service.PointService;
+import com.dagemen.service.RegionProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -35,6 +38,8 @@ public class PointController {
     @Autowired
     private FileService fileService;
 
+    @Resource
+    private RegionProvinceService provinceService;
     /**
      * 登录验证
      *
@@ -155,5 +160,11 @@ public class PointController {
         return ApiResultWrapper.success(pointService.getHasCompany());
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/getPCDTree", method = RequestMethod.GET)
+    @AuthorizeAnnotation(isLogin = false)
+    public Map<String, Object> getPCDTree() {
+        return ApiResultWrapper.success(provinceService.getPCDTree());
+    }
 }
 
