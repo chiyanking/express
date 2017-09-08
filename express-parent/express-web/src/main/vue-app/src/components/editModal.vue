@@ -3,8 +3,7 @@
     v-model="visual"
     :width="700"
     title="快递信息编辑"
-    @on-ok="ok"
-    @on-cancel="cancel">
+    @on-ok="ok">
     <Form :model="express" label-position="right" :label-width="100">
       <Row>
         <Col span="11">
@@ -63,8 +62,8 @@
         </FormItem>
         </Col>
         <Col span="12">
-        <FormItem label="收件人详细地址">
-          <Input v-model="express.receiverAddress"/>
+        <FormItem label="快递费用">
+          <Input v-model="express.price"/>
         </FormItem>
         </Col>
       </Row>
@@ -115,18 +114,12 @@
       },
       ok() {
         this.$http.post("api/point/updateExpress", this.express).then((result) => {
-          if (!result.data.errCode) {
-            this.visual = false;
+          if (result.data.errCode==0) {
             this.$emit("close", true);
           } else {
             this.$Message.error(result.data.msg);
           }
         });
-
-      },
-      cancel() {
-        this.$Message.info('点击了取消');
-        this.visual = false;
       }
     },
     mounted() {

@@ -1,6 +1,5 @@
 package com.dagemen.service.impl;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -17,10 +16,8 @@ import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.ExpressService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +37,9 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
     public boolean updateExpress(Express express) {
         if (express == null || express.getId() == null) {
             return false;
+        }
+        if(!express.getStatus().equals(ExpressStatusEnums.WAITE.getValue())){
+            throw new ApiException(ApiExceptionEnum.ONLY_CHANGE_NOT_PRINTE);
         }
         //门店修改信息不能修改状态
         express.setStatus(null);
@@ -84,7 +84,7 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         if (express == null) {
             throw new ApiException(ApiExceptionEnum.ExpressnotExistError);
         }
-        if (ExpressStatusEnums.PRINTED.equals(express.getStatus())) {
+        if (!ExpressStatusEnums.WAITE.equals(express.getStatus())) {
             throw new ApiException(ApiExceptionEnum.ExpressStatusError);
         }
         express.setStatus(ExpressStatusEnums.Delete.getValue());
