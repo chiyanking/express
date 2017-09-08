@@ -15,10 +15,12 @@ import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.ExpressService;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -38,7 +40,7 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         if (express == null || express.getId() == null) {
             return false;
         }
-        if(!express.getStatus().equals(ExpressStatusEnums.WAITE.getValue())){
+        if (!express.getStatus().equals(ExpressStatusEnums.WAITE.getValue())) {
             throw new ApiException(ApiExceptionEnum.ONLY_CHANGE_NOT_PRINTE);
         }
         //门店修改信息不能修改状态
@@ -58,10 +60,12 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         // 0 表示查询所有
         EntityWrapper param = new EntityWrapper(express);
         if (expressSearchDTO.getStartDate() != null) {
-            param.ge("date", expressSearchDTO.getStartDate());
+            param.gt("date", expressSearchDTO.getStartDate());
         }
-        if (expressSearchDTO.getEndDate() != null) {
-            param.le("date", expressSearchDTO.getEndDate());
+        Date endDate = expressSearchDTO.getEndDate();
+        if (endDate != null) {
+            endDate = DateUtils.addDays(endDate, 1);
+            param.lt("date", endDate);
         }
         if (expressSearchDTO.getExpCode() != null) {
             param.like("exp_code", expressSearchDTO.getExpCode());

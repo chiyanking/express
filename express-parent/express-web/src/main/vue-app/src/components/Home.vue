@@ -22,7 +22,8 @@
         <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
       </FormItem>
       <FormItem label="快递日期">
-        <DatePicker v-model="param.date" type="datetimerange" format="yyyy-MM-dd" placeholder="选择时间"></DatePicker>
+        <DatePicker v-model="param.startDate" type="date" @on-change="startDateChange" placeholder="开始日期"></DatePicker>
+        <DatePicker v-model="param.endDate" type="date" @on-change="endDateChange" placeholder="结束日期"></DatePicker>
       </FormItem>
       <FormItem>
         <Button type="info" @click="query">查询</Button>
@@ -52,7 +53,6 @@
           phone: null,
           expCode: null,
           pointId: null,
-          date: null,
           startDate: null,
           endDate: null,
           status: null,
@@ -157,12 +157,12 @@
           },
           {
             title: '金额',
-            width:68,
+            width: 68,
             key: 'price'
           },
           {
             title: '重量',
-            width:68,
+            width: 68,
             key: 'weight'
           },
           {
@@ -215,6 +215,7 @@
       }
     },
     methods: {
+
       pageChange(page) {
         this.param.current = page;
         this.getPageList();
@@ -239,16 +240,17 @@
       },
       getPageList() {
         let param = Object.assign({}, this.param);
-        if (param.date && param.date.length > 0) {
-          param.startDate = param.date[0] || null;
-          param.endDate = param.date[1] || null;
-        }
-        delete param.date;
         this.$http.get("api/point/getExpressList", {params: param}).then(({data: result}) => {
           this.tableData = result.data.records;
           this.total = result.data.total;
           this.param.current = result.data.current;
         });
+      },
+      startDateChange(val) {
+        this.param.startDate = val;
+      },
+      endDateChange(val) {
+        this.param.endDate = val;
       }
     },
     mounted() {
