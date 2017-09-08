@@ -65,14 +65,6 @@
             key: 'expCode'
           },
           {
-            title: '金额',
-            key: 'price'
-          },
-          {
-            title: '重量',
-            key: 'weight'
-          },
-          {
             title: '创建日期',
             width: 100,
             key: 'date'
@@ -100,7 +92,7 @@
             render: (h, {row}) => {
               return h('div', [
                 h('Icon', {
-                  style:"margin-right:.5em",
+                  style: "margin-right:.5em",
                   props: {
                     type: 'person'
                   }
@@ -136,7 +128,7 @@
             render: (h, {row}) => {
               return h('div', [
                 h('Icon', {
-                  style:"margin-right:.5em",
+                  style: "margin-right:.5em",
                   props: {
                     type: 'person'
                   }
@@ -162,6 +154,16 @@
                 row.receiverAddress
               ])]);
             }
+          },
+          {
+            title: '金额',
+            width:68,
+            key: 'price'
+          },
+          {
+            title: '重量',
+            width:68,
+            key: 'weight'
           },
           {
             title: '操作',
@@ -230,7 +232,7 @@
         });
       },
       print(row) {
-        window.open("api/point/viewFile?id="+row.id);
+        window.open("api/point/viewFile?id=" + row.id);
       },
       query() {
         this.getPageList();
