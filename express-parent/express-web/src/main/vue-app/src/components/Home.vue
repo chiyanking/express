@@ -73,7 +73,13 @@
             key: 'weight'
           },
           {
+            title: '创建日期',
+            width: 100,
+            key: 'date'
+          },
+          {
             title: '状态',
+            width: 85,
             key: 'status',
             render: (h, {row}) => {
               let statusName = "", expressStatus = this.expressStatus;
@@ -89,6 +95,7 @@
           },
           {
             title: '发件人姓名',
+            width: 110,
             key: 'senderName',
             render: (h, {row}) => {
               return h('div', [
@@ -98,7 +105,7 @@
                     type: 'person'
                   }
                 }),
-                h('strong', row.senderName)
+                h('a', row.senderName)
               ]);
             }
           },
@@ -107,23 +114,24 @@
             width: 115,
             key: 'senderPhone'
           },
-          {
-            title: '发件人地址',
-            width: 160,
-            key: 'senderAddress',
-            render(h, {row}) {
-              return h("div", [h("p", [
-                  row.senderProvinceName
-                  + row.senderCityName
-                  + row.senderDistrictName
-                ]
-              ), h("p", [
-                row.senderAddress
-              ])]);
-            }
-          },
+//          {
+//            title: '发件人地址',
+//            width: 160,
+//            key: 'senderAddress',
+//            render(h, {row}) {
+//              return h("div", [h("p", [
+//                  row.senderProvinceName
+//                  + row.senderCityName
+//                  + row.senderDistrictName
+//                ]
+//              ), h("p", [
+//                row.senderAddress
+//              ])]);
+//            }
+//          },
           {
             title: '收件人姓名',
+            width: 110,
             key: 'receiverName',
             render: (h, {row}) => {
               return h('div', [
@@ -133,7 +141,7 @@
                     type: 'person'
                   }
                 }),
-                h('strong', row.receiverName)
+                h('a', row.receiverName)
               ]);
             }
           }, {

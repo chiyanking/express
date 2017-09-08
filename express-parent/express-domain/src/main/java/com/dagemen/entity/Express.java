@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
@@ -36,6 +37,7 @@ public class Express extends Model<Express> {
     /**
      * 寄件时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date date;
     /**
      * 是否打印
