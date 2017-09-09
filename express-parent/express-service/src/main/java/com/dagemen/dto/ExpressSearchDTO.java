@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class ExpressSearchDTO {
 
-    private String expCode;
+    private String expNo;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -20,12 +20,12 @@ public class ExpressSearchDTO {
 
     private Long companyId;
 
-    public String getExpCode() {
-        return expCode;
+    public String getExpNo() {
+        return expNo;
     }
 
-    public void setExpCode(String expCode) {
-        this.expCode = expCode;
+    public void setExpNo(String expNo) {
+        this.expNo = expNo;
     }
 
     public Date getStartDate() {
