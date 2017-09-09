@@ -21,15 +21,21 @@
         </Col>
         <Col :span="spanRight">
         <Row type="flex" class="layout-header">
-          <Col span="2">
+          <Col span="23">
           <Button type="text" @click="toggleClick">
             <Icon type="navicon" size="32"></Icon>
           </Button>
           </Col>
-          <Col span="22">
-          <div style="float:right;padding:10px 10px;">
-            <Avatar icon="person" size="large"/>
-          </div>
+          <Col span="1">
+          <Dropdown>
+            <a href="javascript:void(0)">
+              <Avatar icon="person" size="large" class="person-avatar"/>
+            </a>
+            <DropdownMenu slot="list">
+              <DropdownItem>个人信息</DropdownItem>
+              <DropdownItem>打印单配置</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
           </Col>
         </Row>
         <div class="layout-content">
@@ -37,7 +43,7 @@
           <router-view></router-view>
         </div>
         <div class="layout-copy">
-          2011-2016 &copy; TalkingData
+          2011-2020 &copy; wwww.dagemen.com
         </div>
         </Col>
       </Row>
@@ -72,9 +78,9 @@
           this.spanRight = 21;
         }
       },
-      menuSelect(value){
-        if(value!="waite"){
-          this.$router.push("/"+value);
+      menuSelect(value) {
+        if (value != "waite") {
+          this.$router.push("/" + value);
         }
       }
     },
@@ -145,6 +151,10 @@
   .layout-hide-text .layout-text {
     transition: width .3s ease-in-out;
     display: none;
+  }
+
+  .person-avatar {
+    margin:10px 25px 0 0 ;
   }
 
 </style>

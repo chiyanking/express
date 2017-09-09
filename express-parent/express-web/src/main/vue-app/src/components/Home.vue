@@ -7,27 +7,32 @@
 <template>
   <div class="layout-content-main">
     <Form :label-width="80" inline>
-      <FormItem label="快递公司">
-        <Select v-model="param.companyId" style="width:110px">
-          <Option v-for="item in companies" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
-      </FormItem>
-      <FormItem label="快递单号">
-        <Input v-model="param.expNo" placeholder=""/>
-      </FormItem>
-      <FormItem label="名字">
-        <Input v-model="param.name" placeholder="寄件人或者收件人"/>
-      </FormItem>
-      <FormItem label="手机号">
-        <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
-      </FormItem>
-      <FormItem label="快递日期">
-        <DatePicker v-model="param.startDate" type="date" @on-change="startDateChange" placeholder="开始日期"></DatePicker>
-        <DatePicker v-model="param.endDate" type="date" @on-change="endDateChange" placeholder="结束日期"></DatePicker>
-      </FormItem>
-      <FormItem>
+      <Row>
+        <Col span="22">
+        <FormItem label="快递公司">
+          <Select v-model="param.companyId" style="width:110px" clearable>
+            <Option v-for="item in companies" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </FormItem>
+        <FormItem label="快递单号">
+          <Input v-model="param.expNo" placeholder=""/>
+        </FormItem>
+        <FormItem label="名字">
+          <Input v-model="param.name" placeholder="寄件人或者收件人"/>
+        </FormItem>
+        <FormItem label="手机号">
+          <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
+        </FormItem>
+        <FormItem label="快递日期">
+          <DatePicker v-model="param.startDate" type="date" @on-change="startDateChange"
+                      placeholder="开始日期"></DatePicker>
+          <DatePicker v-model="param.endDate" type="date" @on-change="endDateChange" placeholder="结束日期"></DatePicker>
+        </FormItem>
+        </Col>
+        <Col span="2">
         <Button type="info" @click="query">查询</Button>
-      </FormItem>
+        </Col>
+      </Row>
     </Form>
     <Table border :columns="columns" :data="tableData"></Table>
     <Page :total="total" size="small" :page-size="param.size" :current="param.current"
@@ -46,6 +51,7 @@
         total: 0,
         tableData: [],
         expressStatus: [],
+        companies: [],
         param: {
           current: 1,
           size: 20,
@@ -57,8 +63,6 @@
           endDate: null,
           status: null,
         },
-        companies: [{value: 0, label: '全部'}],
-
         columns: [
           {
             title: '快递单号',
@@ -255,7 +259,7 @@
     },
     mounted() {
       this.$http.get("api/point/getHasCompanies").then(({data: result}) => {
-        this.companies = this.companies.concat(result.data);
+        this.companies = result.data;
       });
       this.$http.get("api/point/getExpressStatus").then(({data: result}) => {
         this.expressStatus = result.data;
