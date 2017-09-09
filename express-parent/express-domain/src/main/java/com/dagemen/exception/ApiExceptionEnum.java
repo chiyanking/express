@@ -10,6 +10,7 @@ public enum ApiExceptionEnum implements BaseExceptionCode {
     USER_LOGIN_ERROR("1002", "用户名或密码错误"),
     CREATE_EXP_MODEL_ERROR("2001","打印快递单失败"),
     NO_SELECTE_COMPANY("2002", "该快递点未选择快递公司"),
+    ONLY_CHANGE_NOT_PRINTE("2003","只能修改未打印的快递信息"),
 
     ExpressnotExistError("3001","快递单不存在"),
     ExpressStatusError("3002","快递单状态不对");

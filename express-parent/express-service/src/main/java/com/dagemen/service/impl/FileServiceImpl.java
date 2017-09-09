@@ -5,6 +5,7 @@ import com.dagemen.Utils.DateHelper;
 import com.dagemen.Utils.PdfUtil;
 import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Express;
+import com.dagemen.enums.ExpressStatusEnums;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.ExpModelService;
@@ -38,17 +39,21 @@ public class FileServiceImpl implements FileService{
         Express express = new Express();
         express.setId(id);
         Express exp = expressService.selectOne(new EntityWrapper<>(express));
+        if(exp == null) {
+            throw new ApiException(ApiExceptionEnum.ExpressnotExistError);
+        }
         ExpModel expMode1 = new ExpModel();
         expMode1.setId(exp.getExpModelId());
-//        ExpModel expMode = expModelService.selectOne(new EntityWrapper<>(expMode1));
+        ExpModel expMode = expModelService.selectOne(new EntityWrapper<>(expMode1));
         JSONObject jsonObject = JSONObject.fromObject(exp);
         String filePath = null;
         byte[] buffer = new byte[256];
         InputStream is = null;
         try {
-//            filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
-            filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
-            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + DateHelper.getDateString(exp.getDate()) + ".pdf";
+            filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
+//            filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
+            String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + "_" + DateHelper.getDateString(exp.getDate()) + ".pdf";
+
             if(!new File(outFilePath).exists()){
                 PdfUtil.creatPdf(jsonObject, filePath, outFilePath);
             }
@@ -69,5 +74,13 @@ public class FileServiceImpl implements FileService{
                 e.printStackTrace();
             }
         }
+        exp.setStatus(ExpressStatusEnums.PRINTED.getValue());
+        expressService.insertOrUpdate(exp);
+    }
+
+    @Override
+    public void getElectronicSheet(Long id) {
+
+
     }
 }

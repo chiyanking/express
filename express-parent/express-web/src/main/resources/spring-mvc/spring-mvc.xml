@@ -45,9 +45,9 @@
                             </bean>
                         </property>
                         <!-- 字段为null时不显示 -->
-                        <!--<property name="serializationInclusion">-->
-                        <!--<value>NON_NULL</value>-->
-                        <!--</property>-->
+                        <property name="serializationInclusion">
+                        <value>NON_NULL</value>
+                        </property>
                         <property name="featuresToDisable">
                             <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
                                 <!-- Map中值为null的键值对不显示 -->
@@ -103,12 +103,12 @@
     </bean>
 
     <!--用户登陆检查-->
-    <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <bean class="com.dagemen.authorization.AuthorizeInterceptor"/>
-        </mvc:interceptor>
-    </mvc:interceptors>
+    <!--<mvc:interceptors>-->
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--<bean class="com.dagemen.authorization.AuthorizeInterceptor"/>-->
+        <!--</mvc:interceptor>-->
+    <!--</mvc:interceptors>-->
     <!--异常处理-->
     <bean id="unionAllExceptionHandler" class="com.dagemen.exception.UnionAllExceptionHandler"/>
     <bean id="exceptionResolver" class="com.dagemen.exception.HandlerMappingExceptionResolver">

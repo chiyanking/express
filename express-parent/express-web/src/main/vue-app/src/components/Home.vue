@@ -22,7 +22,8 @@
         <Input v-model="param.phone" placeholder="寄件人或者收件人"/>
       </FormItem>
       <FormItem label="快递日期">
-        <DatePicker v-model="param.date" type="datetimerange" format="yyyy-MM-dd" placeholder="选择时间"></DatePicker>
+        <DatePicker v-model="param.startDate" type="date" @on-change="startDateChange" placeholder="开始日期"></DatePicker>
+        <DatePicker v-model="param.endDate" type="date" @on-change="endDateChange" placeholder="结束日期"></DatePicker>
       </FormItem>
       <FormItem>
         <Button type="info" @click="query">查询</Button>
@@ -32,9 +33,13 @@
     <Page :total="total" size="small" :page-size="param.size" :current="param.current"
           @on-change="pageChange"
           class="table-pagination"></Page>
+
+    <edit-modal ref="editModalRef" @close="getPageList"/>
   </div>
 </template>
 <script>
+  import editModal from "./editModal";
+
   export default {
     data() {
       return {
@@ -48,7 +53,6 @@
           phone: null,
           expCode: null,
           pointId: null,
-          date: null,
           startDate: null,
           endDate: null,
           status: null,
@@ -61,15 +65,13 @@
             key: 'expCode'
           },
           {
-            title: '金额',
-            key: 'price'
-          },
-          {
-            title: '重量',
-            key: 'weight'
+            title: '创建日期',
+            width: 100,
+            key: 'date'
           },
           {
             title: '状态',
+            width: 85,
             key: 'status',
             render: (h, {row}) => {
               let statusName = "", expressStatus = this.expressStatus;
@@ -85,15 +87,17 @@
           },
           {
             title: '发件人姓名',
+            width: 110,
             key: 'senderName',
             render: (h, {row}) => {
               return h('div', [
                 h('Icon', {
+                  style: "margin-right:.5em",
                   props: {
                     type: 'person'
                   }
                 }),
-                h('strong', row.senderName)
+                h('a', row.senderName)
               ]);
             }
           },
@@ -102,32 +106,34 @@
             width: 115,
             key: 'senderPhone'
           },
-          {
-            title: '发件人地址',
-            width: 160,
-            key: 'senderAddress',
-            render(h, {row}) {
-              return h("div", [h("p", [
-                  row.senderProvinceName
-                  + row.senderCityName
-                  + row.senderDistrictName
-                ]
-              ), h("p", [
-                row.senderAddress
-              ])]);
-            }
-          },
+//          {
+//            title: '发件人地址',
+//            width: 160,
+//            key: 'senderAddress',
+//            render(h, {row}) {
+//              return h("div", [h("p", [
+//                  row.senderProvinceName
+//                  + row.senderCityName
+//                  + row.senderDistrictName
+//                ]
+//              ), h("p", [
+//                row.senderAddress
+//              ])]);
+//            }
+//          },
           {
             title: '收件人姓名',
+            width: 110,
             key: 'receiverName',
             render: (h, {row}) => {
               return h('div', [
                 h('Icon', {
+                  style: "margin-right:.5em",
                   props: {
                     type: 'person'
                   }
                 }),
-                h('strong', row.receiverName)
+                h('a', row.receiverName)
               ]);
             }
           }, {
@@ -150,9 +156,19 @@
             }
           },
           {
+            title: '金额',
+            width: 68,
+            key: 'price'
+          },
+          {
+            title: '重量',
+            width: 68,
+            key: 'weight'
+          },
+          {
             title: '操作',
             key: 'action',
-            width: 150,
+            width: 170,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -166,10 +182,21 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params.index)
+                      this.show(params.index, params.row)
                     }
                   }
-                }, '查看'),
+                }, '编辑'),
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  on: {
+                    click: () => {
+                      this.print(params.row)
+                    }
+                  }
+                }, "打印"),
                 h('Button', {
                   props: {
                     type: 'text',
@@ -188,43 +215,42 @@
       }
     },
     methods: {
+
       pageChange(page) {
         this.param.current = page;
         this.getPageList();
       },
-      show(index) {
-        this.$Modal.info({
-          title: '用户信息',
-          content: `姓名：${this.tableData[index].name}<br>年龄：${this.tableData[index].age}<br>地址：${this.tableData[index].address}`
-        })
+      show(index, row) {
+        this.$refs.editModalRef.open(row);
       },
       remove(index, row) {
         this.$http.post("api/point/deleteExpress", {id: row.id}).then(({data: result}) => {
           if (result.errCode == 0) {
             this.tableData.splice(index, 1);
           } else {
-            this.$Notice.error({
-              title: '错误',
-              desc: result.msg,
-            });
+            this.$Notice.error(result.msg);
           }
         });
+      },
+      print(row) {
+        window.open("api/point/viewFile?id=" + row.id);
       },
       query() {
         this.getPageList();
       },
       getPageList() {
         let param = Object.assign({}, this.param);
-        if (param.date && param.date.length > 0) {
-          param.startDate = param.date[0] || null;
-          param.endDate = param.date[1] || null;
-        }
-        delete param.date;
         this.$http.get("api/point/getExpressList", {params: param}).then(({data: result}) => {
           this.tableData = result.data.records;
           this.total = result.data.total;
           this.param.current = result.data.current;
         });
+      },
+      startDateChange(val) {
+        this.param.startDate = val;
+      },
+      endDateChange(val) {
+        this.param.endDate = val;
       }
     },
     mounted() {
@@ -235,7 +261,9 @@
         this.expressStatus = result.data;
       });
       this.getPageList();
+    },
+    components: {
+      "edit-modal": editModal
     }
-
   }
 </script>
