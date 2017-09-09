@@ -11,5 +11,5 @@ public interface FileService {
 
     void viewFile(Long expNo, HttpServletResponse response);
 
-    ElectronicSheetResponse getElectronicSheet(Long id);
+    void getElectronicSheet(Long id, HttpServletResponse response);
 }

@@ -82,9 +82,9 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
-    public ElectronicSheetResponse getElectronicSheet(Long id) {
+    public void getElectronicSheet(Long id, HttpServletResponse response) {
 
-        ElectronicSheetResponse response = null;
+        ElectronicSheetResponse responses = null;
         try {
             Express express = new Express();
             express.setId(id);
@@ -134,11 +134,13 @@ public class FileServiceImpl implements FileService{
             commodity.setGoodsWeight(1.0);
             esr.setCommodity(commodity);
 
-            response = kdGoldAPIDemo.orderOnlineByJson(esr);
+            responses = kdGoldAPIDemo.orderOnlineByJson(esr);
+//            response.setContentType("text/html; charset=utf-8");
+//            response.getWriter().print(responses.getPrintTemplate());
+            response.getWriter().write(responses.getPrintTemplate());
         } catch (Exception e) {
             e.printStackTrace();
             throw new ApiException(ApiExceptionEnum.CREATE_EXP_MODEL_ERROR);
         }
-        return response;
     }
 }
