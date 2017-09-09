@@ -92,12 +92,12 @@ public class FileServiceImpl implements FileService{
             KdGoldAPIDemo kdGoldAPIDemo = new KdGoldAPIDemo();
             ElectronicSheetRequest esr = new ElectronicSheetRequest();
 
-            esr.setOrderCode(exp.getExpCode());//快递单号
+            esr.setOrderCode(exp.getExpNo());//快递单号
 
             KdApiOrderDistinguish kdApiOrderDistinguish = new KdApiOrderDistinguish();
-            Map<String, String> maps = kdApiOrderDistinguish.getOrderTracesByJson(exp.getExpCode());
+            Map<String, String> maps = kdApiOrderDistinguish.getOrderTracesByJson(exp.getExpNo());
             esr.setShipperCode(maps.get("ShipperCode"));//设置快递公司代码
-            esr.setPayType(exp.getPayStyle());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
+            esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
             esr.setExpType(1);//快递类型：1-标准快件
             esr.setCost(exp.getPrice().doubleValue());//寄件费（运费）
 //            esr.setOtherCost(1.0);//
