@@ -1,4 +1,4 @@
-package com.dagemen.helper.Kdniao;
+package com.dagemen.Utils.Kdniao;
 
 import java.io.BufferedReader;
 import java.io.IOException;

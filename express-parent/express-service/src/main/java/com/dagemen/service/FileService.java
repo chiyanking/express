@@ -1,5 +1,7 @@
 package com.dagemen.service;
 
+import com.dagemen.dto.Kdniao.ElectronicSheetResponse;
+
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -9,5 +11,5 @@ public interface FileService {
 
     void viewFile(Long expCode, HttpServletResponse response);
 
-    void getElectronicSheet(Long id);
+    ElectronicSheetResponse getElectronicSheet(Long id);
 }

@@ -1,103 +1,67 @@
 package com.dagemen.Utils.Kdniao;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
+import net.sf.json.JSONObject;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSON;
-import com.dagemen.dto.Kdniao.*;
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-import java.security.MessageDigest;
-
 /**
- * 快递鸟电子面单接口
+ * Created by 丁芙蓉 on 2017/8/19.
  */
-public class KdGoldAPIDemo {
+public class KdApiOrderDistinguish {
+
+    //DEMO
+    public static void main(String[] args) {
+        KdApiOrderDistinguish api = new KdApiOrderDistinguish();
+        try {
+            api.getOrderTracesByJson("3967950525457");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     //电商ID
     private static String EBusinessID="1300851";
     //电商加密私钥，快递鸟提供，注意保管，不要泄漏
     private static String AppKey="cd3dd15d-f4b4-49e0-bf68-6a23af553bb9";
-    //请求url, 正式环境地址：http://api.kdniao.cc/api/Eorderservice
-//    private String ReqURL="http://testapi.kdniao.cc:8081/api/Eorderservice";
-    private String ReqURL="http://api.kdniao.cc/api/Eorderservice";
-
-
-    public static void main(String[] args) {
-        KdGoldAPIDemo kdGoldAPIDemo =new KdGoldAPIDemo();
-        try {
-            ElectronicSheetRequest electronicSheetRequest = new ElectronicSheetRequest();
-            electronicSheetRequest.setOrderCode("012657700387");
-            electronicSheetRequest.setShipperCode("EMS");
-            electronicSheetRequest.setPayType(1);
-            electronicSheetRequest.setExpType(1);
-            electronicSheetRequest.setCost(1.0);
-            electronicSheetRequest.setOtherCost(1.0);
-            electronicSheetRequest.setWeight(1.0);
-            electronicSheetRequest.setQuantity(1);
-            electronicSheetRequest.setVolume(0.0);
-            electronicSheetRequest.setRemark("小心轻放");
-            electronicSheetRequest.setIsReturnPrintTemplate(1);
-
-            Sender sender = new Sender();
-            sender.setCompany("LV");
-            sender.setAddress("西湖区 浙江大学紫金港校区");
-            sender.setCityName("上海");
-            sender.setMobile("15018442396");
-            sender.setName("张三");
-            sender.setProvinceName("上海");
-            sender.setExpAreaName("青浦区");
-
-            Receiver receiver = new Receiver();
-            receiver.setCompany("LV");
-            receiver.setAddress("西湖区 浙江大学紫金港校区");
-            receiver.setCityName("上海");
-            receiver.setMobile("15018442396");
-            receiver.setName("张三");
-            receiver.setProvinceName("上海");
-            receiver.setExpAreaName("青浦区");
-
-            electronicSheetRequest.setReceiver(receiver);
-            electronicSheetRequest.setSender(sender);
-
-            Commodity commodity = new Commodity();
-            commodity.setGoodsName("鞋子");
-            commodity.setGoodsquantity(1);
-            commodity.setGoodsWeight(1.0);
-            electronicSheetRequest.setCommodity(commodity);
-            System.out.print(kdGoldAPIDemo.orderOnlineByJson(electronicSheetRequest));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
+    //请求url
+    private String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
 
     /**
-     * Json方式 电子面单
+     * Json方式 单号识别
      * @throws Exception
      */
-    public ElectronicSheetResponse orderOnlineByJson(ElectronicSheetRequest electronicSheetRequest) throws Exception{
-        String requestData = JSON.toJSONString(electronicSheetRequest).toString();
+    public Map<String, String> getOrderTracesByJson(String expNo) throws Exception{
+        String requestData= "{'LogisticCode':'" + expNo + "'}";
+
         Map<String, String> params = new HashMap<String, String>();
         params.put("RequestData", urlEncoder(requestData, "UTF-8"));
         params.put("EBusinessID", EBusinessID);
-        params.put("RequestType", "1007");
+        params.put("RequestType", "2002");
         String dataSign=encrypt(requestData, AppKey, "UTF-8");
         params.put("DataSign", urlEncoder(dataSign, "UTF-8"));
         params.put("DataType", "2");
+
         String result=sendPost(ReqURL, params);
+        JSONObject jasonObject = JSONObject.fromObject(result);
+        Map map = (Map)jasonObject;
+        List<Object> list = (List<Object>) map.get("Shippers");
+
+        //返回的  ShipperCode   ShippersName
+        Map<String, String> maps = (Map<String, String>) list.get(0);
+
         //根据公司业务处理返回的信息......
-        ElectronicSheetResponse response = JSON.parseObject(result, ElectronicSheetResponse.class);
-        return response;
+
+        return maps;
     }
+
     /**
      * MD5加密
      * @param str 内容
@@ -127,7 +91,7 @@ public class KdGoldAPIDemo {
      * @throws UnsupportedEncodingException
      */
     private String base64(String str, String charset) throws UnsupportedEncodingException{
-        String encoded = Base64.encode(str.getBytes(charset));
+        String encoded = base64Encode(str.getBytes(charset));
         return encoded;
     }
 
@@ -193,9 +157,9 @@ public class KdGoldAPIDemo {
                     param.append(entry.getKey());
                     param.append("=");
                     param.append(entry.getValue());
-                    System.out.println(entry.getKey()+":"+entry.getValue());
+                    //System.out.println(entry.getKey()+":"+entry.getValue());
                 }
-                System.out.println("param:"+param.toString());
+                //System.out.println("param:"+param.toString());
                 out.write(param.toString());
             }
             // flush输出流的缓冲
@@ -225,5 +189,48 @@ public class KdGoldAPIDemo {
             }
         }
         return result.toString();
+    }
+
+
+    private static char[] base64EncodeChars = new char[] {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+            'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
+            'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
+            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
+            'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+            'w', 'x', 'y', 'z', '0', '1', '2', '3',
+            '4', '5', '6', '7', '8', '9', '+', '/' };
+
+    public static String base64Encode(byte[] data) {
+        StringBuffer sb = new StringBuffer();
+        int len = data.length;
+        int i = 0;
+        int b1, b2, b3;
+        while (i < len) {
+            b1 = data[i++] & 0xff;
+            if (i == len)
+            {
+                sb.append(base64EncodeChars[b1 >>> 2]);
+                sb.append(base64EncodeChars[(b1 & 0x3) << 4]);
+                sb.append("==");
+                break;
+            }
+            b2 = data[i++] & 0xff;
+            if (i == len)
+            {
+                sb.append(base64EncodeChars[b1 >>> 2]);
+                sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
+                sb.append(base64EncodeChars[(b2 & 0x0f) << 2]);
+                sb.append("=");
+                break;
+            }
+            b3 = data[i++] & 0xff;
+            sb.append(base64EncodeChars[b1 >>> 2]);
+            sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
+            sb.append(base64EncodeChars[((b2 & 0x0f) << 2) | ((b3 & 0xc0) >>> 6)]);
+            sb.append(base64EncodeChars[b3 & 0x3f]);
+        }
+        return sb.toString();
     }
 }

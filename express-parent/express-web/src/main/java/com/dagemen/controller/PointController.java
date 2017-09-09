@@ -98,8 +98,7 @@ public class PointController {
     @ResponseBody
     @RequestMapping(value = "/getElectronicSheet", method = RequestMethod.GET)
     public Map<String, Object> getElectronicSheet(Long id) {
-        fileService.getElectronicSheet(id);
-        return ApiResultWrapper.success(pointService.getHasCompany());
+        return ApiResultWrapper.success(fileService.getElectronicSheet(id));
     }
 
     /**

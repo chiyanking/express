@@ -1,20 +1,16 @@
 package com.dagemen.Utils.Kdniao;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
-
 import com.alibaba.fastjson.JSON;
 import com.dagemen.dto.Kdniao.*;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 快递鸟电子面单接口
