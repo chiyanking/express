@@ -22,7 +22,7 @@ public interface PointService extends IService<Point> {
 
     boolean logOut(HttpSession httpSession);
 
-    boolean addPointRelationCompanys(List<PointUpdateCompanyDTO> PointUpdateCompanyDTOList);
+    boolean addPointRelationCompanies(List<PointUpdateCompanyDTO> PointUpdateCompanyDTOList);
 
     /**
      * 获取所有的快递公司
