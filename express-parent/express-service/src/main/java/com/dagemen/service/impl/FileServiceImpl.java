@@ -92,7 +92,8 @@ public class FileServiceImpl implements FileService{
             KdGoldAPIDemo kdGoldAPIDemo = new KdGoldAPIDemo();
             ElectronicSheetRequest esr = new ElectronicSheetRequest();
 
-            esr.setOrderCode(exp.getExpNo());//快递单号
+            esr.setOrderCode(exp.getTradeNo());//订单编号
+            esr.setLogisticCode(exp.getExpNo());//快递单号
 
             KdApiOrderDistinguish kdApiOrderDistinguish = new KdApiOrderDistinguish();
             Map<String, String> maps = kdApiOrderDistinguish.getOrderTracesByJson(exp.getExpNo());
