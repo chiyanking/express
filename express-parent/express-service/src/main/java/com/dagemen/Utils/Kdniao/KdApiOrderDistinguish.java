@@ -20,7 +20,7 @@ public class KdApiOrderDistinguish {
     public static void main(String[] args) {
         KdApiOrderDistinguish api = new KdApiOrderDistinguish();
         try {
-            api.getOrderTracesByJson("3967950525457");
+            api.getExpTraces("3967950525457");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,7 +38,8 @@ public class KdApiOrderDistinguish {
      * Json方式 单号识别
      * @throws Exception
      */
-    public static Map<String, String> getOrderTracesByJson(String expNo) throws Exception{
+    @SuppressWarnings("unused")
+    public static Map<String, String> getExpTraces(String expNo) throws Exception {
         String requestData= "{'LogisticCode':'" + expNo + "'}";
 
         Map<String, String> params = new HashMap<String, String>();
@@ -96,7 +97,7 @@ public class KdApiOrderDistinguish {
     }
 
     @SuppressWarnings("unused")
-    private static  String urlEncoder(String str, String charset) throws UnsupportedEncodingException{
+    private static String urlEncoder(String str, String charset) throws UnsupportedEncodingException{
         String result = URLEncoder.encode(str, charset);
         return result;
     }
