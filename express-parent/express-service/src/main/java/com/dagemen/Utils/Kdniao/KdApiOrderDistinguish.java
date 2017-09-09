@@ -32,13 +32,13 @@ public class KdApiOrderDistinguish {
     //电商加密私钥，快递鸟提供，注意保管，不要泄漏
     private static String AppKey="cd3dd15d-f4b4-49e0-bf68-6a23af553bb9";
     //请求url
-    private String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
+    private static String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
 
     /**
      * Json方式 单号识别
      * @throws Exception
      */
-    public Map<String, String> getOrderTracesByJson(String expNo) throws Exception{
+    public static Map<String, String> getOrderTracesByJson(String expNo) throws Exception{
         String requestData= "{'LogisticCode':'" + expNo + "'}";
 
         Map<String, String> params = new HashMap<String, String>();
@@ -69,7 +69,7 @@ public class KdApiOrderDistinguish {
      * @throws Exception
      */
     @SuppressWarnings("unused")
-    private String MD5(String str, String charset) throws Exception {
+    private static String MD5(String str, String charset) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(str.getBytes(charset));
         byte[] result = md.digest();
@@ -90,13 +90,13 @@ public class KdApiOrderDistinguish {
      * @param charset 编码方式
      * @throws UnsupportedEncodingException
      */
-    private String base64(String str, String charset) throws UnsupportedEncodingException{
+    private static String base64(String str, String charset) throws UnsupportedEncodingException{
         String encoded = base64Encode(str.getBytes(charset));
         return encoded;
     }
 
     @SuppressWarnings("unused")
-    private String urlEncoder(String str, String charset) throws UnsupportedEncodingException{
+    private static  String urlEncoder(String str, String charset) throws UnsupportedEncodingException{
         String result = URLEncoder.encode(str, charset);
         return result;
     }
@@ -110,7 +110,7 @@ public class KdApiOrderDistinguish {
      * @return DataSign签名
      */
     @SuppressWarnings("unused")
-    private String encrypt (String content, String keyValue, String charset) throws UnsupportedEncodingException, Exception
+    private static String encrypt (String content, String keyValue, String charset) throws UnsupportedEncodingException, Exception
     {
         if (keyValue != null)
         {
@@ -126,7 +126,7 @@ public class KdApiOrderDistinguish {
      * @return 远程资源的响应结果
      */
     @SuppressWarnings("unused")
-    private String sendPost(String url, Map<String, String> params) {
+    private static String sendPost(String url, Map<String, String> params) {
         OutputStreamWriter out = null;
         BufferedReader in = null;
         StringBuilder result = new StringBuilder();
