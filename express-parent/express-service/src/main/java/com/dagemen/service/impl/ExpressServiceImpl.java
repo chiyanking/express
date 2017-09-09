@@ -55,7 +55,7 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         BeanUtils.copyProperties(expressSearchDTO, express);
 
 
-        express.setExpCode(null);
+        express.setExpNo(null);
         express.setPointId(pointId);
         // 0 表示查询所有
         EntityWrapper param = new EntityWrapper(express);
