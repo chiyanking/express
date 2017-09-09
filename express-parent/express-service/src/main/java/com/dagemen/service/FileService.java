@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface FileService {
 
-    void viewFile(Long expCode, HttpServletResponse response);
+    void viewFile(Long expNo, HttpServletResponse response);
 
     ElectronicSheetResponse getElectronicSheet(Long id);
 }

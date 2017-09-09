@@ -67,8 +67,8 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
             endDate = DateUtils.addDays(endDate, 1);
             param.lt("date", endDate);
         }
-        if (expressSearchDTO.getExpCode() != null) {
-            param.like("exp_code", expressSearchDTO.getExpCode());
+        if (expressSearchDTO.getExpNo() != null) {
+            param.like("exp_no", expressSearchDTO.getExpNo());
         }
         String phone = expressSearchDTO.getPhone();
         if (StringUtils.isNotBlank(phone)) {

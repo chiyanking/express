@@ -13,7 +13,7 @@
         </Select>
       </FormItem>
       <FormItem label="快递单号">
-        <Input v-model="param.expCode" placeholder=""/>
+        <Input v-model="param.expNo" placeholder=""/>
       </FormItem>
       <FormItem label="名字">
         <Input v-model="param.name" placeholder="寄件人或者收件人"/>
@@ -51,7 +51,7 @@
           size: 20,
           name: null,
           phone: null,
-          expCode: null,
+          expNo: null,
           pointId: null,
           startDate: null,
           endDate: null,
@@ -62,7 +62,7 @@
         columns: [
           {
             title: '快递单号',
-            key: 'expCode'
+            key: 'expNo'
           },
           {
             title: '创建日期',
