@@ -1,34 +1,34 @@
 package com.dagemen.entity;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.activerecord.Model;
+import java.io.Serializable;
 
 /**
  * <p>
- * 
+ * 快递信息
  * </p>
  *
  * @author dagemen
- * @since 2017-08-27
+ * @since 2017-09-10
  */
 public class Express extends Model<Express> {
 
     private static final long serialVersionUID = 1L;
 
-	@JsonSerialize(using=ToStringSerializer.class)
 	private Long id;
     /**
      * 快递单号
      */
-	@TableField("exp_code")
-	private String expCode;
+	@TableField("exp_no")
+	private String expNo;
+    /**
+     * 订单号
+     */
+	@TableField("trade_no")
+	private String tradeNo;
     /**
      * 门店id
      */
@@ -37,10 +37,9 @@ public class Express extends Model<Express> {
     /**
      * 寄件时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date date;
     /**
-     * 是否打印
+     * 快递单状态
      */
 	private Integer status;
     /**
@@ -51,16 +50,48 @@ public class Express extends Model<Express> {
      * 包裹重量
      */
 	private Double weight;
+	private String volume;
+    /**
+     * 寄件所使用快递Id
+     */
+	@TableField("company_id")
+	private Long companyId;
+	@TableField("company_name")
+	private String companyName;
+    /**
+     * 快递模板Id
+     */
+	@TableField("exp_model_id")
+	private Long expModelId;
+    /**
+     * 支付方式： 1-现付，2-到付，3-月结，4-第三方支付
+     */
+	@TableField("pay_type")
+	private Integer payType;
+    /**
+     * 物品类型,保存格式如下   类型1，类型2，类型3
+     */
+	@TableField("goods_type")
+	private String goodsType;
+    /**
+     * 物品数量
+     */
+	@TableField("goods_count")
+	private Integer goodsCount;
+    /**
+     * 备注信息
+     */
+	private String remark;
     /**
      * 寄件人Id
      */
 	@TableField("sender_id")
 	private Long senderId;
+	@TableField("sender_company")
+	private String senderCompany;
     /**
      * 发件人姓名
      */
-    @TableField("sender_company")
-    private String senderCompany;
 	@TableField("sender_name")
 	private String senderName;
 	@TableField("sender_phone")
@@ -87,11 +118,11 @@ public class Express extends Model<Express> {
 	private String senderAddress;
 	@TableField("receiver_id")
 	private Long receiverId;
+	@TableField("receiver_company")
+	private String receiverCompany;
     /**
      * 发件人姓名
      */
-	@TableField("receiver_company")
-	private String receiverCompany;
 	@TableField("receiver_name")
 	private String receiverName;
 	@TableField("receiver_phone")
@@ -116,33 +147,6 @@ public class Express extends Model<Express> {
 	private String receiverDistrictName;
 	@TableField("receiver_address")
 	private String receiverAddress;
-    /**
-     * 寄件所使用快递Id
-     */
-	@TableField("company_id")
-	private Long companyId;
-	@TableField("company_name")
-	private String companyName;
-    /**
-     * 快递模板Id
-     */
-	@TableField("exp_model_id")
-	private Long expModelId;
-    /**
-     * 支付方式： 0：寄付现结  1：到付
-     */
-	@TableField("pay_type")
-	private Integer payType;
-    /**
-     * 物品类型,保存格式如下   类型1，类型2，类型3
-     */
-	@TableField("goods_style")
-	private String goodsStyle;
-    /**
-     * 物品数量
-     */
-	@TableField("goods_count")
-	private Integer goodsCount;
 
 
 	public Long getId() {
@@ -153,12 +157,20 @@ public class Express extends Model<Express> {
 		this.id = id;
 	}
 
-	public String getExpCode() {
-		return expCode;
+	public String getExpNo() {
+		return expNo;
 	}
 
-	public void setExpCode(String expCode) {
-		this.expCode = expCode;
+	public void setExpNo(String expNo) {
+		this.expNo = expNo;
+	}
+
+	public String getTradeNo() {
+		return tradeNo;
+	}
+
+	public void setTradeNo(String tradeNo) {
+		this.tradeNo = tradeNo;
 	}
 
 	public Long getPointId() {
@@ -199,6 +211,70 @@ public class Express extends Model<Express> {
 
 	public void setWeight(Double weight) {
 		this.weight = weight;
+	}
+
+	public String getVolume() {
+		return volume;
+	}
+
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public Long getExpModelId() {
+		return expModelId;
+	}
+
+	public void setExpModelId(Long expModelId) {
+		this.expModelId = expModelId;
+	}
+
+	public Integer getPayType() {
+		return payType;
+	}
+
+	public void setPayType(Integer payType) {
+		this.payType = payType;
+	}
+
+	public String getGoodsType() {
+		return goodsType;
+	}
+
+	public void setGoodsType(String goodsType) {
+		this.goodsType = goodsType;
+	}
+
+	public Integer getGoodsCount() {
+		return goodsCount;
+	}
+
+	public void setGoodsCount(Integer goodsCount) {
+		this.goodsCount = goodsCount;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	public Long getSenderId() {
@@ -423,54 +499,6 @@ public class Express extends Model<Express> {
 
 	public void setReceiverAddress(String receiverAddress) {
 		this.receiverAddress = receiverAddress;
-	}
-
-	public Long getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
-	}
-
-	public String getCompanyName() {
-		return companyName;
-	}
-
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
-
-	public Long getExpModelId() {
-		return expModelId;
-	}
-
-	public void setExpModelId(Long expModelId) {
-		this.expModelId = expModelId;
-	}
-
-	public Integer getpayType() {
-		return payType;
-	}
-
-	public void setpayType(Integer payType) {
-		this.payType = payType;
-	}
-
-	public String getGoodsStyle() {
-		return goodsStyle;
-	}
-
-	public void setGoodsStyle(String goodsStyle) {
-		this.goodsStyle = goodsStyle;
-	}
-
-	public Integer getGoodsCount() {
-		return goodsCount;
-	}
-
-	public void setGoodsCount(Integer goodsCount) {
-		this.goodsCount = goodsCount;
 	}
 
 	@Override
