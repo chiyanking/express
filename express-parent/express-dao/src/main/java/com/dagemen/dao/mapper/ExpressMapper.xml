@@ -42,14 +42,14 @@
 		<result column="company_id" property="companyId" />
 		<result column="company_name" property="companyName" />
 		<result column="exp_model_id" property="expModelId" />
-		<result column="pay_style" property="payStyle" />
+		<result column="pay_type" property="payType" />
 		<result column="goods_style" property="goodsStyle" />
 		<result column="goods_count" property="goodsCount" />
 	</resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, exp_code AS expCode, point_id AS pointId, date, status AS status, price, weight, sender_id AS senderId, sender_company AS senderCompany, sender_name AS senderName, sender_phone AS senderPhone, sender_province_id AS senderProvinceId, sender_province_code AS senderProvinceCode, sender_province_name AS senderProvinceName, sender_city_id AS senderCityId, sender_city_code AS senderCityCode, sender_city_name AS senderCityName, sender_district_id AS senderDistrictId, sender_district_code AS senderDistrictCode, sender_district_name AS senderDistrictName, sender_address AS senderAddress, receiver_id AS receiverId, receiver_company AS receiverCompany,receiver_name AS receiverName, receiver_phone AS receiverPhone, receiver_province_id AS receiverProvinceId, receiver_province_code AS receiverProvinceCode, receiver_province_name AS receiverProvinceName, receiver_city_id AS receiverCityId, receiver_city_code AS receiverCityCode, receiver_city_name AS receiverCityName, receiver_district_id AS receiverDistrictId, receiver_district_code AS receiverDistrictCode, receiver_district_name AS receiverDistrictName, receiver_address AS receiverAddress, company_id AS companyId, company_name AS companyName, exp_model_id AS expModelId, pay_style AS payStyle, goods_style AS goodsStyle, goods_count AS goodsCount
+        id, exp_code AS expCode, point_id AS pointId, date, status AS status, price, weight, sender_id AS senderId, sender_company AS senderCompany, sender_name AS senderName, sender_phone AS senderPhone, sender_province_id AS senderProvinceId, sender_province_code AS senderProvinceCode, sender_province_name AS senderProvinceName, sender_city_id AS senderCityId, sender_city_code AS senderCityCode, sender_city_name AS senderCityName, sender_district_id AS senderDistrictId, sender_district_code AS senderDistrictCode, sender_district_name AS senderDistrictName, sender_address AS senderAddress, receiver_id AS receiverId, receiver_company AS receiverCompany,receiver_name AS receiverName, receiver_phone AS receiverPhone, receiver_province_id AS receiverProvinceId, receiver_province_code AS receiverProvinceCode, receiver_province_name AS receiverProvinceName, receiver_city_id AS receiverCityId, receiver_city_code AS receiverCityCode, receiver_city_name AS receiverCityName, receiver_district_id AS receiverDistrictId, receiver_district_code AS receiverDistrictCode, receiver_district_name AS receiverDistrictName, receiver_address AS receiverAddress, company_id AS companyId, company_name AS companyName, exp_model_id AS expModelId, pay_type AS payType, goods_style AS goodsStyle, goods_count AS goodsCount
     </sql>
 
 </mapper>

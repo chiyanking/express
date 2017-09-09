@@ -131,8 +131,8 @@ public class Express extends Model<Express> {
     /**
      * 支付方式： 0：寄付现结  1：到付
      */
-	@TableField("pay_style")
-	private Integer payStyle;
+	@TableField("pay_type")
+	private Integer payType;
     /**
      * 物品类型,保存格式如下   类型1，类型2，类型3
      */
@@ -449,12 +449,12 @@ public class Express extends Model<Express> {
 		this.expModelId = expModelId;
 	}
 
-	public Integer getPayStyle() {
-		return payStyle;
+	public Integer getpayType() {
+		return payType;
 	}
 
-	public void setPayStyle(Integer payStyle) {
-		this.payStyle = payStyle;
+	public void setpayType(Integer payType) {
+		this.payType = payType;
 	}
 
 	public String getGoodsStyle() {
