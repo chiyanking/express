@@ -104,12 +104,12 @@ public class FileServiceImpl implements FileService{
 //            esr.setOtherCost(1.0);//
             esr.setWeight(exp.getWeight());//寄件费（运费）
             esr.setQuantity(exp.getGoodsCount());//件数/包裹数
-//            esr.setVolume(0.0);//物品总体积m3
+            esr.setVolume(Double.parseDouble(exp.getVolume()));//物品总体积m3
             esr.setRemark("小心轻放");
             esr.setIsReturnPrintTemplate(1);
 
             Sender sender = new Sender();
-//            sender.setCompany("LV");
+            sender.setCompany(exp.getSenderCompany());
             sender.setAddress(exp.getSenderAddress());
             sender.setCityName(exp.getSenderCityName());
             sender.setMobile(exp.getSenderPhone());
@@ -118,7 +118,7 @@ public class FileServiceImpl implements FileService{
             sender.setExpAreaName(exp.getSenderDistrictName());
 
             Receiver receiver = new Receiver();
-//            receiver.setCompany("LV");
+            receiver.setCompany(exp.getReceiverCompany());
             receiver.setAddress(exp.getReceiverAddress());
             receiver.setCityName(exp.getReceiverCityName());
             receiver.setMobile(exp.getReceiverPhone());
@@ -131,7 +131,7 @@ public class FileServiceImpl implements FileService{
 
             Commodity commodity = new Commodity();
             commodity.setGoodsName("物品");
-            commodity.setGoodsquantity(1);
+            commodity.setGoodsquantity(exp.getGoodsCount());//商品数量
             commodity.setGoodsWeight(1.0);
             esr.setCommodity(commodity);
 
