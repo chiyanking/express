@@ -73,7 +73,7 @@ public class PointController {
      * @param pointUpdateCompanyDTOList
      * @return
      */
-    @RequestMapping(value = "/addPointRelationCompanys", method = RequestMethod.POST)
+    @RequestMapping(value = "/addPointRelationCompanies", method = RequestMethod.POST)
     @ResponseBody
     public Object addPointRelationCompanies(@RequestBody List<PointUpdateCompanyDTO> pointUpdateCompanyDTOList) {
 

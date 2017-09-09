@@ -68,7 +68,7 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
     }
 
     @Override
-    public boolean addPointRelationCompanys(List<PointUpdateCompanyDTO> params) {
+    public boolean addPointRelationCompanies(List<PointUpdateCompanyDTO> params) {
 
         PointCompanyRelation pointCompanyRelation = new PointCompanyRelation();
         pointCompanyRelation.setPointId(params.get(0).getPointId());
