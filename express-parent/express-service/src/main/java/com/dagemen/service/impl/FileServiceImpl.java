@@ -95,8 +95,7 @@ public class FileServiceImpl implements FileService{
             esr.setOrderCode(exp.getTradeNo());//订单编号
             esr.setLogisticCode(exp.getExpNo());//快递单号
 
-            KdApiOrderDistinguish kdApiOrderDistinguish = new KdApiOrderDistinguish();
-            Map<String, String> maps = kdApiOrderDistinguish.getOrderTracesByJson(exp.getExpNo());
+            Map<String, String> maps = KdApiOrderDistinguish.getExpTraces(exp.getExpNo());
             esr.setShipperCode(maps.get("ShipperCode"));//设置快递公司代码
             esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
             esr.setExpType(1);//快递类型：1-标准快件
