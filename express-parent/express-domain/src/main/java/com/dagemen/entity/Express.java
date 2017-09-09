@@ -1,14 +1,14 @@
 package com.dagemen.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * <p>
@@ -59,6 +59,8 @@ public class Express extends Model<Express> {
     /**
      * 发件人姓名
      */
+    @TableField("sender_company")
+    private String senderCompany;
 	@TableField("sender_name")
 	private String senderName;
 	@TableField("sender_phone")
@@ -88,6 +90,8 @@ public class Express extends Model<Express> {
     /**
      * 发件人姓名
      */
+	@TableField("receiver_company")
+	private String receiverCompany;
 	@TableField("receiver_name")
 	private String receiverName;
 	@TableField("receiver_phone")
@@ -205,6 +209,14 @@ public class Express extends Model<Express> {
 		this.senderId = senderId;
 	}
 
+	public String getSenderCompany() {
+		return senderCompany;
+	}
+
+	public void setSenderCompany(String senderCompany) {
+		this.senderCompany = senderCompany;
+	}
+
 	public String getSenderName() {
 		return senderName;
 	}
@@ -307,6 +319,14 @@ public class Express extends Model<Express> {
 
 	public void setReceiverId(Long receiverId) {
 		this.receiverId = receiverId;
+	}
+
+	public String getReceiverCompany() {
+		return receiverCompany;
+	}
+
+	public void setReceiverCompany(String receiverCompany) {
+		this.receiverCompany = receiverCompany;
 	}
 
 	public String getReceiverName() {
