@@ -9,21 +9,54 @@
             color: #333333;
         }
 
-        .row1 {
+        .name {
             margin-top: 5cm;
         }
+
+        .province {
+            margin-top: 0.5cm;
+        }
+
+        .address {
+            margin-top: 0.5cm;
+        }
+
+        @media print {
+            @page {
+                margin: 0cm;
+                width: 4cm;
+            }
+            #printButton{
+                display: none;
+            }
+        }
+
     </style>
 </head>
 <body>
-<div class="row1">
+<div class="name">
     <span class="senderName">章三</span>
     <span class="senderPhone">15757125055</span>
-    <span class="senderPCD">浙江省杭州市西湖区</span>
-    <span class="senderAddress">益乐新村北五区十九号</span>
     <span class="receiverName">李四</span>
     <span class="receiverPHone">15757125060</span>
+</div>
+<div class="province">
+    <span class="senderPCD">浙江省杭州市西湖区</span>
     <span class="receiverPCD">浙江省杭州市西湖区</span>
+</div>
+<div class="address">
+    <span class="senderAddress">益乐新村北五区十九号</span>
     <span class="receiverAddress">益乐新村北五区十九号</span>
 </div>
+
+<button id="printButton">打印</button>
 </body>
+<script src="../js/jquery.min.js"></script>
+<script>
+
+    $("#printButton").click(function(){
+        window.print();
+    });
+
+</script>
 </html>
