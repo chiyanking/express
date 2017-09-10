@@ -135,7 +135,7 @@ public class FileServiceImpl implements FileService {
             esr.setCommodity(commodity);
 
             responses = kdGoldAPIDemo.orderOnlineByJson(esr);
-//            response.setContentType("text/html; charset=utf-8");
+            response.setContentType("text/html; charset=utf-8");
 //            response.getWriter().print(responses.getPrintTemplate());
             response.getWriter().write(responses.getPrintTemplate());
         } catch (Exception e) {

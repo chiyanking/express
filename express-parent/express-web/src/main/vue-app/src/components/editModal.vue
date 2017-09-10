@@ -119,7 +119,8 @@
         window.open("api/point/viewFile?id=" + this.express.id);
       },
       printElement() {
-        window.open("api/point/getElectronicSheet?id=" + this.express.id);
+        let frame = window.open("api/point/getElectronicSheet?id=" + this.express.id);
+        frame.print();
       },
       ok() {
         this.$http.post("api/point/updateExpress", this.express).then((result) => {
