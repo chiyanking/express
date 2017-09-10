@@ -2,11 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>快递单号</title>
+    <title>百世汇通模版</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-size: 1em;
-            color: #333333;
         }
 
         .name {
@@ -26,7 +30,13 @@
                 margin: 0cm;
                 width: 4cm;
             }
-            #printButton{
+
+            * {
+                margin: 0;
+                padding: 0;
+            }
+
+            #printButton {
                 display: none;
             }
         }
@@ -54,7 +64,7 @@
 <script src="../js/jquery.min.js"></script>
 <script>
 
-    $("#printButton").click(function(){
+    $("#printButton").click(function () {
         window.print();
     });
 
