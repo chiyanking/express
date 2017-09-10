@@ -13,6 +13,11 @@
     <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
     <script type='text/javascript' src='http://res.wx.qq.com/open/js/jweixin-1.2.0.js' charset='utf-8'></script>
     <script src="../js/city-picker.min.js"></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div class="page grid js_show" id="page1">
@@ -72,19 +77,39 @@
         <a href="javascript:;" id="submitExpress" class="weui-btn weui-btn_default" style="width:85%;margin-top:55px;">确定</a>
     </div>
 </div>
-<div class="page grid js_show" id="page2">
-    <div class="weui-panel weui-panel_access">
-        <div class="page__hd">
-            <h1 class="page__title"></h1>
-            <p class="page__desc">欢迎关注二维码查询随时查看物流信息</p>
+<div class="page grid js_show hidden" id="page2">
+    <div class="weui-msg">
+        <div class="weui-msg__icon-area">
+            <i class="weui-icon-success weui-icon_msg"></i>
         </div>
-        <img src="../img/qrcode.jpg"/>
+        <div class="weui-msg__text-area">
+            <h2 class="weui-msg__title">提交成功</h2>
+            <p class="weui-msg__desc" style="width:100%;">
+            <div>关注微信或者扫一扫随时查看物流信息</div>
+            <div>再也不用担心快递单号找不到</div>
+            <!--<div style="margin:0 auto;width:100px;height:100px;">-->
+            <!--<img style="width:100%;height:100%" src="../img/qrcode.jpg"/>-->
+            <!--</div>-->
+            </p>
+        </div>
+        <div class="weui-msg__opr-area">
+            <p class="weui-btn-area" style="width:80%; margin:0 auto;">
+                <a href="javascript:;" class="weui-btn weui-btn_primary" id="scan-btn">扫一扫</a>
+                <!--<a href="javascript:;" class="weui-btn weui-btn_default" id="close-btn">关闭</a>-->
+            </p>
+        </div>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="javascript:void(0);" class="weui-footer__link">底部链接文本</a>
+                </p>
+                <p class="weui-footer__text">Copyright © 2008-2019 www.dagemen.com</p>
+            </div>
+        </div>
     </div>
 </div>
 <script>
     $(function () {
-        $("#page2").hide();
-
         var urlParam = new Service().getUrlParams();
         var $senderPCD = $("#senderPCD");
         var $receiverPCD = $("#receiverPCD");
@@ -175,8 +200,8 @@
             $this.prop("disabled", true);
             new Service("../api/mobile/insertExpress").post(param, function (response) {
                 $this.removeAttr("disabled");
-                $("#page1").hide();
-                $("#page2").show();
+                $("#page1").toggleClass("hidden");
+                $("#page2").toggleClass("hidden");
             });
         });
 
@@ -184,11 +209,22 @@
             $.toptip(msg, 'warning');
         }
 
-
         /**
          * 调用起二维码识别功能
          */
-        function getlogistic(){
+        init();
+        $("#scan-btn").click(function () {
+            wx.scanQRCode({
+                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+                scanType: ["scanQRCode"], // 可以指定扫二维码还是一维码，默认二者都有
+                success: function (res) {
+                    alert(JSON.stringify(res));
+                    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+                }
+            });
+        });
+
+        function init() {
             new Service("../api/mobile/signature").get({url: location.href.split('#')[0]}, function (reponse) {
                 var data = reponse.data;
                 var config = {
@@ -200,17 +236,17 @@
                     jsApiList: ['scanQRCode'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
                 };
                 wx.config(config);
-                wx.ready(function () {
-                    // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
-                    wx.scanQRCode({
-                        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-                        scanType: ["scanQRCode"], // 可以指定扫二维码还是一维码，默认二者都有
-                        success: function (res) {
-                            alert(JSON.stringify(res));
-                            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-                        }
-                    });
-                });
+//                wx.ready(function () {
+//                    // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+//                    wx.scanQRCode({
+//                        needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+//                        scanType: ["scanQRCode"], // 可以指定扫二维码还是一维码，默认二者都有
+//                        success: function (res) {
+//                            alert(JSON.stringify(res));
+//                            var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
+//                        }
+//                    });
+//                });
             });
         }
     });
