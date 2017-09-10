@@ -30,7 +30,7 @@ import java.util.Map;
  * Created by 丁芙蓉 on 2017/8/20.
  */
 @Service
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
 
     @Autowired
     private ExpressService expressService;
@@ -43,7 +43,7 @@ public class FileServiceImpl implements FileService{
         Express express = new Express();
         express.setId(id);
         Express exp = expressService.selectOne(new EntityWrapper<>(express));
-        if(exp == null) {
+        if (exp == null) {
             throw new ApiException(ApiExceptionEnum.ExpressnotExistError);
         }
         ExpModel expMode1 = new ExpModel();
@@ -57,12 +57,12 @@ public class FileServiceImpl implements FileService{
             filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
             String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + "_" + DateHelper.getDateString(exp.getDate()) + ".pdf";
 
-            if(!new File(outFilePath).exists()){
+            if (!new File(outFilePath).exists()) {
                 PdfUtil.creatPdf(jsonObject, filePath, outFilePath);
             }
             is = new FileInputStream(outFilePath);
             int nRead = 0;
-            while((nRead = is.read(buffer)) > 0){
+            while ((nRead = is.read(buffer)) > 0) {
                 response.getOutputStream().write(buffer, 0, nRead);
             }
             response.getOutputStream().flush();
@@ -70,10 +70,10 @@ public class FileServiceImpl implements FileService{
             e.printStackTrace();
             throw new ApiException(ApiExceptionEnum.CREATE_EXP_MODEL_ERROR);
         } finally {
-            try{
+            try {
                 is.close();
                 response.getOutputStream().close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -103,7 +103,7 @@ public class FileServiceImpl implements FileService{
 //            esr.setOtherCost(1.0);//
             esr.setWeight(exp.getWeight());//寄件费（运费）
             esr.setQuantity(exp.getGoodsCount());//件数/包裹数
-            esr.setVolume(Double.parseDouble(exp.getVolume()));//物品总体积m3
+            esr.setVolume(exp.getVolume() == null ? 0 : Double.parseDouble(exp.getVolume()));//物品总体积m3
             esr.setRemark("小心轻放");
             esr.setIsReturnPrintTemplate(1);
 

@@ -2,8 +2,7 @@
   <Modal
     v-model="visual"
     :width="700"
-    title="快递信息编辑"
-    @on-ok="ok">
+    title="快递信息编辑">
     <Form :model="express" label-position="right" :label-width="100">
       <Row>
         <Col span="11">
@@ -67,8 +66,12 @@
         </FormItem>
         </Col>
       </Row>
-
     </Form>
+    <div slot="footer">
+      <Button @click="print">打印普通面单</Button>
+      <Button @click="printElement">打印电子面单</Button>
+      <Button @click="ok">确定</Button>
+    </div>
   </Modal>
 </template>
 <script>
@@ -112,9 +115,16 @@
         express.receiverDistrictCode = district.value;
         express.receiverDistrictName = district.label;
       },
+      print() {
+        window.open("api/point/viewFile?id=" + this.express.id);
+      },
+      printElement() {
+        window.open("api/point/getElectronicSheet?id=" + this.express.id);
+      },
       ok() {
         this.$http.post("api/point/updateExpress", this.express).then((result) => {
-          if (result.data.errCode==0) {
+          if (result.data.errCode == 0) {
+            this.visual = false;
             this.$emit("close", true);
           } else {
             this.$Message.error(result.data.msg);

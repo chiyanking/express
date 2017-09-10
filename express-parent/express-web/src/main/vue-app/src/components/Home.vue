@@ -172,7 +172,7 @@
           {
             title: '操作',
             key: 'action',
-            width: 170,
+            width: 125,
             align: 'center',
             render: (h, params) => {
               return h('div', [
@@ -190,17 +190,6 @@
                     }
                   }
                 }, '编辑'),
-                h('Button', {
-                  props: {
-                    type: 'text',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.print(params.row)
-                    }
-                  }
-                }, "打印"),
                 h('Button', {
                   props: {
                     type: 'text',
@@ -235,9 +224,6 @@
             this.$Notice.error(result.msg);
           }
         });
-      },
-      print(row) {
-        window.open("api/point/viewFile?id=" + row.id);
       },
       query() {
         this.getPageList();
