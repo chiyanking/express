@@ -6,6 +6,7 @@ import com.dagemen.Utils.Kdniao.CompanyCode;
 import com.dagemen.Utils.Kdniao.KdApiOrderDistinguish;
 import com.dagemen.Utils.Kdniao.KdGoldAPIDemo;
 import com.dagemen.Utils.PdfUtil;
+import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dto.Kdniao.*;
 import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Express;
@@ -16,15 +17,13 @@ import com.dagemen.service.ExpModelService;
 import com.dagemen.service.ExpressService;
 import com.dagemen.service.FileService;
 import net.sf.json.JSONObject;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -143,9 +142,21 @@ public class FileServiceImpl implements FileService {
             e.printStackTrace();
             throw new ApiException(ApiExceptionEnum.ElectronicSheetError);
         }
-        if(!responses.getSuccess()){
-            throw new ApiException(responses.getResultCode(), responses.getReason());
+//        if (!responses.getSuccess()) {
+//            throw new ApiException(responses.getResultCode(), responses.getReason());
+//        }
+        PrintWriter writer = null;
+        try {
+            HttpServletResponse response = SessionHelper.getResponse();
+            response.setContentType("text/html;charset=utf-8");
+            writer = response.getWriter();
+            writer.write(responses.getPrintTemplate());
+        } catch (IOException e) {
+            if (
+                    writer != null) {
+                writer.close();
+            }
         }
-        return responses;
+        return null;
     }
 }

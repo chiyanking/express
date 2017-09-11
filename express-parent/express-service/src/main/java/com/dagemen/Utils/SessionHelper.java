@@ -4,6 +4,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -11,8 +12,12 @@ import javax.servlet.http.HttpSession;
  */
 public class SessionHelper {
 
-    public static HttpSession getHttpSession(){
+    public static HttpSession getHttpSession() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         return request.getSession();
+    }
+
+    public static HttpServletResponse getResponse() {
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
     }
 }
