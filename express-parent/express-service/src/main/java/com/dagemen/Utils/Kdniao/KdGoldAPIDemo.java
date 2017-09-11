@@ -22,8 +22,8 @@ public class KdGoldAPIDemo {
     //电商加密私钥，快递鸟提供，注意保管，不要泄漏
     private static String AppKey="cd3dd15d-f4b4-49e0-bf68-6a23af553bb9";
     //请求url, 正式环境地址：http://api.kdniao.cc/api/Eorderservice
-//    private String ReqURL="http://testapi.kdniao.cc:8081/api/Eorderservice";
-    private String ReqURL="http://api.kdniao.cc/api/Eorderservice";
+    private String ReqURL="http://testapi.kdniao.cc:8081/api/Eorderservice";
+//    private String ReqURL="http://api.kdniao.cc/api/Eorderservice";
 
 
     public static void main(String[] args) {

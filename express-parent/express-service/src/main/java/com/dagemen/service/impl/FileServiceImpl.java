@@ -2,6 +2,7 @@ package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.DateHelper;
+import com.dagemen.Utils.Kdniao.CompanyCode;
 import com.dagemen.Utils.Kdniao.KdApiOrderDistinguish;
 import com.dagemen.Utils.Kdniao.KdGoldAPIDemo;
 import com.dagemen.Utils.PdfUtil;
@@ -82,65 +83,69 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void getElectronicSheet(Long id, HttpServletResponse response) {
+    public ElectronicSheetResponse getElectronicSheet(Long id) {
 
         ElectronicSheetResponse responses = null;
-        try {
-            Express express = new Express();
-            express.setId(id);
-            Express exp = expressService.selectOne(new EntityWrapper<>(express));
-            KdGoldAPIDemo kdGoldAPIDemo = new KdGoldAPIDemo();
-            ElectronicSheetRequest esr = new ElectronicSheetRequest();
+        Express express = new Express();
+        express.setId(id);
+        Express exp = expressService.selectOne(new EntityWrapper<>(express));
+        KdGoldAPIDemo kdGoldAPIDemo = new KdGoldAPIDemo();
+        ElectronicSheetRequest esr = new ElectronicSheetRequest();
 
-            esr.setOrderCode(exp.getTradeNo());//订单编号
-            esr.setLogisticCode(exp.getExpNo());//快递单号
+        esr.setOrderCode(exp.getTradeNo());//订单编号
+        esr.setLogisticCode(exp.getExpNo());//快递单号
 
-            Map<String, String> maps = KdApiOrderDistinguish.getExpTraces(exp.getExpNo());
-            esr.setShipperCode(maps.get("ShipperCode"));//设置快递公司代码
-            esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
-            esr.setExpType(1);//快递类型：1-标准快件
-            esr.setCost(exp.getPrice().doubleValue());//寄件费（运费）
+        esr.setCustomerName("testhtky");
+        esr.setCustomerPwd("testhtkypwd");
+//            Map<String, String> maps = KdApiOrderDistinguish.getExpTraces(exp.getExpNo());
+//            esr.setShipperCode(maps.get("ShipperCode"));//设置快递公司代码
+        esr.setShipperCode(CompanyCode.getCompanyCode(exp.getCompanyName()));
+        esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
+        esr.setExpType(1);//快递类型：1-标准快件
+        esr.setCost(exp.getPrice().doubleValue());//寄件费（运费）
 //            esr.setOtherCost(1.0);//
-            esr.setWeight(exp.getWeight());//寄件费（运费）
-            esr.setQuantity(exp.getGoodsCount());//件数/包裹数
-            esr.setVolume(exp.getVolume() == null ? 0 : Double.parseDouble(exp.getVolume()));//物品总体积m3
-            esr.setRemark("小心轻放");
-            esr.setIsReturnPrintTemplate(1);
+        esr.setWeight(exp.getWeight());//寄件费（运费）
+        esr.setQuantity(exp.getGoodsCount());//件数/包裹数
+        esr.setVolume(exp.getVolume() == null ? 0 : Double.parseDouble(exp.getVolume()));//物品总体积m3
+        esr.setRemark("小心轻放");
+        esr.setIsReturnPrintTemplate(1);
 
-            Sender sender = new Sender();
-            sender.setCompany(exp.getSenderCompany());
-            sender.setAddress(exp.getSenderAddress());
-            sender.setCityName(exp.getSenderCityName());
-            sender.setMobile(exp.getSenderPhone());
-            sender.setName(exp.getSenderName());
-            sender.setProvinceName(exp.getSenderProvinceName());
-            sender.setExpAreaName(exp.getSenderDistrictName());
+        Sender sender = new Sender();
+        sender.setCompany(exp.getSenderCompany());
+        sender.setAddress(exp.getSenderAddress());
+        sender.setCityName(exp.getSenderCityName());
+        sender.setMobile(exp.getSenderPhone());
+        sender.setName(exp.getSenderName());
+        sender.setProvinceName(exp.getSenderProvinceName());
+        sender.setExpAreaName(exp.getSenderDistrictName());
 
-            Receiver receiver = new Receiver();
-            receiver.setCompany(exp.getReceiverCompany());
-            receiver.setAddress(exp.getReceiverAddress());
-            receiver.setCityName(exp.getReceiverCityName());
-            receiver.setMobile(exp.getReceiverPhone());
-            receiver.setName(exp.getReceiverName());
-            receiver.setProvinceName(exp.getReceiverProvinceName());
-            receiver.setExpAreaName(exp.getReceiverDistrictName());
+        Receiver receiver = new Receiver();
+        receiver.setCompany(exp.getReceiverCompany());
+        receiver.setAddress(exp.getReceiverAddress());
+        receiver.setCityName(exp.getReceiverCityName());
+        receiver.setMobile(exp.getReceiverPhone());
+        receiver.setName(exp.getReceiverName());
+        receiver.setProvinceName(exp.getReceiverProvinceName());
+        receiver.setExpAreaName(exp.getReceiverDistrictName());
 
-            esr.setReceiver(receiver);
-            esr.setSender(sender);
+        esr.setReceiver(receiver);
+        esr.setSender(sender);
 
-            Commodity commodity = new Commodity();
-            commodity.setGoodsName("物品");
-            commodity.setGoodsquantity(exp.getGoodsCount());//商品数量
-            commodity.setGoodsWeight(1.0);
-            esr.setCommodity(commodity);
+        Commodity commodity = new Commodity();
+        commodity.setGoodsName("物品");
+        commodity.setGoodsquantity(exp.getGoodsCount());//商品数量
+        commodity.setGoodsWeight(1.0);
+        esr.setCommodity(commodity);
 
+        try {
             responses = kdGoldAPIDemo.orderOnlineByJson(esr);
-            response.setContentType("text/html; charset=utf-8");
-//            response.getWriter().print(responses.getPrintTemplate());
-            response.getWriter().write(responses.getPrintTemplate());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ApiException(ApiExceptionEnum.CREATE_EXP_MODEL_ERROR);
+            throw new ApiException(ApiExceptionEnum.ElectronicSheetError);
         }
+        if(!responses.getSuccess()){
+            throw new ApiException(responses.getResultCode(), responses.getReason());
+        }
+        return responses;
     }
 }
