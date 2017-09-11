@@ -13,7 +13,8 @@ public enum ApiExceptionEnum implements BaseExceptionCode {
     ONLY_CHANGE_NOT_PRINTE("2003","只能修改未打印的快递信息"),
 
     ExpressnotExistError("3001","快递单不存在"),
-    ExpressStatusError("3002","快递单状态不对");
+    ExpressStatusError("3002","快递单状态不对"),
+    ElectronicSheetError("4001","电子面单生成失败"),;
 
     private String errCode;
     private String message;

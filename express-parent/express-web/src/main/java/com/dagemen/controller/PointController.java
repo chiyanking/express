@@ -97,9 +97,8 @@ public class PointController {
      */
     @ResponseBody
     @RequestMapping(value = "/getElectronicSheet", method = RequestMethod.GET)
-    public Map<String, Object> getElectronicSheet(Long id, HttpServletResponse response) {
-        fileService.getElectronicSheet(id, response);
-        return ApiResultWrapper.success();
+    public Map<String, Object> getElectronicSheet(Long id) {
+        return ApiResultWrapper.success(fileService.getElectronicSheet(id));
     }
 
     /**

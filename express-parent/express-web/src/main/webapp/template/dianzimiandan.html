@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>迷你柜商品</title>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <script src="../service.js"></script>
+  <script src="../js/jquery.min.js"></script>
+</head>
+
+<body>
+  <div id="qwqw">
+  </div>
+  请输入系统id：<input type="text" id="logname"/>
+  <button id="print">打印</button>
+</body>
+<script>
+    var a = document.querySelector('.a-parent');
+    var btn = document.querySelector('#print');
+    var json;
+btn.onclick = function() {
+    var param = {
+            id: $("#logname").val()
+          };
+    new Service("../api/point/getElectronicSheet").getAllAsync(param, function (response) {
+        json = response.data.printTemplate;
+          })
+    var w = window.open();
+    w.document.open()
+    w.document.write(json)
+    w.document.close();
+}
+</script>
+<html>
