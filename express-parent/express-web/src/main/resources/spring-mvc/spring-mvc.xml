@@ -45,9 +45,9 @@
                             </bean>
                         </property>
                         <!-- 字段为null时不显示 -->
-                        <!--<property name="serializationInclusion">-->
-                        <!--<value>NON_NULL</value>-->
-                        <!--</property>-->
+                        <property name="serializationInclusion">
+                        <value>NON_NULL</value>
+                        </property>
                         <property name="featuresToDisable">
                             <bean class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
                                 <!-- Map中值为null的键值对不显示 -->

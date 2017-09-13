@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>百世汇通模版</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-size: 15px;
+        }
+
+        .sheet {
+            padding-top: 3.5cm;
+            padding-left: 2.5cm;
+        }
+
+        .name {
+            margin-top: 1cm;
+        }
+
+        .province {
+            margin-top: 0.1cm;
+        }
+
+        .address {
+            margin-top: 0.1cm;
+        }
+
+        .phone {
+            margin-top: 0.2cm;
+        }
+
+        @media print {
+            @page {
+                margin: 0cm;
+            }
+
+            #printButton {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="sheet">
+    <div class="name">
+        <span class="senderName">章三</span>
+        <span class="senderProvinceCity">浙江杭州</span>
+        <span class="receiverName">李四</span>
+        <span class="receiverProvinceCity">上海浦东</span>
+    </div>
+    <div class="company">
+        <span class="senderCompany">发件人单位</span>
+        <span class="receiverCompany">收件人单位</span>
+    </div>
+    <div class="province">
+        <span class="senderPCD">浙江省杭州市西湖区</span>
+        <span class="receiverPCD">浙江省杭州市西湖区</span>
+    </div>
+    <div class="address">
+        <span class="senderAddress">益乐新村北五区十九号</span>
+        <span class="receiverAddress">益乐新村北五区十九号</span>
+    </div>
+    <div class="phone">
+        <span class="senderPhone">15757125055</span>
+        <span class="receiverPHone">15757125060</span>
+    </div>
+</div>
+<button id="printButton">打印</button>
+</body>
+<script src="../js/jquery.min.js"></script>
+<script>
+
+    $("#printButton").click(function () {
+        window.print();
+    });
+
+</script>
+</html>

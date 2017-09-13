@@ -1,20 +1,16 @@
-package com.dagemen.helper.Kdniao;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
+package com.dagemen.Utils.Kdniao;
 
 import com.alibaba.fastjson.JSON;
 import com.dagemen.dto.Kdniao.*;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 快递鸟电子面单接口
@@ -26,8 +22,8 @@ public class KdGoldAPIDemo {
     //电商加密私钥，快递鸟提供，注意保管，不要泄漏
     private static String AppKey="cd3dd15d-f4b4-49e0-bf68-6a23af553bb9";
     //请求url, 正式环境地址：http://api.kdniao.cc/api/Eorderservice
-//    private String ReqURL="http://testapi.kdniao.cc:8081/api/Eorderservice";
-    private String ReqURL="http://api.kdniao.cc/api/Eorderservice";
+    private String ReqURL="http://testapi.kdniao.cc:8081/api/Eorderservice";
+//    private String ReqURL="http://api.kdniao.cc/api/Eorderservice";
 
 
     public static void main(String[] args) {

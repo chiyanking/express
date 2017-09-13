@@ -2,7 +2,12 @@ package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.DateHelper;
+import com.dagemen.Utils.Kdniao.CompanyCode;
+import com.dagemen.Utils.Kdniao.KdApiOrderDistinguish;
+import com.dagemen.Utils.Kdniao.KdGoldAPIDemo;
 import com.dagemen.Utils.PdfUtil;
+import com.dagemen.Utils.SessionHelper;
+import com.dagemen.dto.Kdniao.*;
 import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Express;
 import com.dagemen.enums.ExpressStatusEnums;
@@ -12,21 +17,20 @@ import com.dagemen.service.ExpModelService;
 import com.dagemen.service.ExpressService;
 import com.dagemen.service.FileService;
 import net.sf.json.JSONObject;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.util.Map;
 
 /**
  * Created by 丁芙蓉 on 2017/8/20.
  */
 @Service
-public class FileServiceImpl implements FileService{
+public class FileServiceImpl implements FileService {
 
     @Autowired
     private ExpressService expressService;
@@ -39,7 +43,7 @@ public class FileServiceImpl implements FileService{
         Express express = new Express();
         express.setId(id);
         Express exp = expressService.selectOne(new EntityWrapper<>(express));
-        if(exp == null) {
+        if (exp == null) {
             throw new ApiException(ApiExceptionEnum.ExpressnotExistError);
         }
         ExpModel expMode1 = new ExpModel();
@@ -51,15 +55,14 @@ public class FileServiceImpl implements FileService{
         InputStream is = null;
         try {
             filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
-//            filePath = new ClassPathResource("pdfModel/快递单模板.pdf").getURL().getPath();
             String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + "_" + DateHelper.getDateString(exp.getDate()) + ".pdf";
 
-            if(!new File(outFilePath).exists()){
+            if (!new File(outFilePath).exists()) {
                 PdfUtil.creatPdf(jsonObject, filePath, outFilePath);
             }
             is = new FileInputStream(outFilePath);
             int nRead = 0;
-            while((nRead = is.read(buffer)) > 0){
+            while ((nRead = is.read(buffer)) > 0) {
                 response.getOutputStream().write(buffer, 0, nRead);
             }
             response.getOutputStream().flush();
@@ -67,10 +70,10 @@ public class FileServiceImpl implements FileService{
             e.printStackTrace();
             throw new ApiException(ApiExceptionEnum.CREATE_EXP_MODEL_ERROR);
         } finally {
-            try{
+            try {
                 is.close();
                 response.getOutputStream().close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -79,8 +82,81 @@ public class FileServiceImpl implements FileService{
     }
 
     @Override
-    public void getElectronicSheet(Long id) {
+    public ElectronicSheetResponse getElectronicSheet(Long id) {
 
+        ElectronicSheetResponse responses = null;
+        Express express = new Express();
+        express.setId(id);
+        Express exp = expressService.selectOne(new EntityWrapper<>(express));
+        KdGoldAPIDemo kdGoldAPIDemo = new KdGoldAPIDemo();
+        ElectronicSheetRequest esr = new ElectronicSheetRequest();
 
+        esr.setOrderCode(exp.getTradeNo());//订单编号
+        esr.setLogisticCode(exp.getExpNo());//快递单号
+
+        esr.setCustomerName("testhtky");
+        esr.setCustomerPwd("testhtkypwd");
+//            Map<String, String> maps = KdApiOrderDistinguish.getExpTraces(exp.getExpNo());
+//            esr.setShipperCode(maps.get("ShipperCode"));//设置快递公司代码
+        esr.setShipperCode(CompanyCode.getCompanyCode(exp.getCompanyName()));
+        esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
+        esr.setExpType(1);//快递类型：1-标准快件
+        esr.setCost(exp.getPrice().doubleValue());//寄件费（运费）
+//            esr.setOtherCost(1.0);//
+        esr.setWeight(exp.getWeight());//寄件费（运费）
+        esr.setQuantity(exp.getGoodsCount());//件数/包裹数
+        esr.setVolume(exp.getVolume() == null ? 0 : Double.parseDouble(exp.getVolume()));//物品总体积m3
+        esr.setRemark("小心轻放");
+        esr.setIsReturnPrintTemplate(1);
+
+        Sender sender = new Sender();
+        sender.setCompany(exp.getSenderCompany());
+        sender.setAddress(exp.getSenderAddress());
+        sender.setCityName(exp.getSenderCityName());
+        sender.setMobile(exp.getSenderPhone());
+        sender.setName(exp.getSenderName());
+        sender.setProvinceName(exp.getSenderProvinceName());
+        sender.setExpAreaName(exp.getSenderDistrictName());
+
+        Receiver receiver = new Receiver();
+        receiver.setCompany(exp.getReceiverCompany());
+        receiver.setAddress(exp.getReceiverAddress());
+        receiver.setCityName(exp.getReceiverCityName());
+        receiver.setMobile(exp.getReceiverPhone());
+        receiver.setName(exp.getReceiverName());
+        receiver.setProvinceName(exp.getReceiverProvinceName());
+        receiver.setExpAreaName(exp.getReceiverDistrictName());
+
+        esr.setReceiver(receiver);
+        esr.setSender(sender);
+
+        Commodity commodity = new Commodity();
+        commodity.setGoodsName("物品");
+        commodity.setGoodsquantity(exp.getGoodsCount());//商品数量
+        commodity.setGoodsWeight(1.0);
+        esr.setCommodity(commodity);
+
+        try {
+            responses = kdGoldAPIDemo.orderOnlineByJson(esr);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ApiException(ApiExceptionEnum.ElectronicSheetError);
+        }
+//        if (!responses.getSuccess()) {
+//            throw new ApiException(responses.getResultCode(), responses.getReason());
+//        }
+        PrintWriter writer = null;
+        try {
+            HttpServletResponse response = SessionHelper.getResponse();
+            response.setContentType("text/html;charset=utf-8");
+            writer = response.getWriter();
+            writer.write(responses.getPrintTemplate());
+        } catch (IOException e) {
+            if (
+                    writer != null) {
+                writer.close();
+            }
+        }
+        return null;
     }
 }
