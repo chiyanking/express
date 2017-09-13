@@ -1,6 +1,7 @@
 package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.dagemen.dto.ExpressDTO;
 import com.dagemen.dto.PointAddressDTO;
 import com.dagemen.entity.*;
@@ -163,6 +164,8 @@ public class MobileServiceImpl implements MobileService {
         express.setReceiverId(receiver.getId());
         express.setStatus(ExpressStatusEnums.WAITE.getValue());
         express.setDate(new Date());
+        express.setTradeNo(String.valueOf(IdWorker.getId()));
+        express.setPayType(1);
         expressService.insertOrUpdate(express);
         return express;
     }
