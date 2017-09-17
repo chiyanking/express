@@ -28,6 +28,10 @@
             margin-top: 0;
             padding-right: 15px;
         }
+        .panel-select{
+            margin-top:0;
+
+        }
     </style>
 </head>
 <body>
@@ -84,8 +88,21 @@
             </div>
         </div>
     </div>
+    <div class="weui-panel weui-panel_access panel-select">
+        <div class="weui-panel__bd">
+            <div class="weui-cell">
+                <div class="weui-cell__bd">
+                    <input id="companyId" class="weui-input" name="weight" placeholder="寄送快递">
+                </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" name="weight" type="number" pattern="[0-9]*"
+                           placeholder="包裹重量">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="weui-form-preview__ft">
-        <a href="javascript:;" id="submitExpress" class="weui-btn weui-btn_default" style="width:85%;margin-top:55px;">确定</a>
+        <a href="javascript:;" id="submitExpress" class="weui-btn weui-btn_primary" style="width:85%;margin-top:55px;">确定</a>
     </div>
 </div>
 <div class="page grid js_show hidden" id="page2">
@@ -151,6 +168,19 @@
                 $senderPCD.picker("setValue", pcd);
                 $senderPCD.picker("close");
                 $("#senderAddress").val(data.address);
+                var companies=[];
+                data.companies.forEach((item)=>{
+                    var it={
+                        title:item.name,
+                        value:item.id
+                    };
+                   companies.push(it);
+                });
+
+                $("#companyId").select({
+                    title: "请选择快递",
+                    items: companies
+                });
             }
         });
 
