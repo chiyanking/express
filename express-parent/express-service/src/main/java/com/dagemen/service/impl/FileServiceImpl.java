@@ -152,10 +152,11 @@ public class FileServiceImpl implements FileService {
             writer = response.getWriter();
             writer.write(responses.getPrintTemplate());
         } catch (IOException e) {
-            if (
-                    writer != null) {
+            if (writer != null) {
                 writer.close();
             }
+        }finally {
+            writer.close();
         }
         return null;
     }
