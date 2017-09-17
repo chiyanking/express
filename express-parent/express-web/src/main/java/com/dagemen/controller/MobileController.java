@@ -49,8 +49,8 @@ public class MobileController {
 
     @ResponseBody
     @AuthorizeAnnotation(isLogin = false)
-    @RequestMapping(value = "getPointInformation", method = RequestMethod.GET)
-    public Map<String, Object> getPointInformation(Long pointId) {
-        return ApiResultWrapper.success(mobileService.getPointInformation(pointId));
+    @RequestMapping(value = "getPointInform", method = RequestMethod.GET)
+    public Map<String, Object> getPointInform(Long pointId) {
+        return ApiResultWrapper.success(mobileService.getPointInform(pointId));
     }
 }

@@ -15,7 +15,18 @@
     <script src="../js/city-picker.min.js"></script>
     <style>
         .hidden {
+
             display: none;
+        }
+
+        .sender-panel {
+            margin-top: 0;
+            padding-right: 15px;
+        }
+
+        .receiver-panel {
+            margin-top: 0;
+            padding-right: 15px;
         }
     </style>
 </head>
@@ -25,7 +36,7 @@
         <h1 class="page__title"></h1>
         <p class="page__desc"></p>
     </div>
-    <div class="weui-panel weui-panel_access">
+    <div class="weui-panel weui-panel_access sender-panel">
         <div class="weui-panel__hd">寄件人信息</div>
         <div class="weui-panel__bd">
             <div class="weui-cell">
@@ -49,7 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="weui-panel weui-panel_access">
+    <div class="weui-panel weui-panel_access receiver-panel">
         <div class="weui-panel__hd">收件人信息</div>
         <div class="weui-panel__bd">
             <div class="weui-cell">

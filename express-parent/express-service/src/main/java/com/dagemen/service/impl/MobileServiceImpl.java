@@ -168,7 +168,7 @@ public class MobileServiceImpl implements MobileService {
     }
 
     @Override
-    public PointAddressDTO getPointInformation(long pointId) {
+    public PointAddressDTO getPointInform(long pointId) {
 
         Point params = new Point();
         params.setId(pointId);
