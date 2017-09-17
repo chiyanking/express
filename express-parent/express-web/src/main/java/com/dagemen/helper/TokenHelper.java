@@ -33,7 +33,6 @@ public class TokenHelper {
 
     private static WechatTicket ticket = null;
 
-    private static CloseableHttpClient httpclient = HttpClients.createDefault();
 
     @Resource
     RestTemplate restTemplate;

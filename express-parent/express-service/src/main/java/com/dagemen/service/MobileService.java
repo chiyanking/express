@@ -15,5 +15,5 @@ import java.util.Map;
 public interface MobileService {
     Express insertExpress(ExpressDTO expressDTO);
 
-    PointAddressDTO getPointAddress(long pointId);
+    PointAddressDTO getPointInformation(long pointId);
 }

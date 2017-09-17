@@ -132,7 +132,7 @@
             }
         });
 
-        new Service("../api/mobile/getPointAddress").get({pointId: urlParam.pointId}, function (response) {
+        new Service("../api/mobile/getPointInformation").get({pointId: urlParam.pointId}, function (response) {
             if (!response.errCode) {
                 var data = response.data;
                 var pcd = [data.provinceCode, data.cityCode, data.districtCode];

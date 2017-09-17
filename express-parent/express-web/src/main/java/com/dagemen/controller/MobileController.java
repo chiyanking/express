@@ -4,10 +4,8 @@ import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.authorization.AuthorizeAnnotation;
 import com.dagemen.dto.ExpressDTO;
 import com.dagemen.dto.WechatSignature;
-import com.dagemen.entity.User;
 import com.dagemen.helper.TokenHelper;
 import com.dagemen.service.MobileService;
-import com.dagemen.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,8 +49,8 @@ public class MobileController {
 
     @ResponseBody
     @AuthorizeAnnotation(isLogin = false)
-    @RequestMapping(value = "getPointAddress", method = RequestMethod.GET)
-    public Map<String, Object> getPointAddress(Long pointId) {
-        return ApiResultWrapper.success(mobileService.getPointAddress(pointId));
+    @RequestMapping(value = "getPointInformation", method = RequestMethod.GET)
+    public Map<String, Object> getPointInformation(Long pointId) {
+        return ApiResultWrapper.success(mobileService.getPointInformation(pointId));
     }
 }

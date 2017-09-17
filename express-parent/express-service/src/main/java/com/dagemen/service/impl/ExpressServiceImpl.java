@@ -91,7 +91,7 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         if (!ExpressStatusEnums.WAITE.equals(express.getStatus())) {
             throw new ApiException(ApiExceptionEnum.ExpressStatusError);
         }
-        express.setStatus(ExpressStatusEnums.Delete.getValue());
+        express.setStatus(ExpressStatusEnums.DELETE.getValue());
         return updateById(express);
     }
 
