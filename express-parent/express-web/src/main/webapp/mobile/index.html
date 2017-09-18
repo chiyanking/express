@@ -251,7 +251,6 @@
 
             var $this = $(this);
             $this.prop("disabled", true);
-            debugger;
             new Service("../api/mobile/insertExpress").post(param, function (response) {
                 $this.removeAttr("disabled");
                 $("#page1").toggleClass("hidden");

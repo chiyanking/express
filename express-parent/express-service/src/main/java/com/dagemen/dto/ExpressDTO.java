@@ -12,6 +12,10 @@ public class ExpressDTO {
      */
     private Long pointId;
 
+    private Long companyId;
+    private String companyName;
+    private Double weight;
+
     private String senderName;
     private String senderPhone;
     private List<Long> senderPCDCode;
@@ -30,6 +34,30 @@ public class ExpressDTO {
 
     public void setPointId(Long pointId) {
         this.pointId = pointId;
+    }
+
+    public Long getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Double weight) {
+        this.weight = weight;
     }
 
     public String getSenderName() {
