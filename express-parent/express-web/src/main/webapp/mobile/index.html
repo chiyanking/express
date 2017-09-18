@@ -28,8 +28,9 @@
             margin-top: 0;
             padding-right: 15px;
         }
-        .panel-select{
-            margin-top:0;
+
+        .panel-select {
+            margin-top: 0;
 
         }
     </style>
@@ -92,10 +93,10 @@
         <div class="weui-panel__bd">
             <div class="weui-cell">
                 <div class="weui-cell__bd">
-                    <input id="companyId" class="weui-input" name="weight" placeholder="选择快递">
+                    <input id="companyName" class="weui-input" name="companyName" placeholder="选择快递">
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" name="weight" type="number" pattern="[0-9]*"
+                    <input class="weui-input" id="weight" name="weight" type="number" pattern="[0-9]*"
                            placeholder="包裹重量">
                 </div>
             </div>
@@ -168,16 +169,16 @@
                 $senderPCD.picker("setValue", pcd);
                 $senderPCD.picker("close");
                 $("#senderAddress").val(data.address);
-                var companies=[];
-                data.companies.forEach((item)=>{
-                    var it={
-                        title:item.name,
-                        value:item.id
+                var companies = [];
+                data.companies.forEach((item) => {
+                    var it = {
+                        title: item.name,
+                        value: item.id
                     };
-                   companies.push(it);
+                    companies.push(it);
                 });
 
-                $("#companyId").select({
+                $("#companyName").select({
                     title: "请选择快递",
                     items: companies
                 });
@@ -197,7 +198,10 @@
                 receiverPhone: $("#receiverPhone").val(),
                 receiverPCDCode: receiverPCDCode,
                 receiverPCDName: receiverPCDName,
-                receiverAddress: $("#receiverAddress").val()
+                receiverAddress: $("#receiverAddress").val(),
+                companyId: $("#companyName").attr("data-values"),
+                companyName: $("#companyName").val(),
+                weight: $("#weight").val()
             };
             //验证
             if (!param.pointId) {
@@ -236,9 +240,18 @@
                 message("请填写收件人详细信息 ");
                 return;
             }
+            if (!param.companyName) {
+                message("请选择快递");
+                return;
+            }
+            if (!param.weight) {
+                message("请选择快递");
+                return;
+            }
 
             var $this = $(this);
             $this.prop("disabled", true);
+            debugger;
             new Service("../api/mobile/insertExpress").post(param, function (response) {
                 $this.removeAttr("disabled");
                 $("#page1").toggleClass("hidden");
