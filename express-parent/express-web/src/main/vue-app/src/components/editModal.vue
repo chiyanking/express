@@ -71,6 +71,7 @@
       <Button @click="print">打印普通面单</Button>
       <Button @click="printElement">打印电子面单</Button>
       <Button @click="ok">确定</Button>
+      <Button @click="cancel">取消</Button>
     </div>
   </Modal>
 </template>
@@ -130,7 +131,11 @@
           } else {
             this.$Message.error(result.data.msg);
           }
-        });
+        })
+      },
+      cancel() {
+        this.visual = false;
+        this.$emit("close", true);
       }
     },
     mounted() {
