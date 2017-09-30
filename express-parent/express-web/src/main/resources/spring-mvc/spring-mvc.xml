@@ -102,7 +102,7 @@
         </property>
     </bean>
 
-    用户登陆检查
+    <!--用户登陆检查-->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
