@@ -2,6 +2,7 @@ package com.dagemen.service;
 
 import com.dagemen.entity.Company;
 import com.baomidou.mybatisplus.service.IService;
+import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.PointCompanyRelation;
 import com.dagemen.enums.LabelValue;
 
@@ -27,4 +28,8 @@ public interface CompanyService extends IService<Company> {
      * @return
      */
 	List<PointCompanyRelation> getHasCompanies();
+    /**
+     * 根据快递Id获取模版
+     */
+    List<ExpModel> getModels(Long companyId);
 }

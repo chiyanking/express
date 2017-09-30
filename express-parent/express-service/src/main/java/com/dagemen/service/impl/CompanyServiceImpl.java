@@ -4,11 +4,16 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dao.CompanyMapper;
 import com.dagemen.entity.Company;
+import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Point;
 import com.dagemen.entity.PointCompanyRelation;
+import com.dagemen.enums.ExpModelStatusEnum;
 import com.dagemen.enums.LabelValue;
+import com.dagemen.exception.ApiException;
+import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.CompanyService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.dagemen.service.ExpModelService;
 import com.dagemen.service.PointCompanyRelationService;
 import com.dagemen.service.UserService;
 import org.apache.ibatis.parsing.TokenHandler;
@@ -34,6 +39,9 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
 
     @Resource
     PointCompanyRelationService pointCompanyRelationService;
+
+    @Resource
+    ExpModelService expModelService;
     @Override
     public List<LabelValue> getAllCompanies() {
         List<LabelValue> comOptions = new ArrayList<>();
@@ -53,5 +61,14 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
         PointCompanyRelation relation = new PointCompanyRelation();
         relation.setPointId(pointId);
         return pointCompanyRelationService.selectList(new EntityWrapper<>(relation));
+    }
+
+    @Override
+    public List<ExpModel>  getModels(Long companyId) {
+        Optional.ofNullable(companyId).orElseThrow(()->new ApiException(ApiExceptionEnum.PARAM_ERROR));
+        ExpModel expModel = new ExpModel();
+        expModel.setCompanyId(companyId);
+        expModel.setExpModelStatus(ExpModelStatusEnum.Vaild.getValue());
+        return expModelService.selectList(new EntityWrapper<>(expModel));
     }
 }

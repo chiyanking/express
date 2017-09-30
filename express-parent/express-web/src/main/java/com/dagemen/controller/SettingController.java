@@ -41,5 +41,11 @@ public class SettingController {
     public Map<String,Object> getCompanyList(){
         return ApiResultWrapper.success(companyService.getHasCompanies());
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/getModels", method = RequestMethod.GET)
+    public Map<String,Object> getCompanyList(Long compnayId){
+        return ApiResultWrapper.success(companyService.getModels(compnayId));
+    }
 }
 

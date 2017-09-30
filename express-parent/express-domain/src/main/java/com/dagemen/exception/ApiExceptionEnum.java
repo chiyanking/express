@@ -5,6 +5,7 @@ package com.dagemen.exception;
  */
 public enum ApiExceptionEnum implements BaseExceptionCode {
 
+    PARAM_ERROR("1100","参数错误"),
     USERNOTLOGIN("1000", "用户未登录"),
     USERRIGHTERROR("1001", "用户权限不足"),
     USER_LOGIN_ERROR("1002", "用户名或密码错误"),
