@@ -32,7 +32,9 @@
               <Avatar icon="person" size="large" class="person-avatar"/>
             </a>
             <DropdownMenu slot="list">
-              <DropdownItem>个人信息</DropdownItem>
+              <DropdownItem>
+                <div @click="turnToSetting">个人信息</div>
+              </DropdownItem>
               <DropdownItem>打印单配置</DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -82,6 +84,9 @@
         if (value != "waite") {
           this.$router.push("/" + value);
         }
+      },
+      turnToSetting(value) {
+        this.$router.push("/setting");
       }
     },
     mounted() {
@@ -113,7 +118,7 @@
   }
 
   .layout-content {
-    min-height: 200px;
+    min-height: 700px;
     margin: 15px;
     overflow: hidden;
     background: #fff;
@@ -154,7 +159,7 @@
   }
 
   .person-avatar {
-    margin:10px 25px 0 0 ;
+    margin: 10px 25px 0 0;
   }
 
 </style>
