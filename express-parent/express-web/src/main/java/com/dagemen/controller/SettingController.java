@@ -1,21 +1,13 @@
 package com.dagemen.controller;
 
-import com.baomidou.mybatisplus.plugins.Page;
 import com.dagemen.Utils.ApiResultWrapper;
-import com.dagemen.authorization.AuthorizeAnnotation;
-import com.dagemen.dto.ExpressSearchDTO;
-import com.dagemen.dto.PointUpdateCompanyDTO;
-import com.dagemen.entity.Express;
-import com.dagemen.entity.Point;
-import com.dagemen.service.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.dagemen.service.CompanyService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.List;
 import java.util.Map;
 
 @Controller

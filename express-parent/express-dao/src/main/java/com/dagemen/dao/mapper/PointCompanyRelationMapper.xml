@@ -6,13 +6,16 @@
 	<resultMap id="BaseResultMap" type="com.dagemen.entity.PointCompanyRelation">
 		<id column="id" property="id" />
 		<result column="point_id" property="pointId" />
-		<result column="company_id" property="companyId" />
+		<result column="exp_model_name" property="expModelName" />
+		<result column="company_name" property="companyName" />
 		<result column="exp_model_id" property="expModelId" />
+		<result column="point_name" property="pointName" />
+		<result column="company_id" property="companyId" />
 	</resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, point_id AS pointId, company_id AS companyId, exp_model_id AS expModelId
+        id, point_id AS pointId, exp_model_name AS expModelName, company_name AS companyName, exp_model_id AS expModelId,point_name AS pointName, company_id AS companyId
     </sql>
 
 </mapper>

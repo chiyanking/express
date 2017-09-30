@@ -11,7 +11,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author dagemen
- * @since 2017-08-27
+ * @since 2017-09-30
  */
 @TableName("point_company_relation")
 public class PointCompanyRelation extends Model<PointCompanyRelation> {
@@ -24,16 +24,22 @@ public class PointCompanyRelation extends Model<PointCompanyRelation> {
      */
 	@TableField("point_id")
 	private Long pointId;
-    /**
-     * 快递公司Id
-     */
-	@TableField("company_id")
-	private Long companyId;
+	@TableField("exp_model_name")
+	private String expModelName;
+	@TableField("company_name")
+	private String companyName;
     /**
      * 默认模板的id
      */
 	@TableField("exp_model_id")
 	private Long expModelId;
+	@TableField("point_name")
+	private String pointName;
+    /**
+     * 快递公司Id
+     */
+	@TableField("company_id")
+	private Long companyId;
 
 
 	public Long getId() {
@@ -52,12 +58,20 @@ public class PointCompanyRelation extends Model<PointCompanyRelation> {
 		this.pointId = pointId;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
+	public String getExpModelName() {
+		return expModelName;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setExpModelName(String expModelName) {
+		this.expModelName = expModelName;
+	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 	public Long getExpModelId() {
@@ -66,6 +80,22 @@ public class PointCompanyRelation extends Model<PointCompanyRelation> {
 
 	public void setExpModelId(Long expModelId) {
 		this.expModelId = expModelId;
+	}
+
+	public String getPointName() {
+		return pointName;
+	}
+
+	public void setPointName(String pointName) {
+		this.pointName = pointName;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 	@Override

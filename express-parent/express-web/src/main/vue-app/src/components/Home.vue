@@ -66,15 +66,18 @@
         columns: [
           {
             title: '快递单号',
+            align: 'center',
             key: 'expNo'
           },
           {
             title: '创建日期',
+            align: 'center',
             width: 100,
             key: 'date'
           },
           {
             title: '状态',
+            align: 'center',
             width: 85,
             key: 'status',
             render: (h, {row}) => {
@@ -91,6 +94,7 @@
           },
           {
             title: '发件人姓名',
+            align: 'center',
             width: 110,
             key: 'senderName',
             render: (h, {row}) => {
@@ -107,6 +111,7 @@
           },
           {
             title: '发件人手机号',
+            align: 'center',
             width: 115,
             key: 'senderPhone'
           },
@@ -127,6 +132,7 @@
 //          },
           {
             title: '收件人姓名',
+            align: 'center',
             width: 110,
             key: 'receiverName',
             render: (h, {row}) => {
@@ -142,10 +148,12 @@
             }
           }, {
             title: '收件人手机号',
+            align: 'center',
             width: 115,
             key: 'receiverPhone'
           }, {
             title: '收件人地址',
+            align: 'center',
             width: 160,
             key: 'address',
             render(h, {row}) {
@@ -161,11 +169,13 @@
           },
           {
             title: '金额',
+            align: 'center',
             width: 68,
             key: 'price'
           },
           {
             title: '重量',
+            align: 'center',
             width: 68,
             key: 'weight'
           },
