@@ -3,12 +3,10 @@ package com.dagemen.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.dagemen.Utils.LoginSessionHelper;
 import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dao.ExpressMapper;
 import com.dagemen.dto.ExpressSearchDTO;
 import com.dagemen.entity.Express;
-import com.dagemen.entity.Point;
 import com.dagemen.enums.ExpressStatusEnums;
 import com.dagemen.enums.LabelValue;
 import com.dagemen.exception.ApiException;
@@ -22,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * <p>
@@ -50,7 +49,7 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
 
     @Override
     public Page getExpressList(Page page, ExpressSearchDTO expressSearchDTO) {
-        long pointId = ((Point) SessionHelper.getHttpSession().getAttribute(LoginSessionHelper.loginform)).getId();
+        long pointId = Optional.ofNullable(SessionHelper.getLoginPoint()).map(point -> point.getId()).orElse(null);
         Express express = new Express();
         BeanUtils.copyProperties(expressSearchDTO, express);
 

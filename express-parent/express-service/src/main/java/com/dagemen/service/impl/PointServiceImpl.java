@@ -2,7 +2,6 @@ package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.EncryptAndDecryptUtil;
-import com.dagemen.Utils.LoginSessionHelper;
 import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dao.PointMapper;
 import com.dagemen.dto.PointUpdateCompanyDTO;
@@ -16,15 +15,14 @@ import com.dagemen.service.CompanyService;
 import com.dagemen.service.PointCompanyRelationService;
 import com.dagemen.service.PointService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,16 +48,15 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
     PointCompanyRelationService relationService;
 
     @Override
-    public boolean checkLogin(Point point, HttpSession httpSession) {
+    public boolean checkLogin(Point loginPoint, HttpSession httpSession) {
         Point param = new Point();
-        param.setPhone(point.getPhone());
-        param.setPassword(EncryptAndDecryptUtil.encryptByMD5(point.getPassword()));
-        Point point1 = selectOne(new EntityWrapper<>(param));
-        if (point1 == null) {
+        param.setPhone(loginPoint.getPhone());
+        param.setPassword(EncryptAndDecryptUtil.encryptByMD5(loginPoint.getPassword()));
+        Point point = selectOne(new EntityWrapper<>(param));
+        if (point == null) {
             throw new ApiException(ApiExceptionEnum.USER_LOGIN_ERROR);
         }
-        LoginSessionHelper.logIn(point1, null, httpSession);
-        return true;
+        return SessionHelper.login(point, httpSession);
     }
 
     @Override
@@ -88,39 +85,39 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
         EntityWrapper<Company> param = new EntityWrapper<>(new Company());
         List<Company> companies = companyService.selectList(param);
         ArrayList<LabelValue> labelValues = new ArrayList<>();
-        if(CollectionUtils.isEmpty(companies)){
+        if (CollectionUtils.isEmpty(companies)) {
             return labelValues;
         }
-        companies.forEach((item)->{
+        companies.forEach((item) -> {
             LabelValue labelValue = new LabelValue();
             labelValue.setLabel(item.getName());
             labelValue.setValue(item.getId());
         });
-        return labelValues ;
+        return labelValues;
     }
 
     @Override
     public List<LabelValue> getHasCompany() {
         ArrayList<LabelValue> labelValues = new ArrayList<>();
         PointCompanyRelation param = new PointCompanyRelation();
-        Long pointId = ((Point) SessionHelper.getHttpSession().getAttribute(LoginSessionHelper.loginform)).getId();
+        Long pointId = SessionHelper.getLoginPoint().getId();
         param.setPointId(pointId);
         EntityWrapper<PointCompanyRelation> entityParam = new EntityWrapper<>(param);
         List<PointCompanyRelation> pointCompanyRelations = relationService.selectList(entityParam);
-        if(CollectionUtils.isEmpty(pointCompanyRelations)){
+        if (CollectionUtils.isEmpty(pointCompanyRelations)) {
             return labelValues;
         }
-        List<Long> companyIds=new ArrayList<>();
-        pointCompanyRelations.forEach((item)->{
+        List<Long> companyIds = new ArrayList<>();
+        pointCompanyRelations.forEach((item) -> {
             companyIds.add(item.getCompanyId());
         });
         EntityWrapper<Company> par = new EntityWrapper<>();
-        par.in("id",companyIds);
+        par.in("id", companyIds);
         List<Company> companies = companyService.selectList(par);
-        if(CollectionUtils.isEmpty(companyIds)){
+        if (CollectionUtils.isEmpty(companyIds)) {
             return labelValues;
         }
-        companies.forEach((item)->{
+        companies.forEach((item) -> {
             LabelValue labelValue = new LabelValue();
             labelValue.setValue(item.getId());
             labelValue.setLabel(item.getName());

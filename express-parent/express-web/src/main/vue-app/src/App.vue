@@ -33,7 +33,9 @@
             </a>
             <DropdownMenu slot="list">
               <DropdownItem>
-                <div @click="turnToSetting">个人信息</div>
+                <div @click="turnToSetting">
+                  <Icon type="settings"></Icon>
+                  个人信息</div>
               </DropdownItem>
               <DropdownItem>打印单配置</DropdownItem>
             </DropdownMenu>

@@ -1,6 +1,6 @@
 package com.dagemen.authorization;
 
-import com.dagemen.Utils.LoginSessionHelper;
+import com.dagemen.Utils.SessionHelper;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import org.slf4j.Logger;
@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,8 +36,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         //获取当前登录用户
-        Object userInform = request.getSession().getAttribute(LoginSessionHelper.loginform);
-
+        Object userInform = SessionHelper.getLoginPoint();
         if (userInform == null) {
             //当前没有登录
             throw new ApiException(ApiExceptionEnum.USERNOTLOGIN);
