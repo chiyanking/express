@@ -1,6 +1,9 @@
 <template>
   <Card>
-    <div slot="title">配置界面</div>
+    <div slot="title" class="head">
+      配置界面
+      <Button class="float-right" type="text">新增</Button>
+    </div>
     <Table border :columns="columns" :data="tableData"></Table>
   </Card>
 </template>
@@ -60,7 +63,7 @@
       getPageList() {
         let param = Object.assign({}, this.param);
         this.$http.get("api/setting/getHasCompanies", {params: param}).then(({data: result}) => {
-          this.tableData = result.data.records;
+          this.tableData = result.data;
         });
       }
     },
@@ -69,3 +72,8 @@
     }
   }
 </script>
+<style>
+  .float-right{
+    float:right;
+  }
+</style>
