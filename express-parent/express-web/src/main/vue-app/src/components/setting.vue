@@ -2,13 +2,19 @@
   <Card>
     <div slot="title" class="head">
       配置界面
-      <Button class="float-right" type="text">新增</Button>
+      <Button class="float-right" type="text" @click="handleAdd">新增</Button>
     </div>
     <Table border :columns="columns" :data="tableData"></Table>
+    <setting-modal ref="settingModalRef"/>
   </Card>
 </template>
 <script>
+  import settingModal from "./settingModel.vue";
+
   export default {
+    components: {
+      "setting-modal": settingModal
+    },
     data() {
       return {
         tableData: [],
@@ -65,6 +71,9 @@
         this.$http.get("api/setting/getHasCompanies", {params: param}).then(({data: result}) => {
           this.tableData = result.data;
         });
+      },
+      handleAdd() {
+        this.$refs.settingModalRef.open();
       }
     },
     mounted() {
@@ -73,7 +82,7 @@
   }
 </script>
 <style>
-  .float-right{
-    float:right;
+  .float-right {
+    float: right;
   }
 </style>

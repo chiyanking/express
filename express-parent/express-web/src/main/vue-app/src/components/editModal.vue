@@ -4,68 +4,67 @@
     :width="700"
     title="快递信息编辑">
     <Form :model="express" label-position="right" :label-width="100">
-      <Row>
-        <Col span="11">
-        <FormItem label="发件人姓名">
-          <Input v-model="express.senderName"/>
-        </FormItem>
-        </Col>
-        <Col span="12">
-        <FormItem label="发件人手机号">
-          <Input v-model="express.senderPhone"/>
-        </FormItem>
-        </Col>
-      </Row>
+      <i-row>
+        <i-col span="11">
+          <FormItem label="发件人姓名">
+            <Input v-model="express.senderName"/>
+          </FormItem>
+        </i-col>
+        <i-col span="12">
+          <FormItem label="发件人手机号">
+            <Input v-model="express.senderPhone"/>
+          </FormItem>
+        </i-col>
+      </i-row>
+      <i-row>
+        <i-col span="11">
+          <FormItem label="发件人省市区">
+            <Cascader :data="pcdOption" v-model="express.senderPCDCode" @on-change="senderPCDChange"></Cascader>
+          </FormItem>
+        </i-col>
+        <i-col span="12">
+          <FormItem label="发件人详细地址">
+            <Input v-model="express.senderAddress"/>
+          </FormItem>
+        </i-col>
+      </i-row>
+      <i-row>
+        <i-col span="11">
+          <FormItem label="收件人姓名">
+            <Input v-model="express.receiverName"/>
+          </FormItem>
+        </i-col>
+        <i-col span="12">
+          <FormItem label="收件人手机号">
+            <Input v-model="express.receiverPhone"/>
+          </FormItem>
+        </i-col>
+      </i-row>
+      <i-row>
+        <i-col span="11">
+          <FormItem label="收件人省市区">
+            <Cascader :data="pcdOption" v-model="express.receiverPCDCode" @on-change="receiverPCDChange"></Cascader>
+          </FormItem>
+        </i-col>
+        <i-col span="12">
+          <FormItem label="收件人详细地址">
+            <Input v-model="express.receiverAddress"/>
+          </FormItem>
+        </i-col>
+      </i-row>
 
-      <Row>
-        <Col span="11">
-        <FormItem label="发件人省市区">
-          <Cascader :data="pcdOption" v-model="express.senderPCDCode" @on-change="senderPCDChange"></Cascader>
-        </FormItem>
-        </Col>
-        <Col span="12">
-        <FormItem label="发件人详细地址">
-          <Input v-model="express.senderAddress"/>
-        </FormItem>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="11">
-        <FormItem label="收件人姓名">
-          <Input v-model="express.receiverName"/>
-        </FormItem>
-        </Col>
-        <Col span="12">
-        <FormItem label="收件人手机号">
-          <Input v-model="express.receiverPhone"/>
-        </FormItem>
-        </Col>
-      </Row>
-      <Row>
-        <Col span="11">
-        <FormItem label="收件人省市区">
-          <Cascader :data="pcdOption" v-model="express.receiverPCDCode" @on-change="receiverPCDChange"></Cascader>
-        </FormItem>
-        </Col>
-        <Col span="12">
-        <FormItem label="收件人详细地址">
-          <Input v-model="express.receiverAddress"/>
-        </FormItem>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col span="11">
-        <FormItem label="快递重量">
-          <Input v-model="express.weight"/>
-        </FormItem>
-        </Col>
-        <Col span="12">
-        <FormItem label="快递费用">
-          <Input v-model="express.price"/>
-        </FormItem>
-        </Col>
-      </Row>
+      <i-row>
+        <i-col span="11">
+          <FormItem label="快递重量">
+            <Input v-model="express.weight"/>
+          </FormItem>
+        </i-col>
+        <i-col span="12">
+          <FormItem label="快递费用">
+            <Input v-model="express.price"/>
+          </FormItem>
+        </i-col>
+      </i-row>
     </Form>
     <div slot="footer">
       <Button @click="print">打印普通面单</Button>

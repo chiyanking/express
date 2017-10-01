@@ -1,56 +1,57 @@
 <template>
   <div id="app">
     <div class="layout" :class="textShow">
-      <Row type="flex">
-        <Col :span="spanLeft" class="layout-menu-left">
-        <Menu active-name="home" theme="dark" width="auto" @on-select="menuSelect">
-          <MenuItem name="home">
-            <Icon type="ios-navigate" :size="iconSize"></Icon>
-            <span class="layout-text">首页</span>
-          </MenuItem>
-          <MenuItem name="chart">
-            <Icon type="stats-bars" :size="iconSize"></Icon>
-            <!--<Icon type="ios-keypad" :size="iconSize"></Icon>-->
-            <span class="layout-text">统计</span>
-          </MenuItem>
-          <MenuItem name="waite">
-            <Icon type="ios-analytics" :size="iconSize"></Icon>
-            <span class="layout-text">打印记录</span>
-          </MenuItem>
-        </Menu>
-        </Col>
-        <Col :span="spanRight">
-        <Row type="flex" class="layout-header">
-          <Col span="23">
-          <Button type="text" @click="toggleClick">
-            <Icon type="navicon" size="32"></Icon>
-          </Button>
-          </Col>
-          <Col span="1">
-          <Dropdown>
-            <a href="javascript:void(0)">
-              <Avatar icon="person" size="large" class="person-avatar"/>
-            </a>
-            <DropdownMenu slot="list">
-              <DropdownItem>
-                <div @click="turnToSetting">
-                  <Icon type="settings"></Icon>
-                  个人信息</div>
-              </DropdownItem>
-              <DropdownItem>打印单配置</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-          </Col>
-        </Row>
-        <div class="layout-content">
-          <!-- 路由入口-->
-          <router-view></router-view>
-        </div>
-        <div class="layout-copy">
-          2011-2020 &copy; wwww.dagemen.com
-        </div>
-        </Col>
-      </Row>
+      <i-row type="flex">
+        <i-col :span="spanLeft" class="layout-menu-left">
+          <Menu active-name="home" theme="dark" width="auto" @on-select="menuSelect">
+            <MenuItem name="home">
+              <Icon type="ios-navigate" :size="iconSize"></Icon>
+              <span class="layout-text">首页</span>
+            </MenuItem>
+            <MenuItem name="chart">
+              <Icon type="stats-bars" :size="iconSize"></Icon>
+              <!--<Icon type="ios-keypad" :size="iconSize"></Icon>-->
+              <span class="layout-text">统计</span>
+            </MenuItem>
+            <MenuItem name="waite">
+              <Icon type="ios-analytics" :size="iconSize"></Icon>
+              <span class="layout-text">打印记录</span>
+            </MenuItem>
+          </Menu>
+        </i-col>
+        <i-col :span="spanRight">
+          <i-row type="flex" class="layout-header">
+            <i-col span="22">
+              <Button type="text" @click="toggleClick">
+                <Icon type="navicon" size="32"></Icon>
+              </Button>
+            </i-col>
+            <i-col span="2">
+              <Dropdown>
+                <a href="javascript:void(0)">
+                  <Avatar icon="person" size="large" class="person-avatar"/>
+                </a>
+                <DropdownMenu slot="list">
+                  <DropdownItem>
+                    <div @click="turnToSetting">
+                      <Icon type="settings"></Icon>
+                      个人信息
+                    </div>
+                  </DropdownItem>
+                  <DropdownItem>打印单配置</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </i-col>
+          </i-row>
+          <div class="layout-content">
+            <!-- 路由入口-->
+            <router-view></router-view>
+          </div>
+          <div class="layout-copy">
+            2011-2020 &copy; wwww.dagemen.com
+          </div>
+        </i-col>
+      </i-row>
     </div>
   </div>
 </template>
