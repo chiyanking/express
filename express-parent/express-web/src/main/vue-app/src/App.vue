@@ -27,7 +27,7 @@
               </Button>
             </i-col>
             <i-col span="2">
-              <Dropdown>
+              <Dropdown class="float-right">
                 <a href="javascript:void(0)">
                   <Avatar icon="person" size="large" class="person-avatar"/>
                 </a>
@@ -38,7 +38,10 @@
                       个人信息
                     </div>
                   </DropdownItem>
-                  <DropdownItem>打印单配置</DropdownItem>
+                  <DropdownItem>
+                    <Icon type="ios-flower"></Icon>
+                    打印单配置
+                  </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
             </i-col>
@@ -163,6 +166,10 @@
 
   .person-avatar {
     margin: 10px 25px 0 0;
+  }
+
+  .float-right {
+    float: right;
   }
 
 </style>

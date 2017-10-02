@@ -100,12 +100,13 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
 
         if (companyId != null) {
             Company company = companyService.selectById(companyId);
+            relation.setCompanyName(Optional.ofNullable(company).map((vl) -> vl.getName()).orElse(null));
             relation.setCompanyName(company.getName());
         }
         Long expModelId = relation.getExpModelId();
         if (expModelId != null) {
             ExpModel expModel = expModelService.selectById(expModelId);
-            relation.setExpModelName(expModel.getExpModelName());
+            relation.setExpModelName(Optional.ofNullable(expModel).map((vl) -> vl.getExpModelName()).orElse(null));
         }
 
         return pointCompanyRelationService.insertOrUpdate(relation);

@@ -78,10 +78,10 @@
           if (result.errCode == 0) {
             this.visual = false;
             this.$emit("close", true);
+            this.$refs.modelRef.resetFields();
           } else {
             this.$Message.error(result.msg);
           }
-          this.$refs.modelRef.resetFields();
         })
       },
       cancel() {
