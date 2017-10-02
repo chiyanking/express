@@ -10,21 +10,27 @@ import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dto.Kdniao.*;
 import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Express;
+import com.dagemen.entity.PointCompanyRelation;
 import com.dagemen.enums.ExpressStatusEnums;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.ExpModelService;
 import com.dagemen.service.ExpressService;
 import com.dagemen.service.FileService;
+import com.dagemen.service.PointCompanyRelationService;
 import net.sf.json.JSONObject;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.text.html.Option;
 import java.io.*;
+import java.math.BigDecimal;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by 丁芙蓉 on 2017/8/20.
@@ -32,11 +38,13 @@ import java.util.Map;
 @Service
 public class FileServiceImpl implements FileService {
 
-    @Autowired
+    @Resource
     private ExpressService expressService;
-    @Autowired
+    @Resource
     private ExpModelService expModelService;
 
+    @Resource
+    private PointCompanyRelationService pointCompanyRelationService;
     @Override
     public void viewFile(Long id, HttpServletResponse response) {
 
@@ -94,14 +102,18 @@ public class FileServiceImpl implements FileService {
         esr.setOrderCode(exp.getTradeNo());//订单编号
         esr.setLogisticCode(exp.getExpNo());//快递单号
 
-        esr.setCustomerName("testhtky");
-        esr.setCustomerPwd("testhtkypwd");
+        PointCompanyRelation para = new PointCompanyRelation();
+        para.setCompanyId(exp.getCompanyId());
+        para.setPointId(exp.getPointId());
+        PointCompanyRelation pointCompanyRelation = pointCompanyRelationService.selectOne(new EntityWrapper<>(para));
+        esr.setCustomerName(pointCompanyRelation.getAccount());
+        esr.setCustomerPwd(pointCompanyRelation.getPassword());
 //            Map<String, String> maps = KdApiOrderDistinguish.getExpTraces(exp.getExpNo());
 //            esr.setShipperCode(maps.get("ShipperCode"));//设置快递公司代码
         esr.setShipperCode(CompanyCode.getCompanyCode(exp.getCompanyName()));
         esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
         esr.setExpType(1);//快递类型：1-标准快件
-        esr.setCost(exp.getPrice().doubleValue());//寄件费（运费）
+        esr.setCost(Optional.ofNullable(exp.getPrice()).orElse(BigDecimal.ZERO).doubleValue());//寄件费（运费）
 //            esr.setOtherCost(1.0);//
         esr.setWeight(exp.getWeight());//寄件费（运费）
         esr.setQuantity(exp.getGoodsCount());//件数/包裹数
