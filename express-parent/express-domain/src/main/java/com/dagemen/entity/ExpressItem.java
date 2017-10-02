@@ -36,7 +36,7 @@ public class ExpressItem extends Model<ExpressItem> {
      * 物品重量
      */
 	@TableField("item_wight")
-	private Integer itemWight;
+	private Double itemWight;
     /**
      * 快递Id
      */
@@ -68,11 +68,11 @@ public class ExpressItem extends Model<ExpressItem> {
 		this.itemNum = itemNum;
 	}
 
-	public Integer getItemWight() {
+	public Double getItemWight() {
 		return itemWight;
 	}
 
-	public void setItemWight(Integer itemWight) {
+	public void setItemWight(Double itemWight) {
 		this.itemWight = itemWight;
 	}
 

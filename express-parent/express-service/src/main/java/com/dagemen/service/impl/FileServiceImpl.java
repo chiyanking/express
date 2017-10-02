@@ -10,16 +10,15 @@ import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dto.Kdniao.*;
 import com.dagemen.entity.ExpModel;
 import com.dagemen.entity.Express;
+import com.dagemen.entity.ExpressItem;
 import com.dagemen.entity.PointCompanyRelation;
 import com.dagemen.enums.ExpressStatusEnums;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
-import com.dagemen.service.ExpModelService;
-import com.dagemen.service.ExpressService;
-import com.dagemen.service.FileService;
-import com.dagemen.service.PointCompanyRelationService;
+import com.dagemen.service.*;
 import net.sf.json.JSONObject;
 import org.apache.shiro.session.Session;
+import org.apache.zookeeper.KeeperException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -29,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.swing.text.html.Option;
 import java.io.*;
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -41,9 +42,12 @@ public class FileServiceImpl implements FileService {
     @Resource
     private ExpressService expressService;
     @Resource
+    private ExpressItemService expressItemService;
+    @Resource
     private ExpModelService expModelService;
     @Resource
     private PointCompanyRelationService pointCompanyRelationService;
+
     @Override
     public void viewFile(Long id, HttpServletResponse response) {
 
@@ -141,16 +145,31 @@ public class FileServiceImpl implements FileService {
         esr.setReceiver(receiver);
         esr.setSender(sender);
 
-        Commodity commodity = new Commodity();
-        commodity.setGoodsName("物品");
-        commodity.setGoodsquantity(exp.getGoodsCount());//商品数量
-        commodity.setGoodsWeight(1.0);
-        esr.setCommodity(commodity);
+        ExpressItem param = new ExpressItem();
+        para.setPointId(exp.getPointId());
+        List<ExpressItem> expressItems = expressItemService.selectList(new EntityWrapper<>(param));
+        for (ExpressItem item : Optional.ofNullable(expressItems).orElse(Collections.emptyList())) {
+            Commodity commodity = new Commodity();
+            commodity.setGoodsName(item.getItemName());
+            commodity.setGoodsquantity(item.getItemNum());
+            commodity.setGoodsWeight(item.getItemWight());
+            esr.setCommodity(commodity);
+        }
+        if(expressItems.size()==0){
+            Commodity commodity = new Commodity();
+            commodity.setGoodsName("一般物品");
+            commodity.setGoodsWeight(1d);
+            commodity.setGoodsquantity(1);
+            esr.setCommodity(commodity);
+        }
 
         try {
             responses = kdGoldAPIDemo.orderOnlineByJson(esr);
         } catch (Exception e) {
-            throw new ApiException(ApiExceptionEnum.ElectronicSheetError,e.getMessage());
+            throw new ApiException(ApiExceptionEnum.ElectronicSheetError, e.getMessage());
+        }
+        if (Integer.parseInt(responses.getResultCode())!=100) {
+            throw new ApiException("2000",responses.getReason());
         }
         PrintWriter writer = null;
         try {
@@ -162,7 +181,7 @@ public class FileServiceImpl implements FileService {
             if (writer != null) {
                 writer.close();
             }
-        }finally {
+        } finally {
             writer.close();
         }
         return null;
