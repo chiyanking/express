@@ -32,4 +32,6 @@ public interface CompanyService extends IService<Company> {
      * 根据快递Id获取模版
      */
     List<ExpModel> getModels(Long companyId);
+
+    Boolean bindPointAndModel(PointCompanyRelation relation);
 }

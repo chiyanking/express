@@ -51,7 +51,7 @@ public class PointCompanyRelation extends Model<PointCompanyRelation> {
      * 是否电子面单	
      */
 	@TableField("is_electronic")
-	private Integer isElectronic;
+	private Boolean isElectronic;
     /**
      * 默认模板的id
      */
@@ -120,11 +120,11 @@ public class PointCompanyRelation extends Model<PointCompanyRelation> {
 		this.account = account;
 	}
 
-	public Integer getIsElectronic() {
+	public Boolean getIsElectronic() {
 		return isElectronic;
 	}
 
-	public void setIsElectronic(Integer isElectronic) {
+	public void setIsElectronic(Boolean isElectronic) {
 		this.isElectronic = isElectronic;
 	}
 

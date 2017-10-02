@@ -41,7 +41,10 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
     PointCompanyRelationService pointCompanyRelationService;
 
     @Resource
+    CompanyService companyService;
+    @Resource
     ExpModelService expModelService;
+
     @Override
     public List<LabelValue> getAllCompanies() {
         List<LabelValue> comOptions = new ArrayList<>();
@@ -64,11 +67,47 @@ public class CompanyServiceImpl extends ServiceImpl<CompanyMapper, Company> impl
     }
 
     @Override
-    public List<ExpModel>  getModels(Long companyId) {
-        Optional.ofNullable(companyId).orElseThrow(()->new ApiException(ApiExceptionEnum.PARAM_ERROR));
+    public List<ExpModel> getModels(Long companyId) {
+        Optional.ofNullable(companyId).orElseThrow(() -> new ApiException(ApiExceptionEnum.PARAM_ERROR));
         ExpModel expModel = new ExpModel();
         expModel.setCompanyId(companyId);
         expModel.setExpModelStatus(ExpModelStatusEnum.Vaild.getValue());
         return expModelService.selectList(new EntityWrapper<>(expModel));
+    }
+
+    @Override
+    public Boolean bindPointAndModel(PointCompanyRelation relation) {
+        if (relation == null) {
+            return false;
+        }
+        Point point = SessionHelper.getLoginPoint();
+        relation.setPointId(point.getId());
+        relation.setPointName(point.getName());
+
+        Long companyId = relation.getCompanyId();
+
+        PointCompanyRelation param = new PointCompanyRelation();
+        param.setPointId(point.getId());
+        param.setCompanyId(companyId);
+        EntityWrapper<PointCompanyRelation> wrapper = new EntityWrapper<>(param);
+        if (relation.getId() != null) {
+            wrapper.ne("id", relation.getId());
+        }
+        int r = pointCompanyRelationService.selectCount(wrapper);
+        if (r > 0) {
+            throw new ApiException(ApiExceptionEnum.POINT_COMPANY_ERROR);
+        }
+
+        if (companyId != null) {
+            Company company = companyService.selectById(companyId);
+            relation.setCompanyName(company.getName());
+        }
+        Long expModelId = relation.getExpModelId();
+        if (expModelId != null) {
+            ExpModel expModel = expModelService.selectById(expModelId);
+            relation.setExpModelName(expModel.getExpModelName());
+        }
+
+        return pointCompanyRelationService.insertOrUpdate(relation);
     }
 }

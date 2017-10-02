@@ -5,7 +5,7 @@
       <Button class="float-right" type="text" @click="handleAdd">新增</Button>
     </div>
     <Table border :columns="columns" :data="tableData"></Table>
-    <setting-modal ref="settingModalRef"/>
+    <setting-modal ref="settingModalRef" @close="getPageList"/>
   </Card>
 </template>
 <script>
@@ -23,10 +23,24 @@
             title: "快递名",
             align: 'center',
             key: 'companyName'
-          }, {
+          },{
+            title: '类型',
+            key: 'action',
+            width: 125,
+            align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                params.row.isElectronic?"电子面单":"一般面单"
+              ]);
+            }
+          } ,{
             title: '模版名称',
             align: 'center',
             key: 'expModelName'
+          },{
+            title: '账号',
+            align: 'center',
+            key: 'account'
           }, {
             title: '操作',
             key: 'action',
@@ -44,7 +58,7 @@
                   },
                   on: {
                     click: () => {
-                      this.show(params.index, params.row)
+                      this.handleEdit(params.index, params.row)
                     }
                   }
                 }, '编辑'),
@@ -74,7 +88,10 @@
       },
       handleAdd() {
         this.$refs.settingModalRef.open();
-      }
+      },
+      handleEdit(index,row){
+        this.$refs.settingModalRef.open(row);
+      },
     },
     mounted() {
       this.getPageList();

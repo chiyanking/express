@@ -1,8 +1,10 @@
 package com.dagemen.controller;
 
 import com.dagemen.Utils.ApiResultWrapper;
+import com.dagemen.entity.PointCompanyRelation;
 import com.dagemen.service.CompanyService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -36,8 +38,14 @@ public class SettingController {
 
     @ResponseBody
     @RequestMapping(value = "/getModels", method = RequestMethod.GET)
-    public Map<String,Object> getCompanyList(Long compnayId){
-        return ApiResultWrapper.success(companyService.getModels(compnayId));
+    public Map<String,Object> getCompanyList(Long companyId){
+        return ApiResultWrapper.success(companyService.getModels(companyId));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/bindPointModel", method = RequestMethod.POST)
+    public Map<String,Object> bindPointModel(@RequestBody PointCompanyRelation relation){
+        return ApiResultWrapper.success(companyService.bindPointAndModel(relation));
     }
 }
 
