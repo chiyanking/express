@@ -42,7 +42,6 @@ public class FileServiceImpl implements FileService {
     private ExpressService expressService;
     @Resource
     private ExpModelService expModelService;
-
     @Resource
     private PointCompanyRelationService pointCompanyRelationService;
     @Override
@@ -118,7 +117,7 @@ public class FileServiceImpl implements FileService {
         esr.setWeight(exp.getWeight());//寄件费（运费）
         esr.setQuantity(exp.getGoodsCount());//件数/包裹数
         esr.setVolume(exp.getVolume() == null ? 0 : Double.parseDouble(exp.getVolume()));//物品总体积m3
-        esr.setRemark("小心轻放");
+        esr.setRemark(Optional.ofNullable(exp.getRemark()).orElse("小心轻放！"));
         esr.setIsReturnPrintTemplate(1);
 
         Sender sender = new Sender();
@@ -151,12 +150,8 @@ public class FileServiceImpl implements FileService {
         try {
             responses = kdGoldAPIDemo.orderOnlineByJson(esr);
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new ApiException(ApiExceptionEnum.ElectronicSheetError);
+            throw new ApiException(ApiExceptionEnum.ElectronicSheetError,e.getMessage());
         }
-//        if (!responses.getSuccess()) {
-//            throw new ApiException(responses.getResultCode(), responses.getReason());
-//        }
         PrintWriter writer = null;
         try {
             HttpServletResponse response = SessionHelper.getResponse();

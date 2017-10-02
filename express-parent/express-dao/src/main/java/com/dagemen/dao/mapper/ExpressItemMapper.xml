@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dagemen.mapper.ExpressItemMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.dagemen.entity.ExpressItem">
+		<result column="id" property="id" />
+		<result column="item_name" property="itemName" />
+		<result column="item_num" property="itemNum" />
+		<result column="item_wight" property="itemWight" />
+		<result column="exp_id" property="expId" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, item_name AS itemName, item_num AS itemNum, item_wight AS itemWight, exp_id AS expId
+    </sql>
+
+</mapper>

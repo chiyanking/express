@@ -16,7 +16,7 @@ public enum ApiExceptionEnum implements BaseExceptionCode {
 
     ExpressnotExistError("3001","快递单不存在"),
     ExpressStatusError("3002","快递单状态不对"),
-    ElectronicSheetError("4001","电子面单生成失败"),;
+    ElectronicSheetError("4001","电子面单生成失败：%s"),;
 
     private String errCode;
     private String message;
