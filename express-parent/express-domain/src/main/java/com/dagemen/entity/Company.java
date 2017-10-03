@@ -18,7 +18,7 @@ public class Company extends Model<Company> {
     /**
      * 快递Id
      */
-	private Integer id;
+	private Long id;
     /**
      * 快递编号
      */
@@ -29,11 +29,11 @@ public class Company extends Model<Company> {
 	private String name;
 
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -1,8 +1,6 @@
-package com.dagemen.Utils.Kdniao;
+package com.dagemen.service.kuaidiniao;
 
-import com.dagemen.model.kdniao.KdniaoModel;
-import com.dagemen.model.kdniao.Traces;
-import com.google.gson.Gson;
+import net.sf.json.JSONObject;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -10,19 +8,20 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
- * Created by 丁芙蓉 on 2017/8/17.
+ * Created by 丁芙蓉 on 2017/8/19.
  */
-public class KdniaoTrackQueryAPI {
+public class KdApiOrderDistinguish {
 
+    //DEMO
     public static void main(String[] args) {
+        KdApiOrderDistinguish api = new KdApiOrderDistinguish();
         try {
-            KdniaoModel kdniaoModel = getRealTimeLogisticsInfor("百世快递", "70364387679099");
-            for(Traces obj: kdniaoModel.getTraces()){
-                System.out.println(obj.getAcceptTime() + "      " + obj.getAcceptStation());
-            }
+            api.getExpTraces("3967950525457");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -35,41 +34,33 @@ public class KdniaoTrackQueryAPI {
     //请求url
     private static String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
 
-
     /**
-     * 查询快递信息的主入口
-     * @param companyName 快递公司名称
-     * @param expNo 快递单号
-     * @return
+     * Json方式 单号识别
      * @throws Exception
      */
-    public static KdniaoModel getRealTimeLogisticsInfor(String companyName, String expNo) throws Exception {
-        String result = getOrderTracesByJson(CompanyCode.getCompanyCode("百世快递"), "70364387679099");
-        Gson gson = new Gson();
-        KdniaoModel kdniaoModel = gson.fromJson(result, KdniaoModel.class);
-        return kdniaoModel;
-    }
-
-    /**
-     * Json方式 查询订单物流轨迹
-     * @throws Exception
-     */
-    public static String getOrderTracesByJson(String expCode, String expNo) throws Exception{
-        String requestData= "{'OrderCode':'','ShipperCode':'" + expCode + "','LogisticCode':'" + expNo + "'}";
+    @SuppressWarnings("unused")
+    public static Map<String, String> getExpTraces(String expNo) throws Exception {
+        String requestData= "{'LogisticCode':'" + expNo + "'}";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("RequestData", urlEncoder(requestData, "UTF-8"));
         params.put("EBusinessID", EBusinessID);
-        params.put("RequestType", "1002");
+        params.put("RequestType", "2002");
         String dataSign=encrypt(requestData, AppKey, "UTF-8");
         params.put("DataSign", urlEncoder(dataSign, "UTF-8"));
         params.put("DataType", "2");
 
         String result=sendPost(ReqURL, params);
+        JSONObject jasonObject = JSONObject.fromObject(result);
+        Map map = (Map)jasonObject;
+        List<Object> list = (List<Object>) map.get("Shippers");
+
+        //返回的  ShipperCode   ShippersName
+        Map<String, String> maps = (Map<String, String>) list.get(0);
 
         //根据公司业务处理返回的信息......
 
-        return result;
+        return maps;
     }
 
     /**
@@ -100,7 +91,7 @@ public class KdniaoTrackQueryAPI {
      * @param charset 编码方式
      * @throws UnsupportedEncodingException
      */
-    private static String base64(String str, String charset) throws UnsupportedEncodingException {
+    private static String base64(String str, String charset) throws UnsupportedEncodingException{
         String encoded = base64Encode(str.getBytes(charset));
         return encoded;
     }

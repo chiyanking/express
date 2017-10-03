@@ -1,4 +1,4 @@
-package com.dagemen.Utils.Kdniao;
+package com.dagemen.service.kuaidiniao;
 
 import com.alibaba.fastjson.JSON;
 import com.dagemen.dto.Kdniao.*;

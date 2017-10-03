@@ -1,26 +1,39 @@
-package com.dagemen.Utils.Kdniao;
+package com.dagemen.service.kuaidiniao;
 
-import net.sf.json.JSONObject;
+import com.dagemen.Utils.EncryptAndDecryptUtil;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.security.MessageDigest;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.security.MessageDigest;
 
 /**
- * Created by 丁芙蓉 on 2017/8/19.
+ *
+ * 快递鸟订阅推送2.0接口
+ *
+ * @技术QQ: 4009633321
+ * @技术QQ群: 200121393
+ * @see: http://www.kdniao.com/api-subscribe
+ * @copyright: 深圳市快金数据技术服务有限公司
+ *
+ * ID和Key请到官网申请：http://www.kdniao.com/ServiceApply.aspx
  */
-public class KdApiOrderDistinguish {
+
+public class KdniaoSubscribeAPI {
 
     //DEMO
     public static void main(String[] args) {
-        KdApiOrderDistinguish api = new KdApiOrderDistinguish();
+        KdniaoSubscribeAPI api = new KdniaoSubscribeAPI();
         try {
-            api.getExpTraces("3967950525457");
+            String result = api.orderTracesSubByJson();
+            System.out.print(result);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -28,39 +41,57 @@ public class KdApiOrderDistinguish {
     }
 
     //电商ID
-    private static String EBusinessID="1300851";
+    private String EBusinessID="请到快递鸟官网申请http://www.kdniao.com/ServiceApply.aspx";
     //电商加密私钥，快递鸟提供，注意保管，不要泄漏
-    private static String AppKey="cd3dd15d-f4b4-49e0-bf68-6a23af553bb9";
-    //请求url
-    private static String ReqURL="http://api.kdniao.cc/Ebusiness/EbusinessOrderHandle.aspx";
+    private String AppKey="请到快递鸟官网申请http://www.kdniao.com/ServiceApply.aspx";
+    //测试请求url
+    private String ReqURL = "http://testapi.kdniao.cc:8081/api/dist";
+    //正式请求url
+    //private String ReqURL = "http://api.kdniao.cc/api/dist";
 
     /**
-     * Json方式 单号识别
+     * Json方式  物流信息订阅
      * @throws Exception
      */
-    @SuppressWarnings("unused")
-    public static Map<String, String> getExpTraces(String expNo) throws Exception {
-        String requestData= "{'LogisticCode':'" + expNo + "'}";
+    public String orderTracesSubByJson() throws Exception{
+        String requestData="{'OrderCode': 'SF201608081055208281'," +
+                "'ShipperCode':'SF'," +
+                "'LogisticCode':'3100707578976'," +
+                "'PayType':1," +
+                "'ExpType':1," +
+                "'CustomerName':'',"+
+                "'CustomerPwd':''," +
+                "'MonthCode':''," +
+                "'IsNotice':0," +
+                "'Cost':1.0," +
+                "'OtherCost':1.0," +
+                "'Sender':" +
+                "{" +
+                "'Company':'LV','Name':'Taylor','Mobile':'15018442396','ProvinceName':'上海','CityName':'上海','ExpAreaName':'青浦区','Address':'明珠路73号'}," +
+                "'Receiver':" +
+                "{" +
+                "'Company':'GCCUI','Name':'Yann','Mobile':'15018442396','ProvinceName':'北京','CityName':'北京','ExpAreaName':'朝阳区','Address':'三里屯街道雅秀大厦'}," +
+                "'Commodity':" +
+                "[{" +
+                "'GoodsName':'鞋子','Goodsquantity':1,'GoodsWeight':1.0}]," +
+                "'Weight':1.0," +
+                "'Quantity':1," +
+                "'Volume':0.0," +
+                "'Remark':'小心轻放'}";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("RequestData", urlEncoder(requestData, "UTF-8"));
         params.put("EBusinessID", EBusinessID);
-        params.put("RequestType", "2002");
+        params.put("RequestType", "1008");
         String dataSign=encrypt(requestData, AppKey, "UTF-8");
         params.put("DataSign", urlEncoder(dataSign, "UTF-8"));
         params.put("DataType", "2");
 
         String result=sendPost(ReqURL, params);
-        JSONObject jasonObject = JSONObject.fromObject(result);
-        Map map = (Map)jasonObject;
-        List<Object> list = (List<Object>) map.get("Shippers");
-
-        //返回的  ShipperCode   ShippersName
-        Map<String, String> maps = (Map<String, String>) list.get(0);
 
         //根据公司业务处理返回的信息......
 
-        return maps;
+        return result;
     }
 
     /**
@@ -70,7 +101,7 @@ public class KdApiOrderDistinguish {
      * @throws Exception
      */
     @SuppressWarnings("unused")
-    private static String MD5(String str, String charset) throws Exception {
+    private String MD5(String str, String charset) throws Exception {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(str.getBytes(charset));
         byte[] result = md.digest();
@@ -91,13 +122,13 @@ public class KdApiOrderDistinguish {
      * @param charset 编码方式
      * @throws UnsupportedEncodingException
      */
-    private static String base64(String str, String charset) throws UnsupportedEncodingException{
-        String encoded = base64Encode(str.getBytes(charset));
+    private String base64(String str, String charset) throws UnsupportedEncodingException{
+        String encoded = EncryptAndDecryptUtil.base64Encode(str.getBytes(charset));
         return encoded;
     }
 
     @SuppressWarnings("unused")
-    private static String urlEncoder(String str, String charset) throws UnsupportedEncodingException{
+    private String urlEncoder(String str, String charset) throws UnsupportedEncodingException{
         String result = URLEncoder.encode(str, charset);
         return result;
     }
@@ -111,7 +142,7 @@ public class KdApiOrderDistinguish {
      * @return DataSign签名
      */
     @SuppressWarnings("unused")
-    private static String encrypt (String content, String keyValue, String charset) throws UnsupportedEncodingException, Exception
+    private String encrypt (String content, String keyValue, String charset) throws UnsupportedEncodingException, Exception
     {
         if (keyValue != null)
         {
@@ -127,7 +158,7 @@ public class KdApiOrderDistinguish {
      * @return 远程资源的响应结果
      */
     @SuppressWarnings("unused")
-    private static String sendPost(String url, Map<String, String> params) {
+    private String sendPost(String url, Map<String, String> params) {
         OutputStreamWriter out = null;
         BufferedReader in = null;
         StringBuilder result = new StringBuilder();
@@ -158,9 +189,9 @@ public class KdApiOrderDistinguish {
                     param.append(entry.getKey());
                     param.append("=");
                     param.append(entry.getValue());
-                    //System.out.println(entry.getKey()+":"+entry.getValue());
+                    System.out.println(entry.getKey()+":"+entry.getValue());
                 }
-                //System.out.println("param:"+param.toString());
+                System.out.println("param:"+param.toString());
                 out.write(param.toString());
             }
             // flush输出流的缓冲
@@ -193,45 +224,6 @@ public class KdApiOrderDistinguish {
     }
 
 
-    private static char[] base64EncodeChars = new char[] {
-            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
-            'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
-            'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-            'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f',
-            'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n',
-            'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-            'w', 'x', 'y', 'z', '0', '1', '2', '3',
-            '4', '5', '6', '7', '8', '9', '+', '/' };
 
-    public static String base64Encode(byte[] data) {
-        StringBuffer sb = new StringBuffer();
-        int len = data.length;
-        int i = 0;
-        int b1, b2, b3;
-        while (i < len) {
-            b1 = data[i++] & 0xff;
-            if (i == len)
-            {
-                sb.append(base64EncodeChars[b1 >>> 2]);
-                sb.append(base64EncodeChars[(b1 & 0x3) << 4]);
-                sb.append("==");
-                break;
-            }
-            b2 = data[i++] & 0xff;
-            if (i == len)
-            {
-                sb.append(base64EncodeChars[b1 >>> 2]);
-                sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
-                sb.append(base64EncodeChars[(b2 & 0x0f) << 2]);
-                sb.append("=");
-                break;
-            }
-            b3 = data[i++] & 0xff;
-            sb.append(base64EncodeChars[b1 >>> 2]);
-            sb.append(base64EncodeChars[((b1 & 0x03) << 4) | ((b2 & 0xf0) >>> 4)]);
-            sb.append(base64EncodeChars[((b2 & 0x0f) << 2) | ((b3 & 0xc0) >>> 6)]);
-            sb.append(base64EncodeChars[b3 & 0x3f]);
-        }
-        return sb.toString();
-    }
+
 }

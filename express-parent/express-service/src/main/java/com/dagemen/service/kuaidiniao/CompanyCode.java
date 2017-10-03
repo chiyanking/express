@@ -1,4 +1,4 @@
-package com.dagemen.Utils.Kdniao;
+package com.dagemen.service.kuaidiniao;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class CompanyCode {
 
-    private static HashMap<String, String> companyCode = new HashMap<String, String>(){
+    public static HashMap<String, String> companyCode = new HashMap<String, String>(){
 
         private static final long serialVersionUID = 4747425769325759613L;
         {

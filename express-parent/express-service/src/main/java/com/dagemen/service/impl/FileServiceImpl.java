@@ -2,9 +2,8 @@ package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.dagemen.Utils.DateHelper;
-import com.dagemen.Utils.Kdniao.CompanyCode;
-import com.dagemen.Utils.Kdniao.KdApiOrderDistinguish;
-import com.dagemen.Utils.Kdniao.KdGoldAPIDemo;
+import com.dagemen.service.kuaidiniao.CompanyCode;
+import com.dagemen.service.kuaidiniao.KdGoldAPIDemo;
 import com.dagemen.Utils.PdfUtil;
 import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dto.Kdniao.*;
@@ -17,20 +16,15 @@ import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.*;
 import net.sf.json.JSONObject;
-import org.apache.shiro.session.Session;
-import org.apache.zookeeper.KeeperException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.Option;
 import java.io.*;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 /**
