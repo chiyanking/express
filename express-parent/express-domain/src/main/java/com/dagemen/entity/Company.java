@@ -1,6 +1,9 @@
 package com.dagemen.entity;
 
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 
 /**
@@ -18,6 +21,7 @@ public class Company extends Model<Company> {
     /**
      * 快递Id
      */
+    @TableId(type = IdType.AUTO)
 	private Long id;
     /**
      * 快递编号

@@ -18,7 +18,7 @@
       <i-row>
         <i-col span="11">
           <FormItem label="快递公司" prop="companyId">
-            <i-select v-model="data.companyId" @on-change="onCompanyChange">
+            <i-select v-model="data.companyId" @on-change="onCompanyChange" filterable>
               <Option v-for="item in companiesOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </i-select>
           </FormItem>
@@ -95,9 +95,12 @@
         }));
       },
       onCompanyChange() {
-        this.$http.get("api/setting/getModels", {params: {companyId: this.data.companyId}}).then(({data: result}) => {
-          this.expModelOptions = result.data;
-        })
+        let companyId = this.data.companyId;
+        if (companyId) {
+          this.$http.get("api/setting/getModels", {params: {companyId: companyId}}).then(({data: result}) => {
+            this.expModelOptions = result.data;
+          });
+        }
       }
     },
     mounted() {

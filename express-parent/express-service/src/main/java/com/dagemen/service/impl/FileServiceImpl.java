@@ -41,6 +41,8 @@ public class FileServiceImpl implements FileService {
     private ExpModelService expModelService;
     @Resource
     private PointCompanyRelationService pointCompanyRelationService;
+    @Resource
+    private CompanyService companyService;
 
     @Override
     public void viewFile(Long id, HttpServletResponse response) {
@@ -103,11 +105,11 @@ public class FileServiceImpl implements FileService {
         para.setCompanyId(exp.getCompanyId());
         para.setPointId(exp.getPointId());
         PointCompanyRelation pointCompanyRelation = pointCompanyRelationService.selectOne(new EntityWrapper<>(para));
+        //快递公司编号  快递公司 账号密码
         esr.setCustomerName(pointCompanyRelation.getAccount());
         esr.setCustomerPwd(pointCompanyRelation.getPassword());
-//            Map<String, String> maps = KdApiOrderDistinguish.getExpTraces(exp.getExpNo());
-//            esr.setShipperCode(maps.get("ShipperCode"));//设置快递公司代码
-        esr.setShipperCode(CompanyCode.getCompanyCode(exp.getCompanyName()));
+        esr.setShipperCode(Optional.ofNullable(companyService.selectById(exp.getCompanyId())).map((val)-> val.getCode()).orElse(null));
+
         esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
         esr.setExpType(1);//快递类型：1-标准快件
         esr.setCost(Optional.ofNullable(exp.getPrice()).orElse(BigDecimal.ZERO).doubleValue());//寄件费（运费）

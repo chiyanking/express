@@ -33,14 +33,12 @@
                 </a>
                 <DropdownMenu slot="list">
                   <DropdownItem>
-                    <div @click="turnToSetting">
-                      <Icon type="settings"></Icon>
-                      个人信息
-                    </div>
+                    <Icon type="settings"></Icon> 个人信息
                   </DropdownItem>
                   <DropdownItem>
-                    <Icon type="ios-flower"></Icon>
-                    打印单配置
+                    <div @click="turnToSetting">
+                      <Icon type="ios-flower"></Icon> 打印单配置
+                    </div>
                   </DropdownItem>
                 </DropdownMenu>
               </Dropdown>
@@ -170,6 +168,7 @@
 
   .float-right {
     float: right;
+    margin-right:20px;
   }
 
 </style>

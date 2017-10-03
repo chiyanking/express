@@ -29,7 +29,8 @@ public interface CompanyService extends IService<Company> {
      */
 	List<PointCompanyRelation> getHasCompanies();
     /**
-     * 根据快递Id获取模版
+     * 获取我们配置的公司的纸质快递模版
+     * @param companyId 公司Id
      */
     List<ExpModel> getModels(Long companyId);
 

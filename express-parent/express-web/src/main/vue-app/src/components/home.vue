@@ -6,7 +6,7 @@
 </style>
 <template>
   <div class="layout-content-main">
-    <Form :label-width="80" inline>
+    <Form :label-width="80" inline class="table-tool">
       <i-row>
         <i-col span="22">
           <FormItem label="快递公司">
@@ -267,3 +267,9 @@
     }
   }
 </script>
+<style>
+  .table-tool{
+    padding-top:20px;
+  }
+
+</style>
