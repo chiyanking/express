@@ -57,11 +57,10 @@ public class FileServiceImpl implements FileService {
         expMode1.setId(exp.getExpModelId());
         ExpModel expMode = expModelService.selectOne(new EntityWrapper<>(expMode1));
         JSONObject jsonObject = JSONObject.fromObject(exp);
-        String filePath = null;
         byte[] buffer = new byte[256];
         InputStream is = null;
         try {
-            filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
+            String filePath = new ClassPathResource(expMode.getExpModelUrl()).getURL().getPath();
             String outFilePath = filePath.substring(0, filePath.lastIndexOf("/")) + "/alreadyModel/" + exp.getSenderName() + "_" + DateHelper.getDateString(exp.getDate()) + ".pdf";
 
             if (!new File(outFilePath).exists()) {
@@ -91,7 +90,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public ElectronicSheetResponse getElectronicSheet(Long id) {
 
-        ElectronicSheetResponse responses = null;
+        ElectronicSheetResponse responses ;
         Express express = new Express();
         express.setId(id);
         Express exp = expressService.selectOne(new EntityWrapper<>(express));
@@ -154,8 +153,8 @@ public class FileServiceImpl implements FileService {
         if(expressItems.size()==0){
             Commodity commodity = new Commodity();
             commodity.setGoodsName("一般物品");
-            commodity.setGoodsWeight(1d);
-            commodity.setGoodsquantity(1);
+            commodity.setGoodsWeight(exp.getWeight());
+            commodity.setGoodsquantity(exp.getGoodsCount());
             esr.setCommodity(commodity);
         }
 

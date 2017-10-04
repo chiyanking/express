@@ -7,15 +7,6 @@
 	   http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!-- ########  数据库、mybatis信息配置  ######## -->
-    <!-- 引入配置文件 -->
-    <bean id="propertyConfigurer"
-          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath:conf/config.properties</value>
-            </list>
-        </property>
-    </bean>
 
 
     <!-- 配置数据源信息 -->

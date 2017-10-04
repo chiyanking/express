@@ -1,9 +1,12 @@
 package com.dagemen.service.kuaidiniao;
 
 import com.alibaba.fastjson.JSON;
+import com.dagemen.config.KuaidiniaoConfig;
 import com.dagemen.dto.Kdniao.*;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,16 +18,8 @@ import java.util.Map;
 /**
  * 快递鸟电子面单接口
  */
+@Component
 public class KdGoldAPIDemo {
-
-    //电商ID
-    private static String EBusinessID="1300851";
-    //电商加密私钥，快递鸟提供，注意保管，不要泄漏
-    private static String AppKey="cd3dd15d-f4b4-49e0-bf68-6a23af553bb9";
-    //请求url, 正式环境地址：http://api.kdniao.cc/api/Eorderservice
-    private String ReqURL="http://testapi.kdniao.cc:8081/api/Eorderservice";
-//    private String ReqURL="http://api.kdniao.cc/api/Eorderservice";
-
 
     public static void main(String[] args) {
         KdGoldAPIDemo kdGoldAPIDemo =new KdGoldAPIDemo();
@@ -84,12 +79,12 @@ public class KdGoldAPIDemo {
         String requestData = JSON.toJSONString(electronicSheetRequest).toString();
         Map<String, String> params = new HashMap<String, String>();
         params.put("RequestData", urlEncoder(requestData, "UTF-8"));
-        params.put("EBusinessID", EBusinessID);
+        params.put("EBusinessID", KuaidiniaoConfig.eBusinessID);
         params.put("RequestType", "1007");
-        String dataSign=encrypt(requestData, AppKey, "UTF-8");
+        String dataSign=encrypt(requestData, KuaidiniaoConfig.appKey, "UTF-8");
         params.put("DataSign", urlEncoder(dataSign, "UTF-8"));
         params.put("DataType", "2");
-        String result=sendPost(ReqURL, params);
+        String result=sendPost(KuaidiniaoConfig.expressTraceUrl, params);
         //根据公司业务处理返回的信息......
         ElectronicSheetResponse response = JSON.parseObject(result, ElectronicSheetResponse.class);
         return response;

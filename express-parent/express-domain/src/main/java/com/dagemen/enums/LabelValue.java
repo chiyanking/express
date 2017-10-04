@@ -1,12 +1,8 @@
 package com.dagemen.enums;
 
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-
 public class LabelValue {
 
-    @JsonSerialize(using=ToStringSerializer.class)
     private Object value;
     private Object label;
 
