@@ -99,6 +99,10 @@
                     <input class="weui-input" id="itemName" name="itemName"
                            placeholder="寄送物品">
                 </div>
+                <div class="weui-cell__bd">
+                    <input class="weui-input" id="weight" name="weight" type="number" pattern="[0-9]*"
+                           placeholder="重量(kg)">
+                </div>
             </div>
         </div>
     </div>
@@ -206,7 +210,8 @@
                 receiverAddress: $("#receiverAddress").val(),
                 companyId: $("#companyName").attr("data-values"),
                 companyName: $("#companyName").val(),
-                itemName: $("#itemName").val()
+                itemName: $("#itemName").val(),
+                weight: $("#weight").val()
             };
             //验证
             if (!param.pointId) {
@@ -253,7 +258,6 @@
                 message("寄送内容");
                 return;
             }
-
             var $this = $(this);
             $this.prop("disabled", true);
             new Service("../api/mobile/insertExpress").post(param, function (response) {
