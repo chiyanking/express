@@ -15,6 +15,7 @@ public class ExpressDTO {
     private Long companyId;
     private String companyName;
     private Double weight;
+    private String itemName;
 
     private String senderName;
     private String senderPhone;
@@ -58,6 +59,14 @@ public class ExpressDTO {
 
     public void setWeight(Double weight) {
         this.weight = weight;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public String getSenderName() {

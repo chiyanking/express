@@ -39,11 +39,12 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         if (express == null || express.getId() == null) {
             return false;
         }
-        if (!express.getStatus().equals(ExpressStatusEnums.WAITE.getValue())) {
-            throw new ApiException(ApiExceptionEnum.ONLY_CHANGE_NOT_PRINTE);
-        }
+//        if (!express.getStatus().equals(ExpressStatusEnums.WAITE.getValue())) {
+//            throw new ApiException(ApiExceptionEnum.ONLY_CHANGE_NOT_PRINTE);
+//        }
         //门店修改信息不能修改状态
         express.setStatus(null);
+        express.setDate(null);
         return insertOrUpdate(express);
     }
 

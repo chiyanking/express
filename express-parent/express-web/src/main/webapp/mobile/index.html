@@ -96,8 +96,8 @@
                     <input id="companyName" class="weui-input" name="companyName" placeholder="选择快递">
                 </div>
                 <div class="weui-cell__bd">
-                    <input class="weui-input" id="weight" name="weight" type="number" pattern="[0-9]*"
-                           placeholder="包裹重量">
+                    <input class="weui-input" id="itemName" name="itemName"
+                           placeholder="寄送物品">
                 </div>
             </div>
         </div>
@@ -185,6 +185,11 @@
             }
         });
 
+        $("#itemName").select({
+            title: "物品",
+            items: ["电子产品", "化妆护肤品", "品牌服饰", "电器类", "其他"]
+        });
+
 
         $("#submitExpress").click(function () {
             var param = {
@@ -201,7 +206,7 @@
                 receiverAddress: $("#receiverAddress").val(),
                 companyId: $("#companyName").attr("data-values"),
                 companyName: $("#companyName").val(),
-                weight: $("#weight").val()
+                itemName: $("#itemName").val()
             };
             //验证
             if (!param.pointId) {
@@ -244,8 +249,8 @@
                 message("请选择快递");
                 return;
             }
-            if (!param.weight) {
-                message("请输入重量");
+            if (!param.itemName) {
+                message("寄送内容");
                 return;
             }
 

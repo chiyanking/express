@@ -9,6 +9,7 @@ import com.dagemen.enums.ExpressStatusEnums;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.*;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,8 @@ public class MobileServiceImpl implements MobileService {
     RegionDistrictService regionDistrictService;
 
 
+    @Resource
+    ExpressItemService expressItemService;
     @Resource
     CompanyService companyService;
     @Resource
@@ -114,8 +117,6 @@ public class MobileServiceImpl implements MobileService {
 //                express.setReceiverDistrictName(regionDistrict.getName());
 //            }
 //        }
-
-
         User sender = new User();
         sender.setName(express.getSenderName());
         sender.setPhone(express.getSenderPhone());
@@ -167,6 +168,15 @@ public class MobileServiceImpl implements MobileService {
         express.setTradeNo(String.valueOf(IdWorker.getId()));
         express.setPayType(1);
         expressService.insertOrUpdate(express);
+
+        if(StringUtils.isNotBlank(expressDTO.getItemName())){
+            ExpressItem expressItem = new ExpressItem();
+            expressItem.setItemName(expressDTO.getItemName());
+            expressItem.setItemNum(1);
+            expressItem.setExpId(express.getId());
+            expressItemService.insertOrUpdate(expressItem);
+        }
+
         return express;
     }
 

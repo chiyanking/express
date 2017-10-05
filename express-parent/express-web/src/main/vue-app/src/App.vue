@@ -14,8 +14,10 @@
               <span class="layout-text">统计</span>
             </MenuItem>
             <MenuItem name="waite">
-              <Icon type="ios-analytics" :size="iconSize"></Icon>
-              <span class="layout-text">打印记录</span>
+              <div @click="turnToSetting">
+                <Icon type="ios-analytics" :size="iconSize"></Icon>
+                <span class="layout-text">打印设置</span>
+              </div>
             </MenuItem>
           </Menu>
         </i-col>

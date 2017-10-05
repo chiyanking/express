@@ -92,6 +92,7 @@ public class Express extends Model<Express> {
      * 寄件人Id
      */
 	@TableField("sender_id")
+	@JsonSerialize(using=ToStringSerializer.class)
 	private Long senderId;
 	@TableField("sender_company")
 	private String senderCompany;
@@ -122,7 +123,10 @@ public class Express extends Model<Express> {
 	private String senderDistrictName;
 	@TableField("sender_address")
 	private String senderAddress;
+
+
 	@TableField("receiver_id")
+	@JsonSerialize(using=ToStringSerializer.class)
 	private Long receiverId;
 	@TableField("receiver_company")
 	private String receiverCompany;
