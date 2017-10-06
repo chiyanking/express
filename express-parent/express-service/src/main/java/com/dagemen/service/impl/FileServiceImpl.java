@@ -141,9 +141,9 @@ public class FileServiceImpl implements FileService {
         esr.setSender(sender);
 
         ExpressItem param = new ExpressItem();
-        para.setPointId(exp.getPointId());
+        param.setExpId(id);
         List<ExpressItem> expressItems = expressItemService.selectList(new EntityWrapper<>(param));
-        for (ExpressItem item : Optional.ofNullable(expressItems).orElse(Collections.emptyList())) {
+        for (ExpressItem item : expressItems) {
             Commodity commodity = new Commodity();
             commodity.setGoodsName(item.getItemName());
             commodity.setGoodsquantity(item.getItemNum());

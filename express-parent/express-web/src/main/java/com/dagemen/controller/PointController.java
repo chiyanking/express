@@ -3,6 +3,8 @@ package com.dagemen.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.authorization.AuthorizeAnnotation;
+import com.dagemen.dto.ExpressDTO;
+import com.dagemen.dto.ExpressParam;
 import com.dagemen.dto.ExpressSearchDTO;
 import com.dagemen.dto.PointUpdateCompanyDTO;
 import com.dagemen.entity.Express;
@@ -130,7 +132,7 @@ public class PointController {
     }
     @ResponseBody
     @RequestMapping(value = "/updateExpress", method = RequestMethod.POST)
-    public Map<String, Object> insertExpress(@RequestBody Express express) {
+    public Map<String, Object> insertExpress(@RequestBody ExpressParam express) {
         return ApiResultWrapper.success(expressService.updateExpress(express));
     }
 

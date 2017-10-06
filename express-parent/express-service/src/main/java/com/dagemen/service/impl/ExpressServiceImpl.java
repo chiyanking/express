@@ -6,17 +6,21 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dao.ExpressMapper;
 import com.dagemen.dto.ExpressSearchDTO;
+import com.dagemen.dto.ExpressParam;
 import com.dagemen.entity.Express;
+import com.dagemen.entity.ExpressItem;
 import com.dagemen.enums.ExpressStatusEnums;
 import com.dagemen.enums.LabelValue;
 import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
+import com.dagemen.service.ExpressItemService;
 import com.dagemen.service.ExpressService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,17 +38,30 @@ import java.util.Optional;
 public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> implements ExpressService {
 
 
+    @Resource
+    private ExpressItemService expressItemService;
+
     @Override
-    public boolean updateExpress(Express express) {
-        if (express == null || express.getId() == null) {
+    public boolean updateExpress(ExpressParam exp) {
+        if (exp == null || exp.getId() == null) {
             return false;
         }
 //        if (!express.getStatus().equals(ExpressStatusEnums.WAITE.getValue())) {
 //            throw new ApiException(ApiExceptionEnum.ONLY_CHANGE_NOT_PRINTE);
 //        }
         //门店修改信息不能修改状态
-        express.setStatus(null);
-        express.setDate(null);
+        Express express = new Express();
+        BeanUtils.copyProperties(exp, express);
+
+        ExpressItem item = new ExpressItem();
+        item.setExpId(express.getId());
+        ExpressItem expressItem = expressItemService.selectOne(new EntityWrapper<>(item));
+
+        if (expressItem != null) {
+            expressItem.setItemWight(exp.getWeight());
+            expressItemService.updateById(expressItem);
+        }
+
         return insertOrUpdate(express);
     }
 

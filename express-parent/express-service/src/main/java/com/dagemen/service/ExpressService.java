@@ -1,6 +1,8 @@
 package com.dagemen.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.dagemen.dto.ExpressDTO;
+import com.dagemen.dto.ExpressParam;
 import com.dagemen.dto.ExpressSearchDTO;
 import com.dagemen.entity.Express;
 import com.baomidou.mybatisplus.service.IService;
@@ -20,7 +22,7 @@ import java.util.Map;
  */
 public interface ExpressService extends IService<Express> {
 
-    boolean updateExpress(Express express);
+    boolean updateExpress(ExpressParam express);
 
     Page getExpressList(Page page,ExpressSearchDTO expressSearchDTO);
 
