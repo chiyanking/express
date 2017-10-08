@@ -52,7 +52,6 @@
           </FormItem>
         </i-col>
       </i-row>
-
       <i-row>
         <i-col span="11">
           <FormItem label="快递重量">
@@ -62,6 +61,15 @@
         <i-col span="12">
           <FormItem label="快递费用">
             <Input v-model="express.price"/>
+          </FormItem>
+        </i-col>
+      </i-row>
+      <i-row>
+        <i-col span="11">
+          <FormItem label="快递公司" prop="companyId">
+            <i-select v-model="express.companyId">
+              <Option v-for="item in companiesOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </i-select>
           </FormItem>
         </i-col>
       </i-row>
@@ -80,6 +88,7 @@
       return {
         visual: false,
         pcdOption: [],
+        companiesOptions: [],
         express: {}
       }
     },
@@ -135,9 +144,15 @@
       cancel() {
         this.visual = false;
         this.$emit("close", true);
-      }
+      },
+      getCompaniesOptions() {
+        this.$http.get("api/point/getHasCompanies").then((({data: result}) => {
+          this.companiesOptions = result.data;
+        }));
+      },
     },
     mounted() {
+      this.getCompaniesOptions();
       if (!this.pcdOption.length > 0) {
         this.$http.get("api/point/getPCDTree").then(({data: result}) => {
           this.pcdOption = result.data;
