@@ -35,11 +35,13 @@
                 </a>
                 <DropdownMenu slot="list">
                   <DropdownItem>
-                    <Icon type="settings"></Icon> 个人信息
+                    <Icon type="settings"></Icon>
+                    个人信息
                   </DropdownItem>
                   <DropdownItem>
                     <div @click="turnToSetting">
-                      <Icon type="ios-flower"></Icon> 打印单配置
+                      <Icon type="ios-flower"></Icon>
+                      打印单配置
                     </div>
                   </DropdownItem>
                 </DropdownMenu>
@@ -131,10 +133,6 @@
     border-radius: 4px;
   }
 
-  .layout-content-main {
-    padding: 10px;
-  }
-
   .layout-copy {
     text-align: center;
     padding: 10px 0 20px;
@@ -170,7 +168,7 @@
 
   .float-right {
     float: right;
-    margin-right:20px;
+    margin-right: 20px;
   }
 
 </style>

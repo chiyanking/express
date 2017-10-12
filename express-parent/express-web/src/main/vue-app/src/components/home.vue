@@ -268,8 +268,11 @@
   }
 </script>
 <style>
-  .table-tool{
-    padding-top:20px;
+  .table-tool {
+    padding-top: 20px;
   }
 
+  .layout-content-main {
+    min-width: 800px;
+  }
 </style>
