@@ -1,68 +1,48 @@
 <template>
   <div class="layout-content-main">
-    <chart :options="polar"></chart>
+    <div id="echart-container" class="echarts"></div>
   </div>
 </template>
 <script>
-  import ECharts from 'vue-echarts';
-  import echar from 'echarts';
-  console.log(echar);
+  import echarts from 'echarts';
 
   export default {
-    components: {
-      chart: ECharts
-    },
     data: function () {
-      let data = []
+      return {}
+    },
+    mounted() {
+      // 基于准备好的dom，初始化echarts实例
+      var myChart = echarts.init(document.getElementById('echart-container'));
 
-      for (let i = 0; i <= 360; i++) {
-        let t = i / 180 * Math.PI
-        let r = Math.sin(2 * t) * Math.cos(2 * t)
-        data.push([r, i])
-      }
+      // 指定图表的配置项和数据
+      var option = {
+        title: {
+          text: 'ECharts 入门示例'
+        },
+        tooltip: {},
+        legend: {
+          data: ['销量']
+        },
+        xAxis: {
+          data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        },
+        yAxis: {},
+        series: [{
+          name: '销量',
+          type: 'bar',
+          data: [5, 20, 36, 10, 10, 20]
+        }]
+      };
 
-      return {
-        polar: {
-          title: {
-            text: '极坐标双数值轴'
-          },
-          legend: {
-            data: ['line']
-          },
-          polar: {
-            center: ['50%', '54%']
-          },
-          tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-              type: 'cross'
-            }
-          },
-          angleAxis: {
-            type: 'value',
-            startAngle: 0
-          },
-          radiusAxis: {
-            min: 0
-          },
-          series: [
-            {
-              coordinateSystem: 'polar',
-              name: 'line',
-              type: 'line',
-              showSymbol: false,
-              data: data
-            }
-          ],
-          animationDuration: 2000
-        }
-      }
+      // 使用刚指定的配置项和数据显示图表。
+      myChart.setOption(option);
     }
   }
 
 </script>
 <style>
   .echarts {
-    height: 300px;
+    width: 600px;
+    height: 400px;
   }
 </style>
