@@ -12,7 +12,6 @@ import java.util.List;
 public class ExpressParam implements Serializable {
 
 	private Long id;
-	private String expNo;
 	private String tradeNo;
 	private Long pointId;
 	private BigDecimal price;
@@ -64,14 +63,6 @@ public class ExpressParam implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getExpNo() {
-		return expNo;
-	}
-
-	public void setExpNo(String expNo) {
-		this.expNo = expNo;
 	}
 
 	public String getTradeNo() {

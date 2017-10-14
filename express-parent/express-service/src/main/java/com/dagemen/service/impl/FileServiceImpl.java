@@ -18,6 +18,7 @@ import com.dagemen.service.*;
 import net.sf.json.JSONObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -90,7 +91,7 @@ public class FileServiceImpl implements FileService {
     @Override
     public ElectronicSheetResponse getElectronicSheet(Long id) {
 
-        ElectronicSheetResponse responses ;
+        ElectronicSheetResponse responses;
         Express express = new Express();
         express.setId(id);
         Express exp = expressService.selectOne(new EntityWrapper<>(express));
@@ -107,7 +108,7 @@ public class FileServiceImpl implements FileService {
         //快递公司编号  快递公司 账号密码
         esr.setCustomerName(pointCompanyRelation.getAccount());
         esr.setCustomerPwd(pointCompanyRelation.getPassword());
-        esr.setShipperCode(Optional.ofNullable(companyService.selectById(exp.getCompanyId())).map((val)-> val.getCode()).orElse(null));
+        esr.setShipperCode(Optional.ofNullable(companyService.selectById(exp.getCompanyId())).map((val) -> val.getCode()).orElse(null));
 
         esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
         esr.setExpType(1);//快递类型：1-标准快件
@@ -150,7 +151,7 @@ public class FileServiceImpl implements FileService {
             commodity.setGoodsWeight(item.getItemWight());
             esr.setCommodity(commodity);
         }
-        if(expressItems.size()==0){
+        if (CollectionUtils.isEmpty(expressItems)) {
             Commodity commodity = new Commodity();
             commodity.setGoodsName("一般物品");
             commodity.setGoodsWeight(exp.getWeight());
@@ -163,9 +164,14 @@ public class FileServiceImpl implements FileService {
         } catch (Exception e) {
             throw new ApiException(ApiExceptionEnum.ElectronicSheetError, e.getMessage());
         }
-        if (Integer.parseInt(responses.getResultCode())!=100) {
-            throw new ApiException("2000",responses.getReason());
+        if (Integer.parseInt(responses.getResultCode()) != 100) {
+            throw new ApiException("2000", responses.getReason());
         }
+        Order order = responses.getOrder();
+
+        String logisticCode = order.getLogisticCode();
+        exp.setExpNo(logisticCode);
+        expressService.insertOrUpdate(exp);
         PrintWriter writer = null;
         try {
             HttpServletResponse response = SessionHelper.getResponse();
