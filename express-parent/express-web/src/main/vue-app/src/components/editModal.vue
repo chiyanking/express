@@ -75,8 +75,8 @@
       </i-row>
     </Form>
     <div slot="footer">
-      <Button @click="print">打印普通面单</Button>
       <Button @click="printElement">打印电子面单</Button>
+      <Button @click="print">重新生成电子面单</Button>
       <Button @click="ok">确定</Button>
       <Button @click="cancel">取消</Button>
     </div>
@@ -125,7 +125,8 @@
         express.receiverDistrictName = district.label;
       },
       print() {
-        window.open("api/point/viewFile?id=" + this.express.id);
+        let frame = window.open("api/point/getElectronicSheetForce?id=" + this.express.id);
+        frame.print();
       },
       printElement() {
         let frame = window.open("api/point/getElectronicSheet?id=" + this.express.id);
