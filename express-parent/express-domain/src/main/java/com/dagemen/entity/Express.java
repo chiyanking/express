@@ -21,6 +21,7 @@ public class Express extends Model<Express> {
 
     private static final long serialVersionUID = 1L;
 
+	@JsonSerialize(using=ToStringSerializer.class)
 	private Long id;
     /**
      * 快递单号

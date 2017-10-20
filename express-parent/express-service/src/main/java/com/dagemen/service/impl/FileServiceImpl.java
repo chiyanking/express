@@ -1,8 +1,8 @@
 package com.dagemen.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.toolkit.IdWorker;
 import com.dagemen.Utils.DateHelper;
-import com.dagemen.service.kuaidiniao.CompanyCode;
 import com.dagemen.service.kuaidiniao.KdGoldAPIDemo;
 import com.dagemen.Utils.PdfUtil;
 import com.dagemen.Utils.SessionHelper;
@@ -16,6 +16,7 @@ import com.dagemen.exception.ApiException;
 import com.dagemen.exception.ApiExceptionEnum;
 import com.dagemen.service.*;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -24,7 +25,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -89,36 +89,32 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public ElectronicSheetResponse getElectronicSheet(Long id) {
-
-        ElectronicSheetResponse responses;
-        Express express = new Express();
-        express.setId(id);
-        Express exp = expressService.selectOne(new EntityWrapper<>(express));
-        KdGoldAPIDemo kdGoldAPIDemo = new KdGoldAPIDemo();
-        ElectronicSheetRequest esr = new ElectronicSheetRequest();
-
-        esr.setOrderCode(exp.getTradeNo());//订单编号
-        esr.setLogisticCode(exp.getExpNo());//快递单号
+    public String getElectronicSheet(Long id, Boolean isCreateNewSheet) {
+        Express exp = expressService.selectById(id);
+        ElectronicSheetRequest formData = new ElectronicSheetRequest();
+        //重新生成 交易单号
+        String tradeNo = isCreateNewSheet ? exp.getTradeNo() : String.valueOf(IdWorker.getId());
+        formData.setOrderCode(tradeNo);//订单编号
+        formData.setLogisticCode(exp.getExpNo());//快递单号
 
         PointCompanyRelation para = new PointCompanyRelation();
         para.setCompanyId(exp.getCompanyId());
         para.setPointId(exp.getPointId());
         PointCompanyRelation pointCompanyRelation = pointCompanyRelationService.selectOne(new EntityWrapper<>(para));
         //快递公司编号  快递公司 账号密码
-        esr.setCustomerName(pointCompanyRelation.getAccount());
-        esr.setCustomerPwd(pointCompanyRelation.getPassword());
-        esr.setShipperCode(Optional.ofNullable(companyService.selectById(exp.getCompanyId())).map((val) -> val.getCode()).orElse(null));
+        formData.setCustomerName(pointCompanyRelation.getAccount());
+        formData.setCustomerPwd(pointCompanyRelation.getPassword());
+        formData.setShipperCode(Optional.ofNullable(companyService.selectById(exp.getCompanyId())).map((val) -> val.getCode()).orElse(null));
 
-        esr.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
-        esr.setExpType(1);//快递类型：1-标准快件
-        esr.setCost(Optional.ofNullable(exp.getPrice()).orElse(BigDecimal.ZERO).doubleValue());//寄件费（运费）
+        formData.setPayType(exp.getPayType());//邮费支付方式:1-现付，2-到付，3-月结，4-第三方支付
+        formData.setExpType(1);//快递类型：1-标准快件
+        formData.setCost(Optional.ofNullable(exp.getPrice()).orElse(BigDecimal.ZERO).doubleValue());//寄件费（运费）
 //            esr.setOtherCost(1.0);//
-        esr.setWeight(exp.getWeight());//寄件费（运费）
-        esr.setQuantity(exp.getGoodsCount());//件数/包裹数
-        esr.setVolume(exp.getVolume() == null ? 0 : Double.parseDouble(exp.getVolume()));//物品总体积m3
-        esr.setRemark(Optional.ofNullable(exp.getRemark()).orElse("小心轻放！"));
-        esr.setIsReturnPrintTemplate(1);
+        formData.setWeight(exp.getWeight());//寄件费（运费）
+        formData.setQuantity(exp.getGoodsCount());//件数/包裹数
+        formData.setVolume(exp.getVolume() == null ? 0 : Double.parseDouble(exp.getVolume()));//物品总体积m3
+        formData.setRemark(Optional.ofNullable(exp.getRemark()).orElse("小心轻放！"));
+        formData.setIsReturnPrintTemplate(1);
 
         Sender sender = new Sender();
         sender.setCompany(exp.getSenderCompany());
@@ -138,8 +134,8 @@ public class FileServiceImpl implements FileService {
         receiver.setProvinceName(exp.getReceiverProvinceName());
         receiver.setExpAreaName(exp.getReceiverDistrictName());
 
-        esr.setReceiver(receiver);
-        esr.setSender(sender);
+        formData.setReceiver(receiver);
+        formData.setSender(sender);
 
         ExpressItem param = new ExpressItem();
         param.setExpId(id);
@@ -149,35 +145,53 @@ public class FileServiceImpl implements FileService {
             commodity.setGoodsName(item.getItemName());
             commodity.setGoodsquantity(item.getItemNum());
             commodity.setGoodsWeight(item.getItemWight());
-            esr.setCommodity(commodity);
+            formData.setCommodity(commodity);
         }
         if (CollectionUtils.isEmpty(expressItems)) {
             Commodity commodity = new Commodity();
             commodity.setGoodsName("一般物品");
             commodity.setGoodsWeight(exp.getWeight());
             commodity.setGoodsquantity(exp.getGoodsCount());
-            esr.setCommodity(commodity);
+            formData.setCommodity(commodity);
+        }
+        if (!isCreateNewSheet && StringUtils.isNotBlank(exp.getTemplateHtml())) {
+            return exp.getTemplateHtml();
         }
 
+
+        ElectronicSheetResponse responses = sendThirdPartAPI(formData);
+        Order order = responses.getOrder();
+        String logisticCode = order.getLogisticCode();
+        exp.setTradeNo(tradeNo);
+        exp.setExpNo(logisticCode);
+        exp.setTemplateHtml(responses.getPrintTemplate());
+        expressService.insertOrUpdate(exp);
+        return exp.getTemplateHtml();
+    }
+
+
+    public final static KdGoldAPIDemo kdGoldAPIDemo = new KdGoldAPIDemo();
+
+    private ElectronicSheetResponse sendThirdPartAPI(ElectronicSheetRequest electronicSheet) {
         try {
-            responses = kdGoldAPIDemo.orderOnlineByJson(esr);
+            ElectronicSheetResponse electronicSheetResponse = kdGoldAPIDemo.orderOnlineByJson(electronicSheet);
+            if (!new Integer(100).equals(Integer.parseInt(electronicSheetResponse.getResultCode()))) {
+                throw new ApiException("2000", electronicSheetResponse.getReason());
+            }
+            return electronicSheetResponse;
         } catch (Exception e) {
             throw new ApiException(ApiExceptionEnum.ElectronicSheetError, e.getMessage());
         }
-        if (Integer.parseInt(responses.getResultCode()) != 100) {
-            throw new ApiException("2000", responses.getReason());
-        }
-        Order order = responses.getOrder();
+    }
 
-        String logisticCode = order.getLogisticCode();
-        exp.setExpNo(logisticCode);
-        expressService.insertOrUpdate(exp);
+
+    public boolean writeToResponse(String electronicHtml) {
         PrintWriter writer = null;
         try {
             HttpServletResponse response = SessionHelper.getResponse();
             response.setContentType("text/html;charset=utf-8");
             writer = response.getWriter();
-            writer.write(responses.getPrintTemplate());
+            writer.write(electronicHtml);
         } catch (IOException e) {
             if (writer != null) {
                 writer.close();
@@ -185,6 +199,6 @@ public class FileServiceImpl implements FileService {
         } finally {
             writer.close();
         }
-        return null;
+        return true;
     }
 }

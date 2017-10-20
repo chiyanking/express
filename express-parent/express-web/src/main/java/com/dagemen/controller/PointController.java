@@ -3,13 +3,11 @@ package com.dagemen.controller;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.dagemen.Utils.ApiResultWrapper;
 import com.dagemen.authorization.AuthorizeAnnotation;
-import com.dagemen.dto.ExpressDTO;
 import com.dagemen.dto.ExpressParam;
 import com.dagemen.dto.ExpressSearchDTO;
 import com.dagemen.dto.PointUpdateCompanyDTO;
 import com.dagemen.entity.Express;
 import com.dagemen.entity.Point;
-import com.dagemen.entity.RegionProvince;
 import com.dagemen.service.ExpressService;
 import com.dagemen.service.FileService;
 import com.dagemen.service.PointService;
@@ -100,7 +98,17 @@ public class PointController {
     @ResponseBody
     @RequestMapping(value = "/getElectronicSheet", method = RequestMethod.GET)
     public Map<String, Object> getElectronicSheet(Long id) {
-        return ApiResultWrapper.success(fileService.getElectronicSheet(id));
+        return ApiResultWrapper.success(fileService.writeToResponse(fileService.getElectronicSheet(id,false)));
+    }
+
+    /**
+     * 强制重新生成生成电子面单
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getElectronicSheetForce", method = RequestMethod.GET)
+    public Map<String, Object> getElectronicSheetForce(Long id) {
+        return ApiResultWrapper.success(fileService.writeToResponse(fileService.getElectronicSheet(id,true)));
     }
 
     /**
