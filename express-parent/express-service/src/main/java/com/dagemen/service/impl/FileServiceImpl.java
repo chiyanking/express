@@ -93,7 +93,7 @@ public class FileServiceImpl implements FileService {
         Express exp = expressService.selectById(id);
         ElectronicSheetRequest formData = new ElectronicSheetRequest();
         //重新生成 交易单号
-        String tradeNo = isCreateNewSheet ? exp.getTradeNo() : String.valueOf(IdWorker.getId());
+        String tradeNo = isCreateNewSheet ? String.valueOf(IdWorker.getId()) : exp.getTradeNo();
         formData.setOrderCode(tradeNo);//订单编号
         formData.setLogisticCode(exp.getExpNo());//快递单号
 
