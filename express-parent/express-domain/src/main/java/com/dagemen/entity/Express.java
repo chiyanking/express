@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
@@ -16,13 +15,12 @@ import java.io.Serializable;
  * </p>
  *
  * @author dagemen
- * @since 2017-09-10
+ * @since 2017-10-21
  */
 public class Express extends Model<Express> {
 
     private static final long serialVersionUID = 1L;
 
-	@JsonSerialize(using=ToStringSerializer.class)
 	private Long id;
     /**
      * 快递单号
@@ -42,7 +40,6 @@ public class Express extends Model<Express> {
     /**
      * 寄件时间
      */
-	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date date;
     /**
      * 快递单状态
@@ -92,7 +89,6 @@ public class Express extends Model<Express> {
      * 寄件人Id
      */
 	@TableField("sender_id")
-	@JsonSerialize(using=ToStringSerializer.class)
 	private Long senderId;
 	@TableField("sender_company")
 	private String senderCompany;
@@ -157,6 +153,11 @@ public class Express extends Model<Express> {
 	private String receiverDistrictName;
 	@TableField("receiver_address")
 	private String receiverAddress;
+    /**
+     * 快递模版
+     */
+	@TableField("template_html")
+	private String templateHtml;
 
 
 	public Long getId() {
@@ -509,6 +510,14 @@ public class Express extends Model<Express> {
 
 	public void setReceiverAddress(String receiverAddress) {
 		this.receiverAddress = receiverAddress;
+	}
+
+	public String getTemplateHtml() {
+		return templateHtml;
+	}
+
+	public void setTemplateHtml(String templateHtml) {
+		this.templateHtml = templateHtml;
 	}
 
 	@Override
