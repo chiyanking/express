@@ -133,7 +133,7 @@
       printElement() {
         this.printing = true;
         this.updateDate().then(() => {
-          this.print("api/point/getElectronicSheetForce");
+          this.print("api/point/getElectronicSheet");
         });
 //        let frame = window.open("api/point/getElectronicSheet?id=" + this.express.id);
 //        frame.print();
@@ -141,7 +141,7 @@
       printElementForce() {
         this.printing = true;
         this.updateDate().then(() => {
-          this.print("api/point/getElectronicSheet");
+          this.print("api/point/getElectronicSheetForce");
         });
       },
       print(url) {
