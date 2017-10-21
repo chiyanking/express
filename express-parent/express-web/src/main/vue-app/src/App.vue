@@ -98,12 +98,12 @@
       }
     },
     mounted() {
-      this.$http.post("api/point/checkLogin", {
-        phone: 15757125092,
-        password: 123
-      }).then(() => {
-
-      });
+//      this.$http.post("api/point/checkLogin", {
+//        phone: 15757125092,
+//        password: 123
+//      }).then(() => {
+//
+//      });
     }
   }
 </script>
