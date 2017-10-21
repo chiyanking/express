@@ -3,6 +3,7 @@
     v-model="visual"
     :width="700"
     title="快递信息编辑">
+    <h3 v-if="tip" class="model-tip">未安装插件请前往<a href="http://www.lodop.net/download.html">lodop下载安装</a></h3>
     <Form :model="express" label-position="right" :label-width="100">
       <i-row>
         <i-col span="11">
@@ -75,17 +76,22 @@
       </i-row>
     </Form>
     <div slot="footer">
-      <Button @click="printElement">打印电子面单</Button>
-      <Button @click="print">重新生成电子面单</Button>
-      <Button @click="ok">确定</Button>
+      <Button @click="printElement" :disabled="printing">打印电子面单</Button>
+      <Button @click="printElementForce" :disabled="printing">重新生成电子面单</Button>
       <Button @click="cancel">取消</Button>
     </div>
   </Modal>
 </template>
 <script>
+
+  import {getLodop} from '../utils/LodopFuncs.js';
+
   export default {
     data() {
       return {
+        printing: false,
+        tip: false,
+        LODOP: null,
         visual: false,
         pcdOption: [],
         companiesOptions: [],
@@ -124,23 +130,44 @@
         express.receiverDistrictCode = district.value;
         express.receiverDistrictName = district.label;
       },
-      print() {
-        let frame = window.open("api/point/getElectronicSheetForce?id=" + this.express.id);
-        frame.print();
-      },
       printElement() {
-        let frame = window.open("api/point/getElectronicSheet?id=" + this.express.id);
-        frame.print();
+        this.printing = true;
+        this.updateDate().then(() => {
+          this.print("api/point/getElectronicSheetForce");
+        });
+//        let frame = window.open("api/point/getElectronicSheet?id=" + this.express.id);
+//        frame.print();
       },
-      ok() {
-        this.$http.post("api/point/updateExpress", this.express).then((result) => {
-          if (result.data.errCode == 0) {
-            this.visual = false;
-            this.$emit("close", true);
-          } else {
-            this.$Message.error(result.data.msg);
+      printElementForce() {
+        this.printing = true;
+        this.updateDate().then(() => {
+          this.print("api/point/getElectronicSheet");
+        });
+      },
+      print(url) {
+        this.$http.get(url, {params: {id: this.express.id}}).then(({data: result}) => {
+          if (!result.error) {
+            this.initPlugin();//重复调用
+            if (this.LODOP) {
+              this.LODOP.PRINT_INIT("打印电子面单");
+              this.LODOP.ADD_PRINT_HTM(0, 0, "100%", "100%", result.msg);
+              this.LODOP.PREVIEW();
+              this.printing = false;
+            }
           }
-        })
+        });
+      },
+      updateDate() {
+        return this.$http.post("api/point/updateExpress", this.express).then((result) => {
+          return new Promise(function (resolve, reject) {
+            if (result.data.errCode == 0) {
+              resolve();
+            } else {
+              this.$Message.error(result.data.msg);
+              reject();
+            }
+          });
+        });
       },
       cancel() {
         this.visual = false;
@@ -151,6 +178,16 @@
           this.companiesOptions = result.data;
         }));
       },
+      initPlugin() {
+        if (!this.LODOP) {
+          try {
+            this.LODOP = getLodop();
+            this.LODOP ? this.tip = false : this.tip = true;
+          } catch (err) {
+            this.tip = true;
+          }
+        }
+      }
     },
     mounted() {
       this.getCompaniesOptions();
@@ -160,6 +197,10 @@
         })
       }
     }
-
   }
 </script>
+<style scoped>
+  .model-tip {
+    margin-bottom: 10px;
+  }
+</style>

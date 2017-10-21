@@ -40,6 +40,7 @@ public class PointController {
 
     @Resource
     private RegionProvinceService provinceService;
+
     /**
      * 登录验证
      *
@@ -93,22 +94,24 @@ public class PointController {
 
     /**
      * 生成电子面单
+     *
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/getElectronicSheet", method = RequestMethod.GET)
     public Map<String, Object> getElectronicSheet(Long id) {
-        return ApiResultWrapper.success(fileService.writeToResponse(fileService.getElectronicSheet(id,false)));
+        return ApiResultWrapper.success(fileService.getElectronicSheet(id, false));
     }
 
     /**
      * 强制重新生成生成电子面单
+     *
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/getElectronicSheetForce", method = RequestMethod.GET)
     public Map<String, Object> getElectronicSheetForce(Long id) {
-        return ApiResultWrapper.success(fileService.writeToResponse(fileService.getElectronicSheet(id,true)));
+        return ApiResultWrapper.success(fileService.getElectronicSheet(id, true));
     }
 
     /**
@@ -130,6 +133,7 @@ public class PointController {
 
     /**
      * 根据Id获取快递单详细信息
+     *
      * @param expressId
      * @return
      */
@@ -138,6 +142,7 @@ public class PointController {
     public Map<String, Object> getExpressList(@RequestParam Long expressId) {
         return ApiResultWrapper.success(expressService.selectById(expressId));
     }
+
     @ResponseBody
     @RequestMapping(value = "/updateExpress", method = RequestMethod.POST)
     public Map<String, Object> insertExpress(@RequestBody ExpressParam express) {
@@ -147,6 +152,7 @@ public class PointController {
 
     /**
      * 根据快递单号删除快递单
+     *
      * @param express
      * @return
      */
