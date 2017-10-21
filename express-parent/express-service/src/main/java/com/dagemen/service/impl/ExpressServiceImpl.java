@@ -3,6 +3,7 @@ package com.dagemen.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.toolkit.TableInfoHelper;
 import com.dagemen.Utils.SessionHelper;
 import com.dagemen.dao.ExpressMapper;
 import com.dagemen.dto.ExpressSearchDTO;
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.swing.text.html.Option;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -106,6 +108,18 @@ public class ExpressServiceImpl extends ServiceImpl<ExpressMapper, Express> impl
         if (StringUtils.isNotBlank(name)) {
             param.like("sender_name", name).or("").like("receiver_name", name);
         }
+
+        //不查询出来某个字段
+        StringBuilder sb = new StringBuilder();
+        for (Field field : TableInfoHelper.getAllFields(Express.class)) {
+            if (!"templateHtml".equals(field.getName()))
+                sb.append(com.baomidou.mybatisplus.toolkit.StringUtils.camelToUnderline(field.getName()))
+                        .append(" as ")
+                        .append(field.getName())
+                        .append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        param.setSqlSelect(sb.toString());
         param.orderBy("date", false);
         return selectPage(page, param);
     }
