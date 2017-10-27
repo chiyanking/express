@@ -99,8 +99,12 @@
         this.$router.push("/setting");
       },
       getCode() {
-        let url = "http://www.dagemen.com/mobile/index.html?pointId=" + 1;
-        window.open("https://cli.im/api/qrcode/code?text=" + url + "&mhid=sBPACl7rzs4hMHctKdRTP64");
+        let frame = window.open("");
+        this.$http.get("api/point/getLoginForm").then(({data: result}) => {
+          let url = "http://www.dagemen.com/mobile/index.html?pointId=" + result.data.id;
+          url = "https://cli.im/api/qrcode/code?text=" + url + "&mhid=sBPACl7rzs4hMHctKdRTP64";
+          frame.location.href = url;
+        });
       }
     },
     mounted() {
