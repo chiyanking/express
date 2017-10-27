@@ -18,7 +18,7 @@ import java.util.List;
  */
 public interface PointService extends IService<Point> {
 
-    boolean checkLogin(Point point, HttpSession httpSession);
+    boolean login(Point point, HttpSession httpSession);
 
     boolean logOut(HttpSession httpSession);
 

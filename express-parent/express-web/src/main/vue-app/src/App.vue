@@ -35,8 +35,10 @@
                 </a>
                 <DropdownMenu slot="list">
                   <DropdownItem>
-                    <Icon type="settings"></Icon>
-                    个人信息
+                    <div @click="getCode">
+                      <Icon type="settings"></Icon>
+                      个人信息
+                    </div>
                   </DropdownItem>
                   <DropdownItem>
                     <div @click="turnToSetting">
@@ -95,10 +97,14 @@
       },
       turnToSetting(value) {
         this.$router.push("/setting");
+      },
+      getCode() {
+        let url = "http://www.dagemen.com/mobile/index.html?pointId=" + 1;
+        window.open("https://cli.im/api/qrcode/code?text=" + url + "&mhid=sBPACl7rzs4hMHctKdRTP64");
       }
     },
     mounted() {
-//      this.$http.post("api/point/checkLogin", {
+//      this.$http.post("api/point/login", {
 //        phone: 15757125092,
 //        password: 123
 //      }).then(() => {

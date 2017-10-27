@@ -48,7 +48,7 @@ public class PointServiceImpl extends ServiceImpl<PointMapper, Point> implements
     PointCompanyRelationService relationService;
 
     @Override
-    public boolean checkLogin(Point loginPoint, HttpSession httpSession) {
+    public boolean login(Point loginPoint, HttpSession httpSession) {
         Point param = new Point();
         param.setPhone(loginPoint.getPhone());
         param.setPassword(EncryptAndDecryptUtil.encryptByMD5(loginPoint.getPassword()));

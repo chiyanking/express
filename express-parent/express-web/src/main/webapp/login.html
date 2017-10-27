@@ -61,7 +61,7 @@
             phone: $("#logname").val(),
             password: $("#logpass").val()
         };
-        new Service("api/point/checkLogin").post(param, function (response) {
+        new Service("api/point/login").post(param, function (response) {
             if (response.errCode != 0) {
                 alert(response.msg);
             }else{

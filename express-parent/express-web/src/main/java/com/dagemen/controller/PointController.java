@@ -2,16 +2,19 @@ package com.dagemen.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.dagemen.Utils.ApiResultWrapper;
+import com.dagemen.Utils.SessionHelper;
 import com.dagemen.authorization.AuthorizeAnnotation;
 import com.dagemen.dto.ExpressParam;
 import com.dagemen.dto.ExpressSearchDTO;
 import com.dagemen.dto.PointUpdateCompanyDTO;
 import com.dagemen.entity.Express;
 import com.dagemen.entity.Point;
+import com.dagemen.helper.TokenHelper;
 import com.dagemen.service.ExpressService;
 import com.dagemen.service.FileService;
 import com.dagemen.service.PointService;
 import com.dagemen.service.RegionProvinceService;
+import org.apache.ibatis.parsing.TokenHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -47,13 +50,26 @@ public class PointController {
      * @param point
      * @return
      */
-    @RequestMapping(value = "/checkLogin", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     @AuthorizeAnnotation(isLogin = false)
     @ResponseBody
     public Object checkLogin(@RequestBody Point point, HttpSession httpSession) {
-        pointService.checkLogin(point, httpSession);
+        pointService.login(point, httpSession);
         return ApiResultWrapper.success("成功");
     }
+
+    /**
+     * 获取用户登录信息
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getLoginForm", method = RequestMethod.GET)
+    public Object getLoginForm() {
+        Point loginPoint = SessionHelper.getLoginPoint();
+        return ApiResultWrapper.success(loginPoint);
+    }
+
 
     /**
      * 登出系统
